@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jesus Omar Martinez · JOM STUDIO</title>
+    <meta name="description" content="Portafolio de Jesus Omar Martinez — Desarrollador Digital, Gamificación, IA Generativa y Content Creation. JOM STUDIO 2026.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CUSTOM CURSOR                          -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- PAGE LOADER                            -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-loader" id="page-loader">
+        <div class="loader-logo">
+            <img src="assets/logo_jom.png" alt="JOM STUDIO" id="loader-logo-img">
+            <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+            <span class="loader-pct" id="loader-pct">0%</span>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- NAV                                    -->
+    <!-- ═══════════════════════════════════════ -->
+    <nav class="nav" id="main-nav">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo">
+                <img src="assets/logo_jom.png" alt="JOM STUDIO" onerror="this.style.display='none'"> JOM
+            </a>
+            <ul class="nav-links">
+                <li><a href="#projects" class="nav-link" data-sound="click">Proyectos</a></li>
+                <li><a href="#photobook" class="nav-link" data-sound="click">Photobook</a></li>
+                <li><a href="#cv" class="nav-link" data-sound="click">C.V.</a></li>
+                <li><a href="#about" class="nav-link" data-sound="click">Sobre mí</a></li>
+                <li><a href="#contact" class="btn btn-nav magnetic" data-sound="hover">Contactar</a></li>
+            </ul>
+            <button class="nav-burger" id="nav-burger" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <ul>
+            <li><a href="#projects" class="mobile-link">Proyectos</a></li>
+            <li><a href="#photobook" class="mobile-link">Photobook</a></li>
+            <li><a href="#cv" class="mobile-link">C.V.</a></li>
+            <li><a href="#about" class="mobile-link">Sobre mí</a></li>
+            <li><a href="#contact" class="mobile-link">Contactar</a></li>
+        </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- HERO                                   -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <!-- Animated Logo Canvas Background -->
+        <canvas id="hero-canvas"></canvas>
+
+        <!-- Noise overlay -->
+        <div class="noise-overlay"></div>
+
+        <!-- Gradient vignette -->
+        <div class="hero-vignette"></div>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow reveal-up">
+                <span class="eyebrow-dot"></span>
+                <span>JOM STUDIO · 2026</span>
+            </div>
+
+            <h1 class="hero-title" aria-label="Jesus Omar Martinez">
+                <span class="hero-line reveal-up" style="--d:0.1s">Jesus Omar</span>
+                <span class="hero-line reveal-up accent-line" style="--d:0.25s">Martinez</span>
+            </h1>
+
+            <p class="hero-sub reveal-up" style="--d:0.4s">
+                Desarrollador Digital &amp; Creador de Ecosistemas Interactivos
+            </p>
+
+            <div class="hero-tags reveal-up" style="--d:0.55s">
+                <span class="htag">WebGL &amp; Three.js</span>
+                <span class="htag">IA Generativa</span>
+                <span class="htag">Gamificación</span>
+                <span class="htag">UX&amp;UI</span>
+            </div>
+
+            <div class="hero-actions reveal-up" style="--d:0.7s">
+                <a href="#projects" class="btn btn-hero-primary magnetic" data-sound="click">
+                    <span>Ver Proyectos</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="assets/cv.pdf" target="_blank" class="btn btn-hero-ghost magnetic" data-sound="click">
+                    Descargar C.V.
+                </a>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator reveal-up" style="--d:1s">
+                <div class="scroll-line"></div>
+                <span>scroll</span>
+            </div>
+        </div>
+
+        <!-- Floating stats -->
+        <div class="hero-stats reveal-up" style="--d:0.9s">
+            <div class="stat-item">
+                <span class="stat-num" data-target="12">0</span>
+                <span class="stat-label">Proyectos<br>Entregados</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="4">0</span>
+                <span class="stat-label">Clientes<br>Activos</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="3">0</span>
+                <span class="stat-label">Años de<br>Experiencia</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- MARQUEE STRIP                          -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="marquee-strip">
+        <div class="marquee-track">
+            <span>WebGL</span><span class="dot">·</span>
+            <span>Phaser.js</span><span class="dot">·</span>
+            <span>IA Generativa</span><span class="dot">·</span>
+            <span>Gamificación</span><span class="dot">·</span>
+            <span>UX/UI</span><span class="dot">·</span>
+            <span>Three.js</span><span class="dot">·</span>
+            <span>Canvas 2D</span><span class="dot">·</span>
+            <span>Content Creation</span><span class="dot">·</span>
+            <span>Chrome Extensions</span><span class="dot">·</span>
+            <span>Prompt Engineering</span><span class="dot">·</span>
+            <!-- Duplicate for seamless loop -->
+            <span>WebGL</span><span class="dot">·</span>
+            <span>Phaser.js</span><span class="dot">·</span>
+            <span>IA Generativa</span><span class="dot">·</span>
+            <span>Gamificación</span><span class="dot">·</span>
+            <span>UX/UI</span><span class="dot">·</span>
+            <span>Three.js</span><span class="dot">·</span>
+            <span>Canvas 2D</span><span class="dot">·</span>
+            <span>Content Creation</span><span class="dot">·</span>
+            <span>Chrome Extensions</span><span class="dot">·</span>
+            <span>Prompt Engineering</span><span class="dot">·</span>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- PROJECTS                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section projects-section" id="projects">
+        <div class="section-header reveal-up">
+            <p class="section-overline">Trabajo Seleccionado</p>
+            <h2 class="section-title">Producción <span class="accent">&amp;</span> Proyectos</h2>
+        </div>
+
+        <div class="projects-grid">
+            <!-- PROJECT 1 -->
+            <div class="project-card reveal-up modal-trigger" data-target="modal-crypto" style="--d:0.1s" data-sound="click">
+                <div class="project-thumb" style="background-image: url('assets/crypto1.png');">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-num">01</span>
+                </div>
+                <div class="project-card-info">
+                    <span class="tag">Gamificación Corporativa</span>
+                    <h3>Crypto Water War</h3>
+                    <p>Juego de cartas tácticas WebGL desarrollado exclusivamente para Crypto Water. Motor de combate por turnos con 137 cartas únicas.</p>
+                    <div class="card-footer">
+                        <span class="card-tech">Vanilla JS · Canvas</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 2 -->
+            <div class="project-card reveal-up modal-trigger" data-target="modal-bondia" style="--d:0.2s" data-sound="click">
+                <div class="project-thumb" style="background-image: url('assets/bondia1.png');">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-num">02</span>
+                </div>
+                <div class="project-card-info">
+                    <span class="tag">IA Generativa / Arte</span>
+                    <h3>Concepto "Bon Dia"</h3>
+                    <p>Iteraciones de alta fidelidad con Inteligencia Artificial para Social Media. Dirección visual, prompt engineering y post-edición.</p>
+                    <div class="card-footer">
+                        <span class="card-tech">Midjourney · Photoshop</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 3 -->
+            <div class="project-card reveal-up modal-trigger" data-target="modal-polar" style="--d:0.3s" data-sound="click">
+                <div class="project-thumb" style="background-image: url('assets/polar2.jpg');">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-num">03</span>
+                </div>
+                <div class="project-card-info">
+                    <span class="tag">Diseño Corporativo</span>
+                    <h3>Campaña Digital Polar</h3>
+                    <p>Brochure Corporativo automatizado para Cervecería Polar. Sistemas de identidad de marca estructurados mediante scripting.</p>
+                    <div class="card-footer">
+                        <span class="card-tech">HTML/CSS · Shell Script</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- PHOTOBOOK                              -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section photobook-section" id="photobook">
+        <div class="section-header reveal-up">
+            <p class="section-overline">Fotografía</p>
+            <h2 class="section-title">Photobook <span class="accent">&amp;</span> Sesiones</h2>
+            <p class="section-sub">Muestras curadas de captura fotográfica. Haz clic en cada sesión para abrir la galería completa.</p>
+        </div>
+        <div id="dynamic-photobook-cards" class="projects-grid"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CV                                     -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section cv-section" id="cv">
+        <div class="section-header reveal-up">
+            <p class="section-overline">Trayectoria</p>
+            <h2 class="section-title">Experiencia <span class="accent">&amp;</span> C.V.</h2>
+        </div>
+
+        <div class="cv-grid">
+            <div class="cv-box reveal-up" style="--d:0.1s">
+                <div class="cv-box-num">01</div>
+                <h4>Gamificación &amp; Juegos Web</h4>
+                <span>Crypto Water War · Card Engine</span>
+                <p>Estructuración de lógicas turn-based e inventario dinámico de 137 cartas únicas para Crypto Water, con motor Canvas2D escalable y sistema de combate por turnos en Vanilla JS.</p>
+            </div>
+            <div class="cv-box reveal-up" style="--d:0.2s">
+                <div class="cv-box-num">02</div>
+                <h4>Herramientas &amp; Sistemas Embebidos</h4>
+                <span>Chrome Extensions · Scrapers</span>
+                <p>Construcción de módulos como FreeStream y automatización de flujos de datos en entorno de navegador, transformando rutinas manuales en pipelines automáticos.</p>
+            </div>
+            <div class="cv-box reveal-up" style="--d:0.3s">
+                <div class="cv-box-num">03</div>
+                <h4>Producción de Video (UGC)</h4>
+                <span>CapCut Pro · Edición Algorítmica</span>
+                <p>Montaje intensivo, control total del ritmo editorial y dirección creativa para retención de audiencia con transiciones de alto impacto y sincronía de audio perfecta.</p>
+            </div>
+            <div class="cv-box reveal-up" style="--d:0.4s">
+                <div class="cv-box-num">04</div>
+                <h4>Generación Visual IA</h4>
+                <span>Midjourney · Kling AI · Prompt Eng.</span>
+                <p>Control exacto sobre motores de difusión para acelerar workflows creativos: character design, fondos isométricos y concept art con post-edición nativa en Photoshop.</p>
+            </div>
+        </div>
+
+        <div class="cv-download reveal-up" style="--d:0.5s">
+            <a href="assets/cv.pdf" target="_blank" class="btn btn-outline-gold magnetic" data-sound="click">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 17l-4-4h2.5v-3h3v3H16l-4 4z"/></svg>
+                Descargar C.V. Completo (PDF)
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ABOUT                                  -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section about-section" id="about">
+        <div class="about-container">
+            <div class="about-img-wrap reveal-up" style="--d:0.1s">
+                <div class="about-img-ring"></div>
+                <img src="assets/profile_jesus.jpg" alt="Jesus Martinez" class="about-img"
+                     onerror="this.onerror=null; this.src='https://placehold.co/400x500/151515/2EC4B6?text=J.M';">
+                <div class="about-img-badge">
+                    <span>JOM</span>
+                    <span>STUDIO</span>
+                </div>
+            </div>
+
+            <div class="about-text reveal-up" style="--d:0.3s">
+                <p class="section-overline">Sobre mí</p>
+                <h2 class="section-title">Jesús Omar<br><span class="accent">Martínez</span></h2>
+                <p class="about-desc">
+                    Profesional de alta versatilidad que une la arquitectura técnica (JavaScript, Canvas, Three.js) con la visión estratégica del diseño y los negocios digitales.<br><br>
+                    Desde <strong>JOM STUDIO</strong> aplico una filosofía donde el código, el script y la extensión no son solo herramientas — son el arte mismo. Cada proyecto es un ecosistema digital completo, estéticamente irreprochable.
+                </p>
+
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h5>Desarrollo</h5>
+                        <ul>
+                            <li>JavaScript / Canvas</li>
+                            <li>Three.js / Phaser</li>
+                            <li>HTML5 / CSS3</li>
+                            <li>Chrome Extensions</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h5>Creatividad</h5>
+                        <ul>
+                            <li>IA Generativa</li>
+                            <li>Prompt Engineering</li>
+                            <li>Edición de Video</li>
+                            <li>Fotografía Urbana</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CONTACT                                -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section contact-section" id="contact">
+        <div class="contact-bg-text" aria-hidden="true">CONTACT</div>
+        <div class="contact-content reveal-up">
+            <p class="section-overline" style="text-align:center">Hablemos</p>
+            <h2 class="section-title contact-title">Trabajemos<br><span class="accent">juntos</span></h2>
+            <p class="contact-desc">Si tienes un reto complejo que amerite tecnología, buen gusto y velocidad, contáctame directamente.</p>
+
+            <div class="contact-methods">
+                <a href="https://wa.me/584165159067" target="_blank" class="btn btn-whatsapp magnetic" data-sound="click">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.52 3.48A11.93 11.93 0 0012.02 0C5.38 0 .02 5.36.02 11.99c0 2.11.55 4.17 1.6 5.98L0 24l6.23-1.63a12.02 12.02 0 005.79 1.48h.01C18.64 23.85 24 18.49 24 11.86c0-3.19-1.24-6.18-3.48-8.38zm-8.5 18.38a9.95 9.95 0 01-5.07-1.38l-.36-.22-3.7.97.99-3.61-.24-.38a9.93 9.93 0 01-1.52-5.29c0-5.49 4.47-9.96 9.96-9.96a9.9 9.9 0 017.04 2.92 9.9 9.9 0 012.92 7.04c0 5.49-4.47 9.91-9.96 9.91h-.06zm5.46-7.44c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.06 2.85 1.2 3.05c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.11.56-.08 1.76-.72 2.01-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+                    </svg>
+                    Contáctame
+                </a>
+                <a href="mailto:jomstudiovzla@gmail.com" class="btn btn-email magnetic" data-sound="click">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    Enviar Correo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- FOOTER                                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p class="footer-logo">JOM STUDIO</p>
+            <p class="footer-copy">© 2026 Jesus Omar Martinez · Todos los derechos reservados</p>
+            <p class="footer-made">Diseñado &amp; Desarrollado con código</p>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- MODALS                                 -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <!-- Modal: Crypto Water -->
+    <div class="modal" id="modal-crypto">
+        <div class="modal-content">
+            <button class="close-modal" data-sound="click">&times;</button>
+            <div class="modal-header">
+                <span class="tag">Gamificación Corporativa</span>
+                <h3>Crypto Water War</h3>
+                <p>Motor de juego de cartas tácticas desarrollado End-to-End para Crypto Water.</p>
+            </div>
+            <div class="modal-body">
+                <ul class="modal-details">
+                    <li><span>El Proyecto</span>Simulador táctico de cartas coleccionables (Aqua War) diseñado para Crypto Water, empresa del sector agua, que buscaba innovar mediante gamificación digital interactiva y metaverso.</li>
+                    <li><span>Desarrollo End-to-End</span>Desde la concepción de mecánicas evolutivas y auditoría estratégica para la marca, hasta la programación del motor de juego con 137 cartas únicas, sistema de combate por turnos y dinámica de Revancha en HTML5 Canvas.</li>
+                    <li><span>Tecnología</span>Vanilla JS · Canvas 2D · WebGL · HTML5 · CSS3 · Lógica Turn-Based</li>
+                </ul>
+                <div class="modal-gallery" data-gallery="crypto">
+                    <div class="gallery-item"><img src="assets/projects/crypto/crypto1.png" alt="Tablero de Juego" data-title="Tablero de Juego" data-desc="Vista general del tablero de Crypto Water War con las zonas de combate activas."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/crypto2.png" alt="Campo de Batalla" data-title="Campo de Batalla" data-desc="Distribución táctica de cartas durante una partida en curso."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/crypto3.png" alt="Sistema de Combate" data-title="Sistema de Combate" data-desc="Motor de combate por turnos con animaciones de ataque y defensa."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -02.png" alt="Carta Azul — Nivel 2" data-title="Carta Azul — Nivel 2" data-desc="Segunda carta del mazo Azul con habilidades de resistencia aumentada."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -03.png" alt="Carta Azul — Nivel 3" data-title="Carta Azul — Nivel 3" data-desc="Tercera carta del mazo Azul: carta de alto impacto con poder de ataque máximo."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -04.png" alt="Carta Azul — Nivel 4" data-title="Carta Azul — Nivel 4" data-desc="Cuarta carta del mazo Azul: carta legendaria de poder máximo y habilidades definitivas."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS _Mesa de trabajo 1-01.png" alt="Carta Azul — Nivel 1" data-title="Carta Azul — Nivel 1" data-desc="Primera carta del mazo Azul. Elemento de agua con estadísticas base de ataque y defensa."><div class="zoom-icon">⤢</div></div>
+
+
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Poster.png" alt="Poster Oficial" data-title="Poster Oficial" data-desc="Arte oficial de lanzamiento del juego Crypto Water War."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Poster Ad.png" alt="Publicidad Poster" data-title="Publicidad — Poster Ad" data-desc="Anuncio publicitario vertical de alto impacto para plataformas digitales."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Flat-Lay Sport Ad.png" alt="Sport Ad" data-title="Flat-Lay Sport Ad" data-desc="Composición flat-lay de estilo deportivo para contenido premium en redes sociales."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Summer Ad.png" alt="Summer Ad" data-title="Summer Ad" data-desc="Campaña de verano para Crypto Water con identidad visual de hidratación activa."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Macro Shot.png" alt="Macro Shot" data-title="Macro Shot" data-desc="Fotografía de producto en macro con el envase de Crypto Water en primer plano."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Infographic Ad.png" alt="Infographic" data-title="Infographic Ad" data-desc="Piezas informativas sobre los beneficios del producto con diseño editorial limpio."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Insta Story.png" alt="Insta Story" data-title="Insta Story" data-desc="Formato vertical optimizado para Instagram Stories con CTA de alto rendimiento."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/crypto/Mountain Glacier Ad.png" alt="Mountain Ad" data-title="Mountain Glacier Ad" data-desc="Composición con montaña y glaciar que refuerza el concepto de pureza del agua."><div class="zoom-icon">⤢</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Bon Dia -->
+    <div class="modal" id="modal-bondia">
+        <div class="modal-content">
+            <button class="close-modal" data-sound="click">&times;</button>
+            <div class="modal-header">
+                <span class="tag">IA Generativa / Arte</span>
+                <h3>Concepto "Bon Dia"</h3>
+                <p>Dirección Visual con IA Generativa para Social Media.</p>
+            </div>
+            <div class="modal-body">
+                <ul class="modal-details">
+                    <li><span>Prompt Engineering</span>Búsquedas profundas de arte conceptual con motores generativos de vanguardia. Iteración de semillas, iluminación y estilo paramétrico para resultados únicos y consistentes.</li>
+                    <li><span>Aplicabilidad</span>Activos optimizados para carruseles de Instagram con layouts de alto swipe rate y retención de audiencia elevada.</li>
+                    <li><span>Herramientas</span>Midjourney · Kling AI · Nano Banana · Photoshop · CapCut Pro</li>
+                </ul>
+                <div class="modal-gallery" data-gallery="bondia">
+                    <div class="gallery-item"><img src="assets/projects/bondia/bondia1.png" alt="Bon Dia 1" data-title="Bon Dia — Portada" data-desc="Arte de presentación de la serie Bon Dia. Paleta suave y tipografía de alta legibilidad para Social Media."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/bondia2.png" alt="Bon Dia 2" data-title="Bon Dia — Variante" data-desc="Segunda variación de Bon Dia con composición centrada y tonos cálidos de amanecer."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042314.png" alt="Bon Dia 3" data-title="Bon Dia — Iteración IA 1" data-desc="Primer resultado generado con Midjourney. Exploración de paleta y estilo ilustrativo."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042319.png" alt="Bon Dia 4" data-title="Bon Dia — Iteración IA 2" data-desc="Segunda iteración refinada con mayor control de iluminación y composición visual."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/el_esl_16_202604042314.png" alt="Bon Dia 5" data-title="Bon Dia — Personaje" data-desc="Exploración de personaje para la identidad visual de la serie. Diseño de línea limpia."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042321.png" alt="Bon Dia 6" data-title="Bon Dia — Editorial" data-desc="Composición editorial con texto integrado, optimizada para carruseles de Instagram."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042322 (1).png" alt="Bon Dia 7" data-title="Bon Dia — Color Alt" data-desc="Versión alternativa con paleta fría. Misma composición base, diferente atmósfera."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042322.png" alt="Bon Dia 8" data-title="Bon Dia — Versión Final" data-desc="Resultado final aprobado de la serie Bon Dia, listo para publicación en redes sociales."><div class="zoom-icon">⤢</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Polar -->
+    <div class="modal" id="modal-polar">
+        <div class="modal-content">
+            <button class="close-modal" data-sound="click">&times;</button>
+            <div class="modal-header">
+                <span class="tag">Diseño Corporativo</span>
+                <h3>Campaña Digital Polar</h3>
+                <p>Brochure Digital &amp; Brand Book para Cervecería Polar.</p>
+            </div>
+            <div class="modal-body">
+                <ul class="modal-details">
+                    <li><span>Enfoque Técnico</span>Diseño y ejecución de scripts automatizados para formatear masivamente la identidad de marca de Cervecería Polar, generando activos visuales consistentes a escala.</li>
+                    <li><span>Herramientas</span>Adobe InDesign · Illustrator · HTML/CSS · Shell Scripting</li>
+                </ul>
+                <div class="modal-gallery" data-gallery="polar">
+                    <div class="gallery-item"><img src="assets/projects/polar/polar1.jpg" alt="Polar Brochure" data-title="Brochure Corporativo" data-desc="Portada del brochure corporativo de Cervecería Polar con identidad visual completa."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/polar2.jpg" alt="Polar Interior" data-title="Interior del Brochure" data-desc="Página interior del brochure con layout de producto y datos de posicionamiento de marca."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.22.jpeg" alt="Polar 3" data-title="Material de Marca — 1" data-desc="Pieza visual de identidad corporativa Polar. Sistema de colores y tipografía oficial."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (1).jpeg" alt="Polar 4" data-title="Material de Marca — 2" data-desc="Segunda pieza del sistema visual Polar con composición de producto en primer plano."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (2).jpeg" alt="Polar 5" data-title="Material de Marca — 3" data-desc="Diseño de campaña con fotografía del producto y jerarquía visual clara."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (3).jpeg" alt="Polar 6" data-title="Material de Marca — 4" data-desc="Variante horizontal con layout adaptado para banner digital y redes sociales."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (4).jpeg" alt="Polar 7" data-title="Material de Marca — 5" data-desc="Pieza de campaña con elementos de identidad de marca integrados en composición dinámica."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (5).jpeg" alt="Polar 8" data-title="Material de Marca — 6" data-desc="Variante con imagen de producto en contexto social, orientada al segmento joven."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (6).jpeg" alt="Polar 9" data-title="Material de Marca — 7" data-desc="Composición de tonos oscuros con contraste alto. Énfasis en el slogan de la marca."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (7).jpeg" alt="Polar 10" data-title="Material de Marca — 8" data-desc="Octava pieza del sistema visual, con uso de grid modular y espaciado premium."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23.jpeg" alt="Polar 11" data-title="Material de Marca — 9" data-desc="Fotografía de producto integrada con elementos tipográficos de la identidad Polar."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.45.jpeg" alt="Polar 12" data-title="Material de Marca — 10" data-desc="Pieza final de la campaña con mensaje institucional y logo de Cervecería Polar."><div class="zoom-icon">⤢</div></div>
+                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.10.04.jpeg" alt="Polar 13" data-title="Tablero Digital" data-desc="Captura del dashboard digital generado como parte del sistema de Brand Book automatizado."><div class="zoom-icon">⤢</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic photobook modals -->
+    <div id="dynamic-modals-container"></div>
+
+    <!-- ═══ LIGHTBOX ═══ -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+        <button class="lb-close" id="lb-close" aria-label="Cerrar">&times;</button>
+        <button class="lb-btn lb-prev" id="lb-prev" aria-label="Anterior">&#8592;</button>
+        <div class="lightbox-img-wrap">
+            <img class="lightbox-img" id="lb-img" src="" alt="">
+        </div>
+        <button class="lb-btn lb-next" id="lb-next" aria-label="Siguiente">&#8594;</button>
+        <div class="lb-caption" id="lb-caption"></div>
+        <div class="lb-counter" id="lb-counter"><span id="lb-cur">1</span> / <span id="lb-tot">1</span></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

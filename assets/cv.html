@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CV — Jesus Omar Martinez · JOM STUDIO</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: A4; margin: 0; }
+
+@media print {
+  html, body { width: 210mm; height: 297mm; background: #fff; }
+  .no-print { display: none !important; }
+  body { padding: 0; }
+  .page { box-shadow: none; margin: 0; }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #ccc;
+  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 32px 0 64px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.no-print {
+  position: fixed; top: 16px; right: 16px; z-index: 999;
+}
+.btn-dl {
+  background: #111; color: #fff;
+  border: none; padding: 10px 22px; border-radius: 6px;
+  font: 700 0.82rem/1 'Inter', sans-serif;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* ═══ PAGE ═══ */
+.page {
+  width: 794px;
+  height: 1122px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 198px 1fr;
+  grid-template-rows: 5px 1fr;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+  overflow: hidden;
+}
+
+/* accent strip */
+.accent-strip {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  background: linear-gradient(90deg, #1c1c1c 0%, #2EC4B6 50%, #C4A35A 100%);
+}
+
+/* ═══ SIDEBAR ═══ */
+.sb {
+  grid-row: 2;
+  background: #181818;
+  padding: 26px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  color: #d8d8d8;
+  overflow: hidden;
+}
+
+/* photo block */
+.sb-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #282828;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.sb-photo {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #2EC4B6;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+.sb-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+.sb-name { font-size: 0.95rem; font-weight: 800; color: #fff; line-height: 1.25; }
+.sb-role { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: #2EC4B6; margin-top: 5px; }
+
+/* sections */
+.sb-sec { margin-bottom: 15px; flex-shrink: 0; }
+.sb-sec:last-child { margin-bottom: 0; }
+
+.sb-lbl {
+  font-size: 0.52rem; font-weight: 800; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #C4A35A;
+  margin-bottom: 9px; padding-bottom: 5px;
+  border-bottom: 1px solid #252525;
+}
+
+/* contact */
+.ci {
+  display: flex; align-items: flex-start; gap: 7px;
+  font-size: 0.67rem; color: #a0a0a0; line-height: 1.45;
+  margin-bottom: 7px; word-break: break-word;
+}
+.ci svg { flex-shrink: 0; margin-top: 1px; }
+
+/* skills */
+.ski { margin-bottom: 8px; }
+.ski-name {
+  font-size: 0.64rem; color: #c8c8c8;
+  display: flex; justify-content: space-between; margin-bottom: 3px;
+}
+.ski-pct { color: #2EC4B6; font-weight: 700; font-size: 0.6rem; }
+.ski-track { height: 2.5px; background: #262626; border-radius: 2px; overflow: hidden; }
+.ski-fill { height: 100%; background: linear-gradient(90deg, #2EC4B6, #C4A35A); border-radius: 2px; }
+
+/* tags */
+.tw { display: flex; flex-wrap: wrap; gap: 4px; }
+.st {
+  font-size: 0.58rem; padding: 2px 7px; border-radius: 50px;
+  border: 1px solid #2a2a2a; color: #888;
+}
+
+/* lang */
+.lr {
+  display: flex; justify-content: space-between;
+  font-size: 0.67rem; color: #a0a0a0;
+  padding: 4px 0; border-bottom: 1px solid #222;
+}
+.lr:last-child { border: none; }
+.ll { color: #2EC4B6; font-weight: 700; font-size: 0.6rem; }
+
+/* ═══ MAIN ═══ */
+.mn {
+  grid-row: 2;
+  padding: 26px 30px 22px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* name header */
+.mn-head { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1.5px solid #efefef; flex-shrink: 0; }
+.mn-name {
+  font-size: 2.1rem; font-weight: 900; color: #0f0f0f;
+  letter-spacing: -0.045em; line-height: 0.95; margin-bottom: 7px;
+}
+.mn-name span { color: #2EC4B6; }
+.mn-tag { font-size: 0.67rem; color: #aaa; font-weight: 500; letter-spacing: 0.04em; }
+
+/* section label */
+.sl {
+  font-size: 0.52rem; font-weight: 800; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #111;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.sl::after { content:''; flex:1; height: 1px; background: #efefef; }
+
+/* profile */
+.prof {
+  font-size: 0.76rem; color: #555; line-height: 1.78;
+  margin-bottom: 16px; flex-shrink: 0;
+}
+.prof strong { color: #111; font-weight: 700; }
+
+/* experience — takes all remaining space */
+.exp-wrap { flex: 1; display: flex; flex-direction: column; margin-bottom: 14px; }
+.exp-grid {
+  flex: 1; display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 22px;
+}
+.ei { display: flex; flex-direction: column; }
+.ei-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+.ei-title { font-size: 0.76rem; font-weight: 800; color: #0f0f0f; line-height: 1.3; }
+.ei-date { font-size: 0.59rem; color: #2EC4B6; font-weight: 700; white-space: nowrap; margin-left: 6px; }
+.ei-co { font-size: 0.62rem; color: #C4A35A; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.01em; }
+.ei-desc { font-size: 0.7rem; color: #5a5a5a; line-height: 1.72; flex: 1; }
+.ei-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 7px; }
+.et {
+  font-size: 0.56rem; font-weight: 700; padding: 2px 7px;
+  border-radius: 4px; background: #f0fbfa; color: #2EC4B6;
+  border: 1px solid #bee8e5;
+}
+
+/* projects */
+.pj-wrap { margin-bottom: 14px; flex-shrink: 0; }
+.pj-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 9px; }
+.pj {
+  border: 1px solid #ebebeb; border-radius: 7px;
+  padding: 12px 13px; border-top: 2.5px solid #2EC4B6; background: #fafafa;
+}
+.pj-n { font-size: 0.55rem; color: #c8c8c8; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 3px; }
+.pj-t { font-size: 0.72rem; font-weight: 800; color: #0f0f0f; margin-bottom: 5px; }
+.pj-d { font-size: 0.62rem; color: #777; line-height: 1.6; }
+.pj-tech { margin-top: 6px; font-size: 0.58rem; color: #2EC4B6; font-weight: 700; }
+
+/* footer */
+.mn-foot {
+  flex-shrink: 0;
+  padding-top: 12px; border-top: 1px solid #f0f0f0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mf-brand { font-size: 0.74rem; font-weight: 900; color: #111; letter-spacing: 0.1em; }
+.mf-brand span { color: #2EC4B6; }
+.mf-note { font-size: 0.6rem; color: #bbb; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button class="btn-dl" onclick="window.print()">⬇ Descargar PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- accent strip -->
+  <div class="accent-strip"></div>
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="sb">
+
+    <div class="sb-top">
+      <div class="sb-photo">
+        <img src="gallery/Yo/Jesus Formal.jpeg" alt="Jesus Omar Martínez">
+      </div>
+      <div class="sb-name">Jesus Omar<br>Martínez</div>
+      <div class="sb-role">JOM STUDIO · Director Creativo</div>
+    </div>
+
+    <!-- Contacto -->
+    <div class="sb-sec">
+      <div class="sb-lbl">Contacto</div>
+      <div class="ci"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>+58 416-5159067</div>
+      <div class="ci"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>jomstudiovzla@gmail.com</div>
+      <div class="ci"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>jomstudio.dev</div>
+      <div class="ci"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Caracas, VE · Disponible remoto</div>
+    </div>
+
+    <!-- Habilidades -->
+    <div class="sb-sec">
+      <div class="sb-lbl">Habilidades</div>
+      <div class="ski"><div class="ski-name"><span>JavaScript</span><span class="ski-pct">92%</span></div><div class="ski-track"><div class="ski-fill" style="width:92%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>HTML / CSS</span><span class="ski-pct">96%</span></div><div class="ski-track"><div class="ski-fill" style="width:96%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>Canvas / WebGL</span><span class="ski-pct">88%</span></div><div class="ski-track"><div class="ski-fill" style="width:88%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>Prompt Engineering</span><span class="ski-pct">95%</span></div><div class="ski-track"><div class="ski-fill" style="width:95%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>UI / UX Design</span><span class="ski-pct">84%</span></div><div class="ski-track"><div class="ski-fill" style="width:84%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>Photoshop / Illustrator</span><span class="ski-pct">80%</span></div><div class="ski-track"><div class="ski-fill" style="width:80%"></div></div></div>
+      <div class="ski"><div class="ski-name"><span>Video Editing</span><span class="ski-pct">82%</span></div><div class="ski-track"><div class="ski-fill" style="width:82%"></div></div></div>
+    </div>
+
+    <!-- Herramientas -->
+    <div class="sb-sec">
+      <div class="sb-lbl">Herramientas</div>
+      <div class="tw"><span class="st">Midjourney</span><span class="st">Kling AI</span><span class="st">CapCut Pro</span><span class="st">Photoshop</span><span class="st">Illustrator</span><span class="st">InDesign</span><span class="st">Figma</span><span class="st">Git</span><span class="st">VS Code</span></div>
+    </div>
+
+    <!-- Idiomas -->
+    <div class="sb-sec">
+      <div class="sb-lbl">Idiomas</div>
+      <div class="lr"><span>Español</span><span class="ll">Nativo</span></div>
+      <div class="lr"><span>Inglés</span><span class="ll">Intermedio</span></div>
+    </div>
+
+    <!-- Especialidades -->
+    <div class="sb-sec">
+      <div class="sb-lbl">Especialidades</div>
+      <div class="tw"><span class="st">Gamificación</span><span class="st">IA Generativa</span><span class="st">Game Dev</span><span class="st">UGC Content</span><span class="st">Fotografía</span><span class="st">Branding</span><span class="st">Chrome Ext.</span></div>
+    </div>
+
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <main class="mn">
+
+    <div class="mn-head">
+      <div class="mn-name">Jesus Omar <span>Martínez</span></div>
+      <div class="mn-tag">Desarrollador Digital &nbsp;·&nbsp; Gamificación &nbsp;·&nbsp; IA Generativa &nbsp;·&nbsp; Content Creation &nbsp;·&nbsp; JOM STUDIO</div>
+    </div>
+
+    <div class="sl">Perfil Profesional</div>
+    <p class="prof">Profesional de alta versatilidad que une la <strong>arquitectura técnica</strong> (JavaScript, Canvas, WebGL, Three.js) con la visión estratégica del diseño y los negocios digitales. Desde <strong>JOM STUDIO</strong> aplico una filosofía donde el código, el guión y el diseño no son simples herramientas — son el arte mismo. Cada proyecto es un ecosistema digital completo: estéticamente irreprochable, técnicamente sólido y orientado a resultados tangibles para el cliente.</p>
+
+    <div class="exp-wrap">
+      <div class="sl">Experiencia Profesional</div>
+      <div class="exp-grid">
+
+        <div class="ei">
+          <div class="ei-row">
+            <div class="ei-title">Gamificación — Crypto Water War</div>
+            <div class="ei-date">2025 – 2026</div>
+          </div>
+          <div class="ei-co">JOM STUDIO · Cliente: Crypto Water Venezuela</div>
+          <p class="ei-desc">Diseño y desarrollo end-to-end del motor de juego de cartas tácticas "Aqua War". Motor completo con <strong>137 cartas únicas</strong>, sistema de combate por turnos, dinámica de Revancha, mecánica de sacrificio e invocación en HTML5 Canvas. Arte completo de cartas y piezas publicitarias de marca.</p>
+          <div class="ei-tags"><span class="et">Vanilla JS</span><span class="et">Canvas 2D</span><span class="et">WebGL</span><span class="et">Game Design</span><span class="et">UX</span></div>
+        </div>
+
+        <div class="ei">
+          <div class="ei-row">
+            <div class="ei-title">Dirección Visual IA — "Bon Dia"</div>
+            <div class="ei-date">2025 – 2026</div>
+          </div>
+          <div class="ei-co">JOM STUDIO · Proyecto Creativo Independiente</div>
+          <p class="ei-desc">Arte generativo de alta fidelidad para Social Media. Control total de semillas, iluminación paramétrica y post-edición con Photoshop. Activos finales optimizados para carruseles de Instagram con alto swipe rate y retención de audiencia elevada.</p>
+          <div class="ei-tags"><span class="et">Midjourney</span><span class="et">Kling AI</span><span class="et">Prompt Eng.</span><span class="et">Photoshop</span></div>
+        </div>
+
+        <div class="ei">
+          <div class="ei-row">
+            <div class="ei-title">Brand Book Digital — Cervecería Polar</div>
+            <div class="ei-date">2025</div>
+          </div>
+          <div class="ei-co">JOM STUDIO · Cliente: Cervecería Polar</div>
+          <p class="ei-desc">Brochure corporativo y sistema de identidad visual digitalizado para Cervecería Polar. Producción de activos a escala mediante scripting automatizado (Shell/HTML) con layouts de alto impacto visual alineados a la identidad oficial de la marca.</p>
+          <div class="ei-tags"><span class="et">HTML/CSS</span><span class="et">Shell Script</span><span class="et">Illustrator</span><span class="et">InDesign</span></div>
+        </div>
+
+        <div class="ei">
+          <div class="ei-row">
+            <div class="ei-title">Chrome Extensions & Automatización</div>
+            <div class="ei-date">2024 – Presente</div>
+          </div>
+          <div class="ei-co">JOM STUDIO · Desarrollo Independiente</div>
+          <p class="ei-desc">Construcción de extensiones de Chrome y pipelines de automatización para navegador. Módulos como <strong>FreeStream</strong> y scrapers especializados que transforman flujos manuales en sistemas automáticos eficientes y escalables.</p>
+          <div class="ei-tags"><span class="et">Chrome Ext.</span><span class="et">JavaScript</span><span class="et">Web Scraping</span><span class="et">APIs</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pj-wrap">
+      <div class="sl">Proyectos Destacados</div>
+      <div class="pj-grid">
+        <div class="pj"><div class="pj-n">01</div><div class="pj-t">Crypto Water War</div><p class="pj-d">Juego de cartas táctico con 137 personajes únicos, motor de combate y arte de marca completo.</p><div class="pj-tech">Vanilla JS · Canvas · WebGL</div></div>
+        <div class="pj"><div class="pj-n">02</div><div class="pj-t">JOM STUDIO Portfolio</div><p class="pj-d">Portfolio interactivo con canvas animado, cursor personalizado y lightbox premium.</p><div class="pj-tech">HTML · CSS · JavaScript</div></div>
+        <div class="pj"><div class="pj-n">03</div><div class="pj-t">Concepto "Bon Dia"</div><p class="pj-d">Serie de arte generativo IA para Social Media con alta dirección visual editorial.</p><div class="pj-tech">Midjourney · Kling AI</div></div>
+        <div class="pj"><div class="pj-n">04</div><div class="pj-t">Campaña Polar</div><p class="pj-d">Brand Book corporativo automatizado con identidad visual consistente a escala.</p><div class="pj-tech">HTML/CSS · Shell Script</div></div>
+      </div>
+    </div>
+
+    <div class="mn-foot">
+      <div class="mf-brand">JOM <span>STUDIO</span></div>
+      <div class="mf-note">Jesus Omar Martínez &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; jomstudiovzla@gmail.com &nbsp;·&nbsp; +58 416-5159067</div>
+    </div>
+
+  </main>
+
+</div>
+</body>
+</html>

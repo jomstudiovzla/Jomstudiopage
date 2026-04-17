@@ -1,0 +1,17 @@
+# Archivos del sistema
+.DS_Store
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de entorno
+.env
+.env.local
+
+# Logs
+*.log
+
+# Cache
+.cache/
+node_modules/
+*.tmp
