@@ -245,36 +245,36 @@
 
     <!-- Background Watermark Logo -->
     <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
-        <img src="assets/logo_jom_square.jpg" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+        <img src="assets/logo_jom_square.jpg" alt="" class="w-[85%] sm:w-[70%] md:w-[60%] lg:w-[50%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
     <!-- Header Navigation -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-        <a href="index.html" class="flex items-center gap-3 group">
-            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-8 w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
-            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-3 sm:px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <a href="index.html" class="flex items-center gap-1.5 sm:gap-3 group">
+            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-6 w-6 sm:h-8 sm:w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
+            <span class="font-headline-md text-sm sm:text-base md:text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
         </a>
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 sm:gap-6">
             <nav class="hidden lg:flex gap-8 items-center mr-4">
                 <a class="font-label-mono text-label-mono text-accent border-b border-accent transition-all duration-300 uppercase" data-en="Projects" data-es="Proyectos" href="#">Projects</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="Services" data-es="Servicios" href="index.html#services">Services</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="About" data-es="Nosotros" href="index.html#about">About</a>
             </nav>
             <!-- HUD Control Buttons -->
-            <div class="flex items-center gap-2 border-x border-outline-variant/30 px-4">
+            <div class="flex items-center gap-1 sm:gap-2 border-x border-outline-variant/30 px-2 sm:px-4">
 
                 <!-- Language Toggle -->
-                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
+                <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center gap-1 sm:gap-2" id="lang-toggle" title="Switch Language">
                     <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-accent uppercase" id="lang-label">EN</span>
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">language</span>
                 </button>
                 
                 <!-- Admin Lock Trigger -->
-                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
+                <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">lock</span>
                 </button>
             </div>
-            <button class="bg-accent text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn" data-en="Let's Build" data-es="Construyamos">
+            <button class="bg-accent text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-3 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn" data-en="Let's Build" data-es="Construyamos">
                 Let's Build
             </button>
         </div>
@@ -285,7 +285,7 @@
         <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-gutter">
             <div class="max-w-2xl">
                 <span class="font-label-caps text-accent mb-4 block tracking-[0.2em] uppercase" data-en="Curated Work" data-es="Trabajo Curado">Curated Work</span>
-                <h1 class="font-display-lg text-display-lg md:text-display-lg text-white leading-none uppercase" data-en="OUR REPOSITORY" data-es="NUESTRO REPOSITORIO">OUR REPOSITORY</h1>
+                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-display-lg text-white leading-none uppercase" data-en="OUR REPOSITORY" data-es="NUESTRO REPOSITORIO">OUR REPOSITORY</h1>
             </div>
             <div class="hidden md:block">
                 <div class="p-4 border border-outline-variant/30 flex items-center gap-4 bg-surface-container-lowest">

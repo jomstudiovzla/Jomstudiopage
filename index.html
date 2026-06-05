@@ -222,36 +222,36 @@
 
     <!-- Background Watermark Logo -->
     <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
-        <img src="assets/logo_jom_square.jpg" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+        <img src="assets/logo_jom_square.jpg" alt="" class="w-[85%] sm:w-[70%] md:w-[60%] lg:w-[50%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
     <!-- Header Navigation -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-        <a href="index.html" class="flex items-center gap-3 group">
-            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-8 w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
-            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-3 sm:px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <a href="index.html" class="flex items-center gap-1.5 sm:gap-3 group">
+            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-6 w-6 sm:h-8 sm:w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
+            <span class="font-headline-md text-sm sm:text-base md:text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
         </a>
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 sm:gap-6">
             <nav class="hidden lg:flex gap-8 items-center mr-4">
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_projects" href="repository.html">Projects</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_services" href="#services">Services</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_about" href="#about">About</a>
             </nav>
             <!-- HUD Control Buttons -->
-            <div class="flex items-center gap-2 border-x border-outline-variant/30 px-4">
+            <div class="flex items-center gap-1 sm:gap-2 border-x border-outline-variant/30 px-2 sm:px-4">
 
                 <!-- Language Toggle -->
-                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
+                <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center gap-1 sm:gap-2" id="lang-toggle" title="Switch Language">
                     <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-primary-fixed uppercase" id="lang-label">EN</span>
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">language</span>
                 </button>
 
                 <!-- Admin Lock Trigger -->
-                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
+                <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">lock</span>
                 </button>
             </div>
-            <button class="bg-primary-fixed text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95" data-t="btn_build">
+            <button class="bg-primary-fixed text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-3 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95" data-t="btn_build">
                 Let's Build
             </button>
         </div>
@@ -264,17 +264,17 @@
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container/5 blur-[120px] rounded-full pointer-events-none"></div>
             <div class="relative z-10 space-y-6">
                 <span class="font-label-mono text-label-mono text-primary-fixed border border-primary-fixed/30 px-3 py-1 bg-primary-container/5" data-t="system_status">SYSTEM STATUS: OPTIMIZED</span>
-                <h1 class="font-display-lg text-display-lg text-primary-fixed tracking-tighter uppercase max-w-5xl mx-auto" data-t="hero_title">
+                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg text-primary-fixed tracking-tighter uppercase max-w-5xl mx-auto" data-t="hero_title">
                     DIGITAL ALCHEMY
                 </h1>
-                <p class="font-headline-md text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light" data-t="hero_subtitle">
+                <p class="font-headline-md text-lg sm:text-xl md:text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light" data-t="hero_subtitle">
                     Where Technical Architecture Meets Artistic Direction.
                 </p>
-                <div class="pt-stack-md flex flex-col md:flex-row gap-gutter justify-center items-center">
-                    <button class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-12 py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate">
+                <div class="pt-6 sm:pt-stack-md flex flex-col sm:flex-row gap-4 sm:gap-gutter justify-center items-center">
+                    <button class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-xs sm:text-label-mono px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate">
                         Initiate Project
                     </button>
-                    <button class="font-label-mono text-label-mono text-secondary px-12 py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_dossier">
+                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-secondary px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_dossier">
                         View Dossier
                     </button>
                 </div>
@@ -502,13 +502,13 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="py-48 px-margin-mobile md:px-margin-desktop text-center relative overflow-hidden border-t border-outline-variant/10">
+        <section class="py-24 sm:py-48 px-margin-mobile md:px-margin-desktop text-center relative overflow-hidden border-t border-outline-variant/10">
             <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-primary-fixed"></div>
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-full bg-primary-fixed"></div>
             </div>
             <div class="relative z-10 max-w-3xl mx-auto space-y-stack-md">
-                <h2 class="font-display-lg text-headline-lg md:text-display-lg text-on-surface leading-tight" data-t="cta_title">Ready to evolve?</h2>
+                <h2 class="font-display-lg text-3xl sm:text-headline-lg md:text-display-lg text-on-surface leading-tight" data-t="cta_title">Ready to evolve?</h2>
                 <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg" data-t="cta_subtitle">
                     We are currently accepting new strategic partnerships. Let's build the future of software together.
                 </p>
