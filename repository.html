@@ -1,0 +1,916 @@
+<!-- Our Repository — JOM STUDIO (V3) -->
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>OUR REPOSITORY | JOM STUDIO</title>
+    <meta name="description" content="JOM STUDIO Repository — Technical specs, code repositories, and structural case studies of gamification, AI systems, and web architecture." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .glass-card {
+            backdrop-filter: blur(24px);
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid var(--color-outline);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 30px var(--theme-primary-glow);
+            transform: translateY(-4px);
+        }
+
+        
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--theme-primary), transparent);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glass-card:hover .scanline {
+            opacity: 1;
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        .tech-reveal {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .glass-card:hover .tech-reveal {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 16px;
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.2s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .hud-button {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hud-button:hover {
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 15px var(--theme-primary-glow);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Webkit Scrollbar Styling */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-outline); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--theme-primary); }
+
+        /* Dynamic Theme Variables */
+        :root {
+            --theme-primary: #00F2FF;
+            --theme-primary-alpha: rgba(0, 242, 255, 0.15);
+            --theme-primary-glow: rgba(0, 242, 255, 0.4);
+            
+            --color-bg: #050505;
+            --color-text: #E0E0E0;
+            --color-text-variant: #9CA3AF;
+            --color-surface: #050505;
+            --color-surface-lowest: #020202;
+            --color-surface-low: #0A0A0A;
+            --color-surface-container: #0E0E0E;
+            --color-surface-high: #141414;
+            --color-surface-highest: #1A1A1A;
+            --color-outline: #4A4A4A;
+            --color-outline-variant: rgba(255, 255, 255, 0.1);
+        }
+
+
+
+        /* Dynamic Theme Logo Filters & Opacities */
+        #body-watermark-container {
+            opacity: 0.15; /* Increased transparency opacity for better visibility */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #body-watermark-container img {
+            filter: invert(1) brightness(1.8) contrast(1.1);
+            mix-blend-mode: screen;
+            transition: filter 0.5s ease, mix-blend-mode 0.5s ease;
+        }
+
+        header img[src*="logo_jom.png"] {
+            filter: invert(1) brightness(1.5);
+            /* NO mix-blend-mode to avoid Safari/Chrome backdrop-filter bug in header */
+        }
+
+        /* Hide native cursor on desktop to support custom cursor */
+        @media (min-width: 768px) {
+            html, body, a, button, input, textarea, select {
+                cursor: none !important;
+            }
+        }
+
+        /* Custom Cursor elements */
+        #custom-cursor-dot, #custom-cursor-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #custom-cursor-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--theme-primary);
+            border-radius: 50%;
+            /* No mix-blend-mode difference to preserve solid cyan color */
+            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, opacity 0.3s ease;
+        }
+        #custom-cursor-circle {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--theme-primary);
+            border-radius: 50%;
+            /* transition size and opacity, but not position */
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Hover active state */
+        body.cursor-hover #custom-cursor-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #FFFFFF;
+        }
+        body.cursor-hover #custom-cursor-circle {
+            width: 52px;
+            height: 52px;
+            background-color: var(--theme-primary-alpha);
+            border-color: var(--theme-primary);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "var(--theme-primary)",
+                        "primary-fixed": "var(--theme-primary)",
+                        "primary-container": "var(--theme-primary-alpha)",
+                        "on-primary-container": "var(--color-bg)",
+                        "secondary": "var(--color-text)",
+                        "on-surface": "var(--color-text)",
+                        "on-surface-variant": "var(--color-text-variant)",
+                        "outline": "var(--color-outline)",
+                        "outline-variant": "var(--color-outline-variant)",
+                        "surface": "var(--color-surface)",
+                        "surface-container-lowest": "var(--color-surface-lowest)",
+                        "surface-container-low": "var(--color-surface-low)",
+                        "surface-container": "var(--color-surface-container)",
+                        "surface-container-high": "var(--color-surface-high)",
+                        "surface-container-highest": "var(--color-surface-highest)",
+                        "accent": "var(--theme-primary)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "4px",
+                        "xl": "8px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "16px",
+                        "gutter": "32px",
+                        "base": "8px",
+                        "stack-md": "32px",
+                        "container-max": "1440px",
+                        "margin-desktop": "80px",
+                        "margin-mobile": "24px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Sora"],
+                        "label-mono": ["JetBrains Mono"],
+                        "label-code": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "label-caps": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["11px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "label-code": ["11px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                        "headline-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                        "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["84px", {"lineHeight": "0.95", "letterSpacing": "-0.05em", "fontWeight": "900"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+    <!-- Custom Cursor elements -->
+    <div id="custom-cursor-dot" class="hidden md:block"></div>
+    <div id="custom-cursor-circle" class="hidden md:block"></div>
+
+    <!-- Background Watermark Logo -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
+        <img src="assets/logo_jom.png" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="assets/logo_jom.png" alt="JOM STUDIO" class="h-8 w-auto transition-transform duration-300 group-hover:scale-105"/>
+            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
+        </a>
+        <div class="flex items-center gap-6">
+            <nav class="hidden lg:flex gap-8 items-center mr-4">
+                <a class="font-label-mono text-label-mono text-accent border-b border-accent transition-all duration-300 uppercase" data-en="Projects" data-es="Proyectos" href="#">Projects</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="Services" data-es="Servicios" href="index.html#services">Services</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="About" data-es="Nosotros" href="index.html#about">About</a>
+            </nav>
+            <!-- HUD Control Buttons -->
+            <div class="flex items-center gap-2 border-x border-outline-variant/30 px-4">
+
+                <!-- Language Toggle -->
+                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
+                    <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-accent uppercase" id="lang-label">EN</span>
+                    <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">language</span>
+                </button>
+            </div>
+            <button class="bg-accent text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn" data-en="Let's Build" data-es="Construyamos">
+                Let's Build
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop">
+        <!-- Header Section -->
+        <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-gutter">
+            <div class="max-w-2xl">
+                <span class="font-label-caps text-accent mb-4 block tracking-[0.2em] uppercase" data-en="Curated Work" data-es="Trabajo Curado">Curated Work</span>
+                <h1 class="font-display-lg text-display-lg md:text-display-lg text-white leading-none uppercase" data-en="OUR REPOSITORY" data-es="NUESTRO REPOSITORIO">OUR REPOSITORY</h1>
+            </div>
+            <div class="hidden md:block">
+                <div class="p-4 border border-outline-variant/30 flex items-center gap-4 bg-surface-container-lowest">
+                    <span class="material-symbols-outlined text-accent animate-pulse">terminal</span>
+                    <span class="font-label-code text-on-surface-variant" data-en="DISPLAYING: 16 ACTIVE NODES" data-es="MOSTRANDO: 16 NODOS ACTIVOS">DISPLAYING: 16 ACTIVE NODES</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Bento Grid / Gallery Layout (16 Projects) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            
+            <!-- Project 1: Crypto Water War -->
+            <div class="lg:col-span-2 group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-video overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Crypto Water War" src="assets/crypto1.png"/>
+                    </div>
+                    <div class="p-8 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-headline-md text-headline-md text-white">Crypto Water War</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_001</span>
+                        </div>
+                        <p class="text-on-surface-variant font-body-md mb-6" data-en="End-to-End Gamification. 137 unique cards. Vanilla JS & WebGL. A decentralized ecosystem for competitive strategy." data-es="Gamificación de Extremo a Extremo. 137 cartas únicas. Vanilla JS y WebGL. Un ecosistema descentralizado para estrategia competitiva.">End-to-End Gamification. 137 unique cards. Vanilla JS & WebGL. A decentralized ecosystem for competitive strategy.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="CORE ENGINE" data-es="MOTOR PRINCIPAL">CORE ENGINE</span>
+                                    <p class="font-label-code text-accent">Vanilla JS / Canvas 2D / WebGL</p>
+                                </div>
+                                <div>
+                                    <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="DESIGN" data-es="DISEÑO">DESIGN</span>
+                                    <p class="font-label-code text-accent">Game & Card Layouts / 137 Characters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: Bon Dia -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-square overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Bon Dia" src="assets/bondia1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Bon Dia</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_002</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="AI-Powered Visual Direction. High-retention content creation for modern platforms." data-es="Dirección Visual Impulsada por IA. Creación de contenido de alta retención para plataformas modernas.">AI-Powered Visual Direction. High-retention content creation for modern platforms.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="AI SYNTHESIS" data-es="SÍNTESIS IA">AI SYNTHESIS</span>
+                            <p class="font-label-code text-accent">Midjourney / Kling AI / Photoshop</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Polar Campaign -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Polar Campaign" src="assets/polar1.jpg"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Polar Campaign</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_003</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Automated Corporate Identity. Scaleable digital assets for global distribution nodes." data-es="Identidad Corporativa Automatizada. Activos digitales escalables para nodos de distribución global.">Automated Corporate Identity. Scaleable digital assets for global distribution nodes.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="AUTOMATION" data-es="AUTOMATIZACIÓN">AUTOMATION</span>
+                            <p class="font-label-code text-accent">HTML / CSS / Shell Scripting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Futstreet Arcade -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Futstreet" src="assets/projects/futstreet/futstreet1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Futstreet</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_004</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Futstreet Arcade. 2D street football prototype with physics engine and arcade combos." data-es="Futstreet Arcade. Prototipo de fútbol callejero 2D con motor de físicas y combos arcade.">Futstreet Arcade. 2D street football prototype with physics engine and arcade combos.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="ENGINE" data-es="MOTOR">ENGINE</span>
+                            <p class="font-label-code text-accent">Unity / C# / WebGL Build</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5: Pocket AI App -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pocket AI" src="assets/projects/pocketai/pocketai1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Pocket AI App</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_005</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Gamified Mobile Duolingo UI for Artificial Intelligence lessons. Responsive layout and flat design." data-es="UI móvil gamificada tipo Duolingo para cursos de IA. Diseño responsivo y flat design.">Gamified Mobile Duolingo UI for Artificial Intelligence lessons. Responsive layout and flat design.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="UX ARCHITECTURE" data-es="ARQUITECTURA UX">UX ARCHITECTURE</span>
+                            <p class="font-label-code text-accent">Figma / HTML5 / Tailwind CSS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6: Western Poker Game -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Western Poker" src="assets/projects/poker/poker1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Western Poker</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_006</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Interactive poker engine with Western Luxury aesthetic. 3D card animation." data-es="Motor de póker interactivo con estética Western Luxury. Animación de cartas en 3D.">Interactive poker engine with Western Luxury aesthetic. 3D card animation.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="INTERACTIVE LAYERS" data-es="CAPAS INTERACTIVAS">CAPAS INTERACTIVAS</span>
+                            <p class="font-label-code text-accent">CSS3 Transitions / HTML5 Canvas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 7: Jabones con Historia -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Jabones" src="assets/projects/jabones/jabones1.jpg"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Jabones con Historia</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_007</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Automated asset resizing and catalog pipeline in Python. Bulk image processing script." data-es="Procesamiento y redimensionamiento masivo de activos en Python. Script de automatización de catálogo.">Automated asset resizing and catalog pipeline in Python. Bulk image processing script.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="BACKEND & SCRIPTS" data-es="SCRIPTS DE TRASERO">BACKEND & SCRIPTS</span>
+                            <p class="font-label-code text-accent">Python / PIL Library / OS CLI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 8: Pino Espace Verts -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pino Espace" src="assets/projects/pino/pino1.jpg"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Pino Espace Verts</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_008</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Branding and high-converting landing page for premium landscape services." data-es="Identidad de marca y Landing Page de alta conversión para servicios verdes." />
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="DEVELOPMENT" data-es="DESARROLLO">DEVELOPMENT</span>
+                            <p class="font-label-code text-accent">HTML5 / CSS3 / Graphic Design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 9: Oliveros Estudio -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Oliveros" src="assets/projects/os/os1.jpg"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Oliveros Estudio</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_009</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Highly responsive e-commerce storefront. Modern layout with shopping cart integration." data-es="Tienda online responsiva de alta velocidad. Diseño moderno con carrito integrado.">Highly responsive e-commerce storefront. Modern layout with shopping cart integration.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="FRONTEND" data-es="DESARROLLO FRONTAL">FRONTEND</span>
+                            <p class="font-label-code text-accent">Vanilla JS / Flexbox Grid</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 10: Alivia Cleaning -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Alivia" src="assets/projects/federico/federico1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Alivia</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_010</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Artistic visual direction, branding guidelines and social media grids for industrial cleaning." data-es="Dirección artística visual, manual de marca y rejillas de contenido IG para limpieza." />
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="BRAND DESIGN" data-es="DISEÑO DE MARCA">BRAND DESIGN</span>
+                            <p class="font-label-code text-accent">Photoshop / Illustrator / IG Strategy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 11: Dawn Dielines -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Dawn" src="assets/projects/dawn/dawn1.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Dawn Dielines</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_011</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Structural package dielines (Mailer box, doypack, boutique bags) and dieline vectoring." data-es="Diseño estructural de troqueles (Mailer box, doypack, bolsas boutique) y vectorización." />
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="PACKAGING" data-es="EMPAQUES">PACKAGING</span>
+                            <p class="font-label-code text-accent">Adobe Illustrator / Dieline Vector</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 12: EduKids Galactic -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden bg-gradient-to-br from-indigo-900 to-black flex items-center justify-center relative">
+                        <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: radial-gradient(circle, var(--current-accent) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <span class="material-symbols-outlined text-6xl text-accent animate-bounce">rocket_launch</span>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">EduKids Galactic</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_012</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="EdTech space game for kids. 4 galatic worlds, adaptive progress & parent control filters." data-es="Juego EdTech espacial para niños. 4 mundos galácticos con progreso adaptativo y control parental.">EdTech space game for kids. 4 galatic worlds, adaptive progress & parent control filters.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="SYSTEM ARCHITECTURE" data-es="ARQUITECTURA DE SISTEMAS">SYSTEM ARCHITECTURE</span>
+                            <p class="font-label-code text-accent">Python / Pygame / HTML5 Offline</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 13: ACACENTRO -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-900 to-indigo-950 flex items-center justify-center relative">
+                        <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: radial-gradient(circle, var(--current-accent) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <span class="material-symbols-outlined text-6xl text-accent">school</span>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">ACACENTRO</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_013</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Interactive educational landing page with 3D elements, routes & SEO optimization." data-es="Landing page educativa interactiva con elementos 3D, rutas de estudio y optimización SEO.">Interactive educational landing page with 3D elements, routes & SEO optimization.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="FRONTEND" data-es="DESARROLLO FRONTAL">FRONTEND</span>
+                            <p class="font-label-code text-accent">HTML5 / CSS3 / JavaScript</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 14: BEATREGS -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Beatregs" src="assets/projects/beatregs/hero_portrait.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">BEATREGS</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_014</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Verified artist profile for producer Lileinyel. Custom dark design, 24/7 audio player." data-es="Perfil de artista verificado para el productor Lileinyel. Diseño oscuro a medida y reproductor 24/7.">Verified artist profile for producer Lileinyel. Custom dark design, 24/7 audio player.</p>
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="AUDIO SYSTEMS" data-es="SISTEMAS DE AUDIO">AUDIO SYSTEMS</span>
+                            <p class="font-label-code text-accent">Tailwind CSS / JS / Web Audio API</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 15: Portal Inmobiliario -->
+            <div class="group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Real Estate" src="assets/projects/inmobiliaria/inmobiliaria_main.png"/>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-headline-md text-white">Inmobiliaria Premium</h3>
+                            <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_015</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm font-body-md mb-4" data-en="Full-stack real estate platform. Advanced property filters & visits booking engine." data-es="Plataforma inmobiliaria full-stack. Buscador de propiedades avanzado y agenda de visitas." />
+                        <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                            <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="ARCHITECTURE" data-es="ARQUITECTURA">ARCHITECTURE</span>
+                            <p class="font-label-code text-accent">Next.js / Node.js / PostgreSQL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 16: Entre Páginas -->
+            <div class="lg:col-span-3 group">
+                <div class="glass-card relative h-full flex flex-col overflow-hidden rounded-xl">
+                    <div class="scanline"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-7 aspect-video overflow-hidden relative group/slideshow bg-black/40 flex items-center justify-center">
+                            <!-- Slideshow images -->
+                            <div class="absolute inset-0 flex transition-transform duration-700 ease-in-out" id="entre-paginas-slides">
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/reina_roja.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="Reina Roja" src="assets/projects/entre_paginas/reina_roja.png"/>
+                                </div>
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/la_asistenta.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="La Asistenta" src="assets/projects/entre_paginas/la_asistenta.png"/>
+                                </div>
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/1984.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="1984" src="assets/projects/entre_paginas/1984.png"/>
+                                </div>
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/el_resplandor.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="El Resplandor" src="assets/projects/entre_paginas/el_resplandor.png"/>
+                                </div>
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/el_principito.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="El Principito" src="assets/projects/entre_paginas/el_principito.png"/>
+                                </div>
+                                <div class="w-full h-full flex-shrink-0 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-20 scale-110" style="background-image: url('assets/projects/entre_paginas/dorian_gray.png');"></div>
+                                    <img class="w-full h-full object-contain relative z-10" alt="El retrato de Dorian Gray" src="assets/projects/entre_paginas/dorian_gray.png"/>
+                                </div>
+                            </div>
+                            <!-- Slideshow indicators -->
+                            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(0)"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(1)"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(2)"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(3)"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(4)"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300" onclick="setSlide(5)"></span>
+                            </div>
+                            <!-- Navigation arrows -->
+                            <button type="button" class="absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/slideshow:opacity-100 transition-opacity z-20 hover:bg-black/80" onclick="prevSlide(event)">
+                                <span class="material-symbols-outlined text-sm pointer-events-none">chevron_left</span>
+                            </button>
+                            <button type="button" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/slideshow:opacity-100 transition-opacity z-20 hover:bg-black/80" onclick="nextSlide(event)">
+                                <span class="material-symbols-outlined text-sm pointer-events-none">chevron_right</span>
+                            </button>
+                        </div>
+                        <div class="lg:col-span-5 p-8 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="font-headline-md text-headline-md text-white">Entre Páginas</h3>
+                                    <span class="font-label-code text-accent px-3 py-1 bg-accent/10 border border-accent/20">CASE_016</span>
+                                </div>
+                                <p class="text-on-surface-variant font-body-md mb-6" data-en="Viral Content Production &amp; Prompt Engineering. Fusing creative copywriting, CapCut high-retention video strategies and Midjourney book cover illustrations to review 50+ classic and modern books on TikTok &amp; Reels." data-es="Producción de Contenido Viral e Ingeniería de Prompts. Fusionando copywriting creativo, estrategias de vídeo en CapCut y portadas en Midjourney para resumir más de 50 libros en TikTok e Instagram Reels.">Viral Content Production &amp; Prompt Engineering. Fusing creative copywriting, CapCut high-retention video strategies and Midjourney book cover illustrations to review 50+ classic and modern books on TikTok &amp; Reels.</p>
+                            </div>
+                            <div class="tech-reveal border-t border-outline-variant/30 pt-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="VIDEO & DESIGN" data-es="VÍDEO Y DISEÑO">VIDEO & DESIGN</span>
+                                        <p class="font-label-code text-accent">CapCut Pro / Audio Sync / UGC Loops</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-label-code text-[10px] text-on-surface-variant block mb-1 opacity-60" data-en="GENERATIVE IA" data-es="IA GENERATIVA">GENERACIÓN IA</span>
+                                        <p class="font-label-code text-accent">Midjourney / Prompt Engineering</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-16 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter bg-surface-container-lowest border-t border-outline-variant/30">
+        <div class="md:col-span-4">
+            <div class="font-label-caps text-accent mb-4">JOM STUDIO</div>
+            <p class="font-body-md text-on-surface-variant/60 max-w-xs" data-en="Transforming raw code into immersive digital alchemy. Precision engineering meets aesthetic daring." data-es="Transformando código puro en alquimia digital inmersiva. La ingeniería de precisión se une a la audacia estética.">
+                Transforming raw code into immersive digital alchemy. Precision engineering meets aesthetic daring.
+            </p>
+            <div class="mt-8 font-label-mono text-[11px] text-on-surface-variant/40">
+                © 2026 JOM STUDIO. <span data-en="STATUS: ONLINE" data-es="ESTADO: EN LÍNEA">STATUS: ONLINE</span>
+            </div>
+        </div>
+        <div class="md:col-span-2">
+            <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Social" data-es="Redes Sociales">Social</div>
+            <ul class="space-y-2">
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://wa.me/584165159067">WhatsApp</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-2">
+            <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Legal" data-es="Legal">Legal</div>
+            <ul class="space-y-2">
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Terms" data-es="Términos" href="#">Terms</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Contact" data-es="Contacto" href="mailto:jomstudiovzla@gmail.com">Contact</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-4 flex flex-col md:items-end justify-between">
+            <div class="text-right">
+                <div class="font-label-code text-accent font-bold mb-2" data-en="STATUS: ONLINE" data-es="ESTADO: ACTIVO">STATUS: ONLINE</div>
+                <div class="font-label-mono text-xs text-outline mb-2">TIMEZONE: GMT-4</div>
+                <div class="font-label-mono text-label-mono text-on-surface" id="real-time">00:00:00</div>
+            </div>
+            <div class="mt-8">
+                <span class="material-symbols-outlined text-accent animate-pulse">sensors</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let currentLang = 'en';
+
+        // Force Dark Theme
+        document.documentElement.classList.add('dark');
+
+        // Language Toggle Logic
+        const langToggle = document.getElementById('lang-toggle');
+        const langLabel = document.getElementById('lang-label');
+
+        function updateLanguage() {
+            langLabel.textContent = currentLang.toUpperCase();
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`);
+            });
+        }
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            updateLanguage();
+        });
+
+        // Auto-detect browser language
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('es')) {
+            currentLang = 'es';
+            updateLanguage();
+        }
+
+        // Clock Utility
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('real-time').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Connect "Let's Build" Button to email
+        const buildBtn = document.getElementById('lets-build-btn');
+        if (buildBtn) {
+            buildBtn.addEventListener('click', () => {
+                window.location.href = 'mailto:jomstudiovzla@gmail.com';
+            });
+        }
+
+        // Slideshow Logic for Entre Páginas
+        let currentSlide = 0;
+        const totalSlides = 6;
+        const slidesContainer = document.getElementById('entre-paginas-slides');
+        
+        function updateSlideshow() {
+            if (!slidesContainer) return;
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            // Update dots
+            const dots = slidesContainer.nextElementSibling.querySelectorAll('span');
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.add('bg-white', 'scale-110');
+                    dot.classList.remove('bg-white/40');
+                } else {
+                    dot.classList.remove('bg-white', 'scale-110');
+                    dot.classList.add('bg-white/40');
+                }
+            });
+        }
+        
+        window.setSlide = function(index) {
+            currentSlide = index;
+            updateSlideshow();
+        };
+        
+        window.prevSlide = function(e) {
+            if (e) e.stopPropagation();
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideshow();
+        };
+        
+        window.nextSlide = function(e) {
+            if (e) e.stopPropagation();
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideshow();
+        };
+        
+        // Auto slide
+        let slideInterval = setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideshow();
+        }, 4000);
+        
+        // Pause auto slide on hover/interaction
+        const slideshowContainer = document.getElementById('entre-paginas-slides')?.parentElement;
+        if (slideshowContainer) {
+            slideshowContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            slideshowContainer.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlideshow();
+                }, 4000);
+            });
+        }
+        
+        // Initial call to set active dot
+        updateSlideshow();
+
+        // Interactive Scroll Parallax for Background Watermark
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const bodyWatermark = document.getElementById('body-watermark-container');
+            if (bodyWatermark) {
+                const watermarkRotate = scrollY * 0.02;
+                const watermarkScale = 1 + scrollY * 0.0001;
+                bodyWatermark.style.transform = `scale(${watermarkScale}) rotate(${watermarkRotate}deg)`;
+            }
+        });
+
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('custom-cursor-dot');
+        const cursorCircle = document.getElementById('custom-cursor-circle');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let circleX = 0;
+        let circleY = 0;
+        let isCursorActive = false;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!isCursorActive) {
+                isCursorActive = true;
+                if (cursorDot) cursorDot.style.opacity = '1';
+                if (cursorCircle) cursorCircle.style.opacity = '1';
+            }
+            
+            // Instantly move the dot using transform
+            if (cursorDot) {
+                cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (cursorDot) cursorDot.style.opacity = '0';
+            if (cursorCircle) cursorCircle.style.opacity = '0';
+            isCursorActive = false;
+        });
+
+        // Smooth trailing circle movement (lerp)
+        function animateCircle() {
+            const lerpSpeed = 0.15;
+            circleX += (mouseX - circleX) * lerpSpeed;
+            circleY += (mouseY - circleY) * lerpSpeed;
+
+            if (cursorCircle) {
+                cursorCircle.style.transform = `translate3d(${circleX}px, ${circleY}px, 0) translate(-50%, -50%)`;
+            }
+
+            requestAnimationFrame(animateCircle);
+        }
+        requestAnimationFrame(animateCircle);
+
+        // Hover Effect on Interactive Elements
+        const hoverables = 'a, button, input, textarea, [onclick], .glass-card, #services-tabs-container button';
+        
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest(hoverables)) {
+                document.body.classList.add('cursor-hover');
+            }
+        });
+
+        document.body.addEventListener('mouseout', (e) => {
+            if (e.target.closest(hoverables)) {
+                document.body.classList.remove('cursor-hover');
+            }
+        });
+    </script>
+</body>
+</html>

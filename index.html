@@ -1,489 +1,1066 @@
+<!-- Landing Page — JOM STUDIO (V2) -->
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jesus Omar Martinez · JOM STUDIO</title>
-    <meta name="description" content="Portafolio de Jesus Omar Martinez — Desarrollador Digital, Gamificación, IA Generativa y Content Creation. JOM STUDIO 2026.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>JOM STUDIO | DIGITAL ALCHEMY</title>
+    <meta name="description" content="JOM STUDIO — Where Technical Architecture Meets Artistic Direction. Gamification, Generative AI, Web Development & Chrome Extensions." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .glass-panel {
+            backdrop-filter: blur(24px);
+            background: rgba(10, 10, 10, 0.92);
+            border: 1px solid var(--color-outline);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .neon-border-top {
+            border-top: 1px solid var(--theme-primary-alpha);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+        }
+        .glitch-hover:hover {
+            text-shadow: 2px 0 var(--theme-primary), -2px 0 rgba(0, 242, 255, 0.4);
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0px rgba(0, 242, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 242, 255, 0.5); }
+            100% { box-shadow: 0 0 0px rgba(0, 242, 255, 0.2); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 4s infinite ease-in-out;
+        }
+        .grid-bg {
+            background-image: linear-gradient(rgba(0, 242, 255, 0.02) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+
+        /* Webkit Scrollbar Styling */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-outline); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--theme-primary); }
+
+        /* Dynamic Theme Variables */
+        :root {
+            --theme-primary: #00F2FF;
+            --theme-primary-alpha: rgba(0, 242, 255, 0.15);
+            --theme-primary-glow: rgba(0, 242, 255, 0.4);
+            
+            --color-bg: #050505;
+            --color-text: #E0E0E0;
+            --color-text-variant: #9CA3AF;
+            --color-surface: #050505;
+            --color-surface-lowest: #020202;
+            --color-surface-low: #0A0A0A;
+            --color-surface-container: #0E0E0E;
+            --color-surface-high: #141414;
+            --color-surface-highest: #1A1A1A;
+            --color-outline: #4A4A4A;
+            --color-outline-variant: rgba(255, 255, 255, 0.1);
+        }
+
+
+
+        .dynamic-primary-text { color: var(--theme-primary); }
+        .dynamic-primary-bg { background-color: var(--theme-primary); }
+        .dynamic-primary-border { border-color: var(--theme-primary); }
+        .dynamic-primary-border-alpha { border-color: var(--theme-primary-alpha); }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        /* Dynamic Theme Logo Filters & Opacities */
+        #body-watermark-container {
+            opacity: 0.15; /* Increased transparency opacity for better visibility */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #body-watermark-container img {
+            filter: invert(1) brightness(1.8) contrast(1.1);
+            mix-blend-mode: screen;
+            transition: filter 0.5s ease, mix-blend-mode 0.5s ease;
+        }
+
+        header img[src*="logo_jom.png"] {
+            filter: invert(1) brightness(1.5);
+            /* NO mix-blend-mode to avoid Safari/Chrome backdrop-filter bug in header */
+        }
+
+        /* Hide native cursor on desktop to support custom cursor */
+        @media (min-width: 768px) {
+            html, body, a, button, input, textarea, select {
+                cursor: none !important;
+            }
+        }
+
+        /* Custom Cursor elements */
+        #custom-cursor-dot, #custom-cursor-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #custom-cursor-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--theme-primary);
+            border-radius: 50%;
+            /* No mix-blend-mode difference to preserve solid cyan color */
+            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, opacity 0.3s ease;
+        }
+        #custom-cursor-circle {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--theme-primary);
+            border-radius: 50%;
+            /* transition size and opacity, but not position */
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Hover active state */
+        body.cursor-hover #custom-cursor-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #FFFFFF;
+        }
+        body.cursor-hover #custom-cursor-circle {
+            width: 52px;
+            height: 52px;
+            background-color: var(--theme-primary-alpha);
+            border-color: var(--theme-primary);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "var(--theme-primary)",
+                        "primary-fixed": "var(--theme-primary)",
+                        "primary-container": "var(--theme-primary-alpha)",
+                        "on-primary-container": "var(--color-bg)",
+                        "secondary": "var(--color-text)",
+                        "on-surface": "var(--color-text)",
+                        "on-surface-variant": "var(--color-text-variant)",
+                        "outline": "var(--color-outline)",
+                        "outline-variant": "var(--color-outline-variant)",
+                        "surface": "var(--color-surface)",
+                        "surface-container-lowest": "var(--color-surface-lowest)",
+                        "surface-container-low": "var(--color-surface-low)",
+                        "surface-container": "var(--color-surface-container)",
+                        "surface-container-high": "var(--color-surface-high)",
+                        "surface-container-highest": "var(--color-surface-highest)",
+                        "accent": "var(--theme-primary)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "4px",
+                        "xl": "8px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "16px",
+                        "gutter": "32px",
+                        "base": "8px",
+                        "stack-md": "32px",
+                        "container-max": "1440px",
+                        "margin-desktop": "80px",
+                        "margin-mobile": "24px",
+                        "stack-lg": "64px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Sora"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "display-lg": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["11px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                        "headline-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                        "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["84px", {"lineHeight": "0.95", "letterSpacing": "-0.05em", "fontWeight": "900"}]
+                    }
+                },
+            },
+        }
+    </script>
 </head>
-<body>
+<body class="font-body-md text-on-surface">
+    <!-- Custom Cursor elements -->
+    <div id="custom-cursor-dot" class="hidden md:block"></div>
+    <div id="custom-cursor-circle" class="hidden md:block"></div>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- CUSTOM CURSOR                          -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursor-follower"></div>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- PAGE LOADER                            -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="page-loader" id="page-loader">
-        <div class="loader-logo">
-            <img src="assets/logo_jom.png" alt="JOM STUDIO" id="loader-logo-img">
-            <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
-            <span class="loader-pct" id="loader-pct">0%</span>
-        </div>
+    <!-- Background Watermark Logo -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
+        <img src="assets/logo_jom.png" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- NAV                                    -->
-    <!-- ═══════════════════════════════════════ -->
-    <nav class="nav" id="main-nav">
-        <div class="nav-inner">
-            <a href="#hero" class="nav-logo">
-                <img src="assets/logo_jom.png" alt="JOM STUDIO" onerror="this.style.display='none'"> JOM
-            </a>
-            <ul class="nav-links">
-                <li><a href="#projects" class="nav-link" data-sound="click">Proyectos</a></li>
-                <li><a href="#photobook" class="nav-link" data-sound="click">Photobook</a></li>
-                <li><a href="#cv" class="nav-link" data-sound="click">C.V.</a></li>
-                <li><a href="#about" class="nav-link" data-sound="click">Sobre mí</a></li>
-                <li><a href="#contact" class="btn btn-nav magnetic" data-sound="hover">Contactar</a></li>
-            </ul>
-            <button class="nav-burger" id="nav-burger" aria-label="Menú">
-                <span></span><span></span><span></span>
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="assets/logo_jom.png" alt="JOM STUDIO" class="h-8 w-auto transition-transform duration-300 group-hover:scale-105"/>
+            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
+        </a>
+        <div class="flex items-center gap-6">
+            <nav class="hidden lg:flex gap-8 items-center mr-4">
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_projects" href="repository.html">Projects</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_services" href="#services">Services</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_about" href="#about">About</a>
+            </nav>
+            <!-- HUD Control Buttons -->
+            <div class="flex items-center gap-2 border-x border-outline-variant/30 px-4">
+
+                <!-- Language Toggle -->
+                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
+                    <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-primary-fixed uppercase" id="lang-label">EN</span>
+                    <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">language</span>
+                </button>
+            </div>
+            <button class="bg-primary-fixed text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95" data-t="btn_build">
+                Let's Build
             </button>
         </div>
-    </nav>
+    </header>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <ul>
-            <li><a href="#projects" class="mobile-link">Proyectos</a></li>
-            <li><a href="#photobook" class="mobile-link">Photobook</a></li>
-            <li><a href="#cv" class="mobile-link">C.V.</a></li>
-            <li><a href="#about" class="mobile-link">Sobre mí</a></li>
-            <li><a href="#contact" class="mobile-link">Contactar</a></li>
-        </ul>
-    </div>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- HERO                                   -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="hero" id="hero">
-        <!-- Animated Logo Canvas Background -->
-        <canvas id="hero-canvas"></canvas>
-
-        <!-- Noise overlay -->
-        <div class="noise-overlay"></div>
-
-        <!-- Gradient vignette -->
-        <div class="hero-vignette"></div>
-
-        <div class="hero-content">
-            <div class="hero-eyebrow reveal-up">
-                <span class="eyebrow-dot"></span>
-                <span>JOM STUDIO · 2026</span>
-            </div>
-
-            <h1 class="hero-title" aria-label="Jesus Omar Martinez">
-                <span class="hero-line reveal-up" style="--d:0.1s">Jesus Omar</span>
-                <span class="hero-line reveal-up accent-line" style="--d:0.25s">Martinez</span>
-            </h1>
-
-            <p class="hero-sub reveal-up" style="--d:0.4s">
-                Desarrollador Digital &amp; Creador de Ecosistemas Interactivos
-            </p>
-
-            <div class="hero-tags reveal-up" style="--d:0.55s">
-                <span class="htag">WebGL &amp; Three.js</span>
-                <span class="htag">IA Generativa</span>
-                <span class="htag">Gamificación</span>
-                <span class="htag">UX&amp;UI</span>
-            </div>
-
-            <div class="hero-actions reveal-up" style="--d:0.7s">
-                <a href="#projects" class="btn btn-hero-primary magnetic" data-sound="click">
-                    <span>Ver Proyectos</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a href="assets/cv.pdf" target="_blank" class="btn btn-hero-ghost magnetic" data-sound="click">
-                    Descargar C.V.
-                </a>
-            </div>
-
-            <!-- Scroll indicator -->
-            <div class="scroll-indicator reveal-up" style="--d:1s">
-                <div class="scroll-line"></div>
-                <span>scroll</span>
-            </div>
-        </div>
-
-        <!-- Floating stats -->
-        <div class="hero-stats reveal-up" style="--d:0.9s">
-            <div class="stat-item">
-                <span class="stat-num" data-target="12">0</span>
-                <span class="stat-label">Proyectos<br>Entregados</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num" data-target="4">0</span>
-                <span class="stat-label">Clientes<br>Activos</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num" data-target="3">0</span>
-                <span class="stat-label">Años de<br>Experiencia</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- MARQUEE STRIP                          -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="marquee-strip">
-        <div class="marquee-track">
-            <span>WebGL</span><span class="dot">·</span>
-            <span>Phaser.js</span><span class="dot">·</span>
-            <span>IA Generativa</span><span class="dot">·</span>
-            <span>Gamificación</span><span class="dot">·</span>
-            <span>UX/UI</span><span class="dot">·</span>
-            <span>Three.js</span><span class="dot">·</span>
-            <span>Canvas 2D</span><span class="dot">·</span>
-            <span>Content Creation</span><span class="dot">·</span>
-            <span>Chrome Extensions</span><span class="dot">·</span>
-            <span>Prompt Engineering</span><span class="dot">·</span>
-            <!-- Duplicate for seamless loop -->
-            <span>WebGL</span><span class="dot">·</span>
-            <span>Phaser.js</span><span class="dot">·</span>
-            <span>IA Generativa</span><span class="dot">·</span>
-            <span>Gamificación</span><span class="dot">·</span>
-            <span>UX/UI</span><span class="dot">·</span>
-            <span>Three.js</span><span class="dot">·</span>
-            <span>Canvas 2D</span><span class="dot">·</span>
-            <span>Content Creation</span><span class="dot">·</span>
-            <span>Chrome Extensions</span><span class="dot">·</span>
-            <span>Prompt Engineering</span><span class="dot">·</span>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- PROJECTS                               -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="section projects-section" id="projects">
-        <div class="section-header reveal-up">
-            <p class="section-overline">Trabajo Seleccionado</p>
-            <h2 class="section-title">Producción <span class="accent">&amp;</span> Proyectos</h2>
-        </div>
-
-        <div class="projects-grid">
-            <!-- PROJECT 1 -->
-            <div class="project-card reveal-up modal-trigger" data-target="modal-crypto" style="--d:0.1s" data-sound="click">
-                <div class="project-thumb" style="background-image: url('assets/crypto1.png');">
-                    <div class="project-thumb-overlay"></div>
-                    <span class="project-num">01</span>
-                </div>
-                <div class="project-card-info">
-                    <span class="tag">Gamificación Corporativa</span>
-                    <h3>Crypto Water War</h3>
-                    <p>Juego de cartas tácticas WebGL desarrollado exclusivamente para Crypto Water. Motor de combate por turnos con 137 cartas únicas.</p>
-                    <div class="card-footer">
-                        <span class="card-tech">Vanilla JS · Canvas</span>
-                        <span class="card-arrow">→</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROJECT 2 -->
-            <div class="project-card reveal-up modal-trigger" data-target="modal-bondia" style="--d:0.2s" data-sound="click">
-                <div class="project-thumb" style="background-image: url('assets/bondia1.png');">
-                    <div class="project-thumb-overlay"></div>
-                    <span class="project-num">02</span>
-                </div>
-                <div class="project-card-info">
-                    <span class="tag">IA Generativa / Arte</span>
-                    <h3>Concepto "Bon Dia"</h3>
-                    <p>Iteraciones de alta fidelidad con Inteligencia Artificial para Social Media. Dirección visual, prompt engineering y post-edición.</p>
-                    <div class="card-footer">
-                        <span class="card-tech">Midjourney · Photoshop</span>
-                        <span class="card-arrow">→</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROJECT 3 -->
-            <div class="project-card reveal-up modal-trigger" data-target="modal-polar" style="--d:0.3s" data-sound="click">
-                <div class="project-thumb" style="background-image: url('assets/polar2.jpg');">
-                    <div class="project-thumb-overlay"></div>
-                    <span class="project-num">03</span>
-                </div>
-                <div class="project-card-info">
-                    <span class="tag">Diseño Corporativo</span>
-                    <h3>Campaña Digital Polar</h3>
-                    <p>Brochure Corporativo automatizado para Cervecería Polar. Sistemas de identidad de marca estructurados mediante scripting.</p>
-                    <div class="card-footer">
-                        <span class="card-tech">HTML/CSS · Shell Script</span>
-                        <span class="card-arrow">→</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- PHOTOBOOK                              -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="section photobook-section" id="photobook">
-        <div class="section-header reveal-up">
-            <p class="section-overline">Fotografía</p>
-            <h2 class="section-title">Photobook <span class="accent">&amp;</span> Sesiones</h2>
-            <p class="section-sub">Muestras curadas de captura fotográfica. Haz clic en cada sesión para abrir la galería completa.</p>
-        </div>
-        <div id="dynamic-photobook-cards" class="projects-grid"></div>
-    </section>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- CV                                     -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="section cv-section" id="cv">
-        <div class="section-header reveal-up">
-            <p class="section-overline">Trayectoria</p>
-            <h2 class="section-title">Experiencia <span class="accent">&amp;</span> C.V.</h2>
-        </div>
-
-        <div class="cv-grid">
-            <div class="cv-box reveal-up" style="--d:0.1s">
-                <div class="cv-box-num">01</div>
-                <h4>Gamificación &amp; Juegos Web</h4>
-                <span>Crypto Water War · Card Engine</span>
-                <p>Estructuración de lógicas turn-based e inventario dinámico de 137 cartas únicas para Crypto Water, con motor Canvas2D escalable y sistema de combate por turnos en Vanilla JS.</p>
-            </div>
-            <div class="cv-box reveal-up" style="--d:0.2s">
-                <div class="cv-box-num">02</div>
-                <h4>Herramientas &amp; Sistemas Embebidos</h4>
-                <span>Chrome Extensions · Scrapers</span>
-                <p>Construcción de módulos como FreeStream y automatización de flujos de datos en entorno de navegador, transformando rutinas manuales en pipelines automáticos.</p>
-            </div>
-            <div class="cv-box reveal-up" style="--d:0.3s">
-                <div class="cv-box-num">03</div>
-                <h4>Producción de Video (UGC)</h4>
-                <span>CapCut Pro · Edición Algorítmica</span>
-                <p>Montaje intensivo, control total del ritmo editorial y dirección creativa para retención de audiencia con transiciones de alto impacto y sincronía de audio perfecta.</p>
-            </div>
-            <div class="cv-box reveal-up" style="--d:0.4s">
-                <div class="cv-box-num">04</div>
-                <h4>Generación Visual IA</h4>
-                <span>Midjourney · Kling AI · Prompt Eng.</span>
-                <p>Control exacto sobre motores de difusión para acelerar workflows creativos: character design, fondos isométricos y concept art con post-edición nativa en Photoshop.</p>
-            </div>
-        </div>
-
-        <div class="cv-download reveal-up" style="--d:0.5s">
-            <a href="assets/cv.pdf" target="_blank" class="btn btn-outline-gold magnetic" data-sound="click">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 17l-4-4h2.5v-3h3v3H16l-4 4z"/></svg>
-                Descargar C.V. Completo (PDF)
-            </a>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- ABOUT                                  -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="section about-section" id="about">
-        <div class="about-container">
-            <div class="about-img-wrap reveal-up" style="--d:0.1s">
-                <div class="about-img-ring"></div>
-                <img src="assets/profile_jesus.jpg" alt="Jesus Martinez" class="about-img"
-                     onerror="this.onerror=null; this.src='https://placehold.co/400x500/151515/2EC4B6?text=J.M';">
-                <div class="about-img-badge">
-                    <span>JOM</span>
-                    <span>STUDIO</span>
-                </div>
-            </div>
-
-            <div class="about-text reveal-up" style="--d:0.3s">
-                <p class="section-overline">Sobre mí</p>
-                <h2 class="section-title">Jesús Omar<br><span class="accent">Martínez</span></h2>
-                <p class="about-desc">
-                    Profesional de alta versatilidad que une la arquitectura técnica (JavaScript, Canvas, Three.js) con la visión estratégica del diseño y los negocios digitales.<br><br>
-                    Desde <strong>JOM STUDIO</strong> aplico una filosofía donde el código, el script y la extensión no son solo herramientas — son el arte mismo. Cada proyecto es un ecosistema digital completo, estéticamente irreprochable.
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-margin-mobile md:px-margin-desktop text-center overflow-hidden">
+            <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container/5 blur-[120px] rounded-full pointer-events-none"></div>
+            <div class="relative z-10 space-y-6">
+                <span class="font-label-mono text-label-mono text-primary-fixed border border-primary-fixed/30 px-3 py-1 bg-primary-container/5" data-t="system_status">SYSTEM STATUS: OPTIMIZED</span>
+                <h1 class="font-display-lg text-display-lg text-primary-fixed tracking-tighter uppercase max-w-5xl mx-auto" data-t="hero_title">
+                    DIGITAL ALCHEMY
+                </h1>
+                <p class="font-headline-md text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light" data-t="hero_subtitle">
+                    Where Technical Architecture Meets Artistic Direction.
                 </p>
+                <div class="pt-stack-md flex flex-col md:flex-row gap-gutter justify-center items-center">
+                    <button class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-12 py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate">
+                        Initiate Project
+                    </button>
+                    <button class="font-label-mono text-label-mono text-secondary px-12 py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_dossier">
+                        View Dossier
+                    </button>
+                </div>
+            </div>
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+                <span class="font-label-mono text-[10px] uppercase tracking-widest" data-t="scroll_decrypt">Scroll to Decrypt</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-primary-fixed to-transparent"></div>
+            </div>
+        </section>
 
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h5>Desarrollo</h5>
-                        <ul>
-                            <li>JavaScript / Canvas</li>
-                            <li>Three.js / Phaser</li>
-                            <li>HTML5 / CSS3</li>
-                            <li>Chrome Extensions</li>
-                        </ul>
+        <!-- Core Pillars Section (Bento Grid) -->
+        <!-- Interactive Services Hub -->
+        <section id="services" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-stack-lg gap-gutter">
+                <div class="max-w-xl">
+                    <h2 class="font-headline-lg text-headline-lg text-secondary mb-stack-sm uppercase" data-t="services_title">Operations & Services</h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant" data-t="services_subtitle">A unified system of digital capabilities structured through proven deployment cases.</p>
+                </div>
+                <div class="font-label-mono text-label-mono text-primary-fixed/60">
+                    PROTOCOL: SECURE_CAPABILITIES // GRID: ACTIVE
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+                <!-- Left Sidebar: Tabs Selector -->
+                <div class="lg:col-span-4 flex flex-col gap-3" id="services-tabs-container">
+                    <!-- Tabs rendered dynamically -->
+                </div>
+                
+                <!-- Right Console Pane: Details Dashboard -->
+                <div class="lg:col-span-8 glass-panel p-6 md:p-8 rounded-xl relative flex flex-col justify-between overflow-hidden" id="services-console-pane">
+                    <!-- Top dynamic colored indicator strip -->
+                    <div class="absolute top-0 left-0 w-full h-[3px] dynamic-primary-bg opacity-80"></div>
+                    
+                    <!-- Console Header -->
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap justify-between items-center gap-4">
+                            <span class="font-label-mono text-label-mono text-primary-fixed tracking-widest uppercase border border-primary-fixed/30 px-3 py-1 bg-primary-fixed/5" id="console-protocol-code">PROTOCOL_01</span>
+                            <div class="flex items-center gap-2 text-outline">
+                                <span class="w-1.5 h-1.5 bg-primary-fixed rounded-full animate-ping"></span>
+                                <span class="font-label-mono text-[10px] tracking-widest uppercase">CON_SYNC: 100%</span>
+                            </div>
+                        </div>
+                        <h3 class="font-headline-lg text-headline-md md:text-headline-lg text-white" id="console-protocol-title">Interactive Gamification</h3>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed border-l border-primary-fixed/30 pl-4 py-1" id="console-protocol-desc">
+                            Building high-engagement interactive systems and custom canvas engines that convert user attention into immersive digital experiences.
+                        </p>
                     </div>
-                    <div class="skill-category">
-                        <h5>Creatividad</h5>
-                        <ul>
-                            <li>IA Generativa</li>
-                            <li>Prompt Engineering</li>
-                            <li>Edición de Video</li>
-                            <li>Fotografía Urbana</li>
-                        </ul>
+
+                    <!-- Details Body Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter py-8 my-4 border-y border-outline-variant/20">
+                        <!-- Deliverables List -->
+                        <div class="space-y-4">
+                            <h4 class="font-label-mono text-label-mono text-secondary uppercase tracking-[0.2em]" data-t="service_deliverables_head">Deliverables & Scope</h4>
+                            <ul class="space-y-2.5" id="console-deliverables-list">
+                                <!-- Rendered dynamically -->
+                            </ul>
+                        </div>
+                        <!-- Technologies Stack -->
+                        <div class="space-y-4">
+                            <h4 class="font-label-mono text-label-mono text-secondary uppercase tracking-[0.2em]" data-t="service_tech_head">Technology Stack</h4>
+                            <div class="flex flex-wrap gap-2.5" id="console-tech-list">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Associated Nodes and Call-to-Action -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <!-- Nodes list -->
+                        <div class="space-y-2.5">
+                            <span class="font-label-mono text-[9px] text-outline uppercase tracking-widest block" data-t="service_nodes_head">Associated Repository Nodes</span>
+                            <div class="flex flex-wrap gap-2" id="console-nodes-list">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+                        <!-- Command Activation -->
+                        <button type="button" class="w-full md:w-auto bg-primary-fixed text-on-primary-container font-label-mono text-[10px] tracking-widest uppercase px-6 py-3 border border-primary-fixed hover:bg-transparent hover:text-primary-fixed transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 font-bold" id="console-select-btn">
+                            <span data-t="service_btn_select">Activate Protocol</span>
+                            <span class="material-symbols-outlined text-[14px]">arrow_right_alt</span>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- CONTACT                                -->
-    <!-- ═══════════════════════════════════════ -->
-    <section class="section contact-section" id="contact">
-        <div class="contact-bg-text" aria-hidden="true">CONTACT</div>
-        <div class="contact-content reveal-up">
-            <p class="section-overline" style="text-align:center">Hablemos</p>
-            <h2 class="section-title contact-title">Trabajemos<br><span class="accent">juntos</span></h2>
-            <p class="contact-desc">Si tienes un reto complejo que amerite tecnología, buen gusto y velocidad, contáctame directamente.</p>
+        <!-- Featured Project: Crypto Water War -->
+        <section class="py-stack-lg px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/95 border-t border-outline-variant/10">
+            <div class="max-w-container-max mx-auto">
+                <div class="mb-stack-lg text-center md:text-left">
+                    <span class="font-label-mono text-label-mono text-secondary tracking-[0.3em] uppercase block mb-2" data-t="deployment_label">Selected Deployment</span>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Crypto Water War</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+                    <div class="md:col-span-7 relative overflow-hidden group border border-outline-variant/20 rounded-xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60 z-10"></div>
+                        <img class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Crypto Water War UI card game" src="assets/crypto1.png"/>
+                        <div class="absolute bottom-8 left-8 z-20">
+                            <div class="flex gap-2">
+                                <span class="bg-primary-container/20 text-primary-fixed border border-primary-fixed/30 px-3 py-1 font-label-mono text-[10px]">WEB3 ENGINE</span>
+                                <span class="bg-secondary/20 text-secondary border border-secondary/30 px-3 py-1 font-label-mono text-[10px]">3D INTERACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-5 space-y-gutter px-4 md:px-stack-md">
+                        <div class="space-y-4">
+                            <h4 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Case Study // 001</h4>
+                            <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed" data-t="case_study_desc">
+                                A decentralized resource management simulator where water is the primary asset. We built the entire interaction layer from the ground up, utilizing WebGL for real-time fluid dynamics and a custom blockchain bridge for instantaneous asset verification.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-stack-md border-y border-outline-variant/20 py-stack-md">
+                            <div>
+                                <div class="font-headline-lg text-headline-lg text-primary-fixed">26</div>
+                                <div class="font-label-mono text-label-mono text-outline" data-t="nodes_label">Deployments</div>
+                            </div>
+                            <div>
+                                <div class="font-headline-lg text-headline-lg text-secondary">0.03s</div>
+                                <div class="font-label-mono text-label-mono text-outline" data-t="latency_label">Sync Latency</div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center gap-4 text-primary-fixed font-label-mono text-label-mono uppercase tracking-widest hover:gap-6 transition-all group" href="repository.html">
+                            <span data-t="specs_link">Explore Technical Specs</span>
+                            <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_right_alt</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <div class="contact-methods">
-                <a href="https://wa.me/584165159067" target="_blank" class="btn btn-whatsapp magnetic" data-sound="click">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20.52 3.48A11.93 11.93 0 0012.02 0C5.38 0 .02 5.36.02 11.99c0 2.11.55 4.17 1.6 5.98L0 24l6.23-1.63a12.02 12.02 0 005.79 1.48h.01C18.64 23.85 24 18.49 24 11.86c0-3.19-1.24-6.18-3.48-8.38zm-8.5 18.38a9.95 9.95 0 01-5.07-1.38l-.36-.22-3.7.97.99-3.61-.24-.38a9.93 9.93 0 01-1.52-5.29c0-5.49 4.47-9.96 9.96-9.96a9.9 9.9 0 017.04 2.92 9.9 9.9 0 012.92 7.04c0 5.49-4.47 9.91-9.96 9.91h-.06zm5.46-7.44c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.06 2.85 1.2 3.05c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.11.56-.08 1.76-.72 2.01-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/>
-                    </svg>
-                    Contáctame
-                </a>
-                <a href="mailto:jomstudiovzla@gmail.com" class="btn btn-email magnetic" data-sound="click">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                    Enviar Correo
-                </a>
+        <!-- About Section -->
+        <section id="about" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+                <div class="lg:col-span-5 relative flex justify-center py-4">
+                    <div class="relative w-64 h-80 md:w-80 md:h-96">
+                        <div class="absolute inset-0 border border-primary-fixed/30 rounded-xl translate-x-4 translate-y-4 animate-pulse-glow"></div>
+                        <img src="assets/profile_jesus.jpg" alt="Jesús Omar Martínez" class="w-full h-full object-cover rounded-xl border-2 border-primary-fixed filter grayscale hover:grayscale-0 transition-all duration-500 shadow-premium"/>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="font-label-caps text-accent tracking-[0.2em] uppercase block" data-t="about_label">CREATIVE LEADERSHIP</span>
+                    <h2 class="font-headline-lg text-headline-lg text-white" data-t="about_title">Jesús Omar Martínez</h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed" data-t="about_desc">
+                        Creative Director & Digital Developer behind JOM STUDIO. Fusing technical excellence (WebGL, Canvas, Chrome Extensions) with artistic direction and business strategy to craft complete, high-performance digital ecosystems.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 border border-outline-variant/20 bg-surface-container-lowest/90 rounded-xl">
+                            <span class="font-label-code text-accent block text-sm font-bold">DEVELOPMENT</span>
+                            <span class="font-body-md text-xs text-on-surface-variant">JavaScript, WebGL, Three.js, Canvas, HTML5/CSS3</span>
+                        </div>
+                        <div class="p-4 border border-outline-variant/20 bg-surface-container-lowest/90 rounded-xl">
+                            <span class="font-label-code text-secondary block text-sm font-bold">ART & STRATEGY</span>
+                            <span class="font-body-md text-xs text-on-surface-variant">AI Prompt Engineering, Video Editing, UGC, Branding</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Brief Section -->
+        <section id="brief" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto border-t border-outline-variant/10">
+            <div class="glass-panel p-8 md:p-12 rounded-xl relative overflow-hidden glow-alexandrite">
+                <div class="absolute top-0 left-0 w-full h-1 dynamic-primary-bg opacity-80"></div>
+                <div class="space-y-6">
+                    <div class="text-center md:text-left">
+                        <span class="font-label-caps text-accent tracking-[0.3em] uppercase block mb-2" data-t="brief_eyebrow">Interactive Brief</span>
+                        <h2 class="font-headline-lg text-headline-lg text-white" data-t="brief_title">Tell us what you want to build</h2>
+                        <p class="font-body-md text-on-surface-variant" data-t="brief_subtitle">Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.</p>
+                    </div>
+                    <form id="project-brief-form" class="space-y-6 pt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                            <div class="flex flex-col gap-2">
+                                <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_name" for="client-name">Your Name / Company</label>
+                                <input type="text" id="client-name" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. Wayne Enterprises"/>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_email" for="client-email">Email Address</label>
+                                <input type="email" id="client-email" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. bruce@wayne.com"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_brief" for="client-brief">What do you want to build?</label>
+                            <textarea id="client-brief" rows="4" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md resize-none" placeholder="Describe your project, features, goals, references..."></textarea>
+                        </div>
+                        
+                        <div class="flex flex-col gap-3 pt-2">
+                            <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_channel">Preferred Transmission Protocol</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- WhatsApp Channel Option -->
+                                <label class="border border-outline-variant/30 hover:border-primary-fixed transition-all cursor-pointer p-4 rounded-xl flex items-center justify-between bg-surface-container-lowest/90 group" for="channel-wa">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-green-500 text-2xl">chat</span>
+                                        <div class="text-left">
+                                            <span class="font-headline-md text-sm text-white block group-hover:text-primary-fixed transition-colors">WhatsApp</span>
+                                            <span class="font-body-md text-xs text-on-surface-variant" data-t="channel_wa_desc">Send instantly as a structured message.</span>
+                                        </div>
+                                    </div>
+                                    <input type="radio" name="comm-channel" id="channel-wa" value="wa" checked class="text-primary-fixed focus:ring-primary-fixed bg-surface-container border-outline-variant"/>
+                                </label>
+                                
+                                <!-- Email Channel Option -->
+                                <label class="border border-outline-variant/30 hover:border-primary-fixed transition-all cursor-pointer p-4 rounded-xl flex items-center justify-between bg-surface-container-lowest/90 group" for="channel-mail">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-secondary text-2xl">mail</span>
+                                        <div class="text-left">
+                                            <span class="font-headline-md text-sm text-white block group-hover:text-primary-fixed transition-colors">Email</span>
+                                            <span class="font-body-md text-xs text-on-surface-variant" data-t="channel_mail_desc">Send via default mail handler.</span>
+                                        </div>
+                                    </div>
+                                    <input type="radio" name="comm-channel" id="channel-mail" value="mail" class="text-primary-fixed focus:ring-primary-fixed bg-surface-container border-outline-variant"/>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 flex justify-center">
+                            <button type="submit" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-12 py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary flex items-center justify-center gap-3" id="submit-brief-btn">
+                                <span data-t="btn_transmit">Transmit Brief</span>
+                                <span class="material-symbols-outlined text-sm">send</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-48 px-margin-mobile md:px-margin-desktop text-center relative overflow-hidden border-t border-outline-variant/10">
+            <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-primary-fixed"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-full bg-primary-fixed"></div>
+            </div>
+            <div class="relative z-10 max-w-3xl mx-auto space-y-stack-md">
+                <h2 class="font-display-lg text-headline-lg md:text-display-lg text-on-surface leading-tight" data-t="cta_title">Ready to evolve?</h2>
+                <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg" data-t="cta_subtitle">
+                    We are currently accepting new strategic partnerships. Let's build the future of software together.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center gap-gutter">
+                    <button class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-16 py-6 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate_cta">
+                        Initiate Project
+                    </button>
+                </div>
+                <div class="mt-stack-lg font-label-mono text-label-mono text-outline opacity-40">
+                    CONNECTION SECURE: AES-256 ENCRYPTED
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter bg-surface-container-lowest border-t border-outline-variant/30">
+        <div class="md:col-span-4 flex flex-col justify-between">
+            <div>
+                <div class="font-label-mono text-label-mono text-primary-fixed mb-2 uppercase">JOM STUDIO</div>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xs" data-t="footer_desc">
+                    Engineering immersive digital realities through code and creativity.
+                </p>
+            </div>
+            <div class="mt-8 font-label-mono text-label-mono text-on-surface-variant/60">
+                © 2026 JOM STUDIO. <span data-t="status_online">STATUS: ONLINE</span>
             </div>
         </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- FOOTER                                 -->
-    <!-- ═══════════════════════════════════════ -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <p class="footer-logo">JOM STUDIO</p>
-            <p class="footer-copy">© 2026 Jesus Omar Martinez · Todos los derechos reservados</p>
-            <p class="footer-made">Diseñado &amp; Desarrollado con código</p>
+        <div class="md:col-span-4 flex md:justify-center gap-12">
+            <div class="space-y-4">
+                <h5 class="font-label-mono text-label-mono text-secondary mb-4" data-t="social_label">SOCIAL</h5>
+                <ul class="space-y-2">
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" href="https://wa.me/584165159067">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h5 class="font-label-mono text-label-mono text-secondary mb-4" data-t="studio_label">STUDIO</h5>
+                <ul class="space-y-2">
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" data-t="contact" href="mailto:jomstudiovzla@gmail.com">Contact</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" data-t="terms" href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="md:col-span-4 flex flex-col md:items-end justify-between">
+            <div class="text-left md:text-right">
+                <div class="font-label-mono text-[10px] text-outline mb-2">TIMEZONE: GMT-4</div>
+                <div class="font-label-mono text-label-mono text-on-surface" id="real-time">00:00:00</div>
+            </div>
+            <div class="mt-8">
+                <span class="material-symbols-outlined text-primary-fixed animate-pulse">sensors</span>
+            </div>
         </div>
     </footer>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- MODALS                                 -->
-    <!-- ═══════════════════════════════════════ -->
+    <script>
+        // State Management
+        const state = {
+            theme: 'alexandrite', // 'alexandrite' or 'gold'
+            lang: 'en' // 'en' or 'es'
+        };
 
-    <!-- Modal: Crypto Water -->
-    <div class="modal" id="modal-crypto">
-        <div class="modal-content">
-            <button class="close-modal" data-sound="click">&times;</button>
-            <div class="modal-header">
-                <span class="tag">Gamificación Corporativa</span>
-                <h3>Crypto Water War</h3>
-                <p>Motor de juego de cartas tácticas desarrollado End-to-End para Crypto Water.</p>
-            </div>
-            <div class="modal-body">
-                <ul class="modal-details">
-                    <li><span>El Proyecto</span>Simulador táctico de cartas coleccionables (Aqua War) diseñado para Crypto Water, empresa del sector agua, que buscaba innovar mediante gamificación digital interactiva y metaverso.</li>
-                    <li><span>Desarrollo End-to-End</span>Desde la concepción de mecánicas evolutivas y auditoría estratégica para la marca, hasta la programación del motor de juego con 137 cartas únicas, sistema de combate por turnos y dinámica de Revancha en HTML5 Canvas.</li>
-                    <li><span>Tecnología</span>Vanilla JS · Canvas 2D · WebGL · HTML5 · CSS3 · Lógica Turn-Based</li>
-                </ul>
-                <div class="modal-gallery" data-gallery="crypto">
-                    <div class="gallery-item"><img src="assets/projects/crypto/crypto1.png" alt="Tablero de Juego" data-title="Tablero de Juego" data-desc="Vista general del tablero de Crypto Water War con las zonas de combate activas."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/crypto2.png" alt="Campo de Batalla" data-title="Campo de Batalla" data-desc="Distribución táctica de cartas durante una partida en curso."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/crypto3.png" alt="Sistema de Combate" data-title="Sistema de Combate" data-desc="Motor de combate por turnos con animaciones de ataque y defensa."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -02.png" alt="Carta Azul — Nivel 2" data-title="Carta Azul — Nivel 2" data-desc="Segunda carta del mazo Azul con habilidades de resistencia aumentada."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -03.png" alt="Carta Azul — Nivel 3" data-title="Carta Azul — Nivel 3" data-desc="Tercera carta del mazo Azul: carta de alto impacto con poder de ataque máximo."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS -04.png" alt="Carta Azul — Nivel 4" data-title="Carta Azul — Nivel 4" data-desc="Cuarta carta del mazo Azul: carta legendaria de poder máximo y habilidades definitivas."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CARTAS COMPLETAS _Mesa de trabajo 1-01.png" alt="Carta Azul — Nivel 1" data-title="Carta Azul — Nivel 1" data-desc="Primera carta del mazo Azul. Elemento de agua con estadísticas base de ataque y defensa."><div class="zoom-icon">⤢</div></div>
+        const translations = {
+            en: {
+                nav_projects: "Projects",
+                nav_services: "Services",
+                nav_about: "About",
+                btn_build: "Let's Build",
+                system_status: "SYSTEM STATUS: OPTIMIZED",
+                hero_title: "DIGITAL ALCHEMY",
+                hero_subtitle: "Where Technical Architecture Meets Artistic Direction.",
+                btn_initiate: "Initiate Project",
+                btn_dossier: "View Dossier",
+                scroll_decrypt: "Scroll to Decrypt",
+                services_title: "Operations & Services",
+                services_subtitle: "A unified system of digital capabilities structured through proven deployment cases.",
+                service_deliverables_head: "Deliverables & Scope",
+                service_tech_head: "Technology Stack",
+                service_nodes_head: "Associated Repository Nodes",
+                service_btn_select: "Activate Protocol",
+                deployment_label: "Selected Deployment",
+                case_study_desc: "A decentralized resource management simulator where water is the primary asset. We built the entire interaction layer from the ground up, utilizing WebGL for real-time fluid dynamics and a custom blockchain bridge for instantaneous asset verification.",
+                nodes_label: "Active Nodes",
+                latency_label: "Sync Latency",
+                specs_link: "Explore Technical Specs",
+                about_label: "CREATIVE LEADERSHIP",
+                about_title: "Jesús Omar Martínez",
+                about_desc: "Creative Director & Digital Developer behind JOM STUDIO. Fusing technical excellence (WebGL, Canvas, Chrome Extensions) with artistic direction and business strategy to craft complete, high-performance digital ecosystems.",
+                brief_eyebrow: "Interactive Brief",
+                brief_title: "Tell us what you want to build",
+                brief_subtitle: "Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.",
+                label_name: "Your Name / Company",
+                label_email: "Email Address",
+                label_brief: "What do you want to build?",
+                label_channel: "Preferred Transmission Protocol",
+                channel_wa_desc: "Send instantly as a structured message.",
+                channel_mail_desc: "Send via default mail handler.",
+                btn_transmit: "Transmit Brief",
+                cta_title: "Ready to evolve?",
+                cta_subtitle: "We are currently accepting new strategic partnerships. Let's build the future of software together.",
+                btn_initiate_cta: "Initiate Project",
+                footer_desc: "Engineering immersive digital realities through code and creativity.",
+                status_online: "STATUS: ONLINE",
+                social_label: "SOCIAL",
+                studio_label: "STUDIO",
+                contact: "Contact",
+                terms: "Terms"
+            },
+            es: {
+                nav_projects: "Proyectos",
+                nav_services: "Servicios",
+                nav_about: "Nosotros",
+                btn_build: "Construyamos",
+                system_status: "ESTADO DEL SISTEMA: OPTIMIZADO",
+                hero_title: "ALQUIMIA DIGITAL",
+                hero_subtitle: "Donde la arquitectura técnica se encuentra con la dirección artística.",
+                btn_initiate: "Iniciar Proyecto",
+                btn_dossier: "Ver Dossier",
+                scroll_decrypt: "Desplazar para Desencriptar",
+                services_title: "Operaciones y Servicios",
+                services_subtitle: "Un sistema unificado de capacidades digitales estructurado a través de casos de despliegue reales.",
+                service_deliverables_head: "Entregables y Alcance",
+                service_tech_head: "Stack Tecnológico",
+                service_nodes_head: "Nodos del Repositorio Asociados",
+                service_btn_select: "Activar Protocolo",
+                deployment_label: "Despliegue Seleccionado",
+                case_study_desc: "Simulador descentralizado de recursos donde el agua es el activo principal. Construimos toda la interacción desde cero usando WebGL para dinámicas de fluidos en tiempo real y una verificación instantánea.",
+                nodes_label: "Nodos Activos",
+                latency_label: "Latencia de Sinc",
+                specs_link: "Explorar Especificaciones",
+                about_label: "LIDERAZGO CREATIVO",
+                about_title: "Jesús Omar Martínez",
+                about_desc: "Director Creativo y Desarrollador Digital detrás de JOM STUDIO. Fusionando la excelencia técnica (WebGL, Canvas, extensiones de Chrome) con la dirección artística y la estrategia de negocios para crear ecosistemas digitales completos y de alto rendimiento.",
+                brief_eyebrow: "Brief Interactivo",
+                brief_title: "Cuéntanos qué quieres construir",
+                brief_subtitle: "Completa los campos a continuación. Tu mensaje será estructurado y enviado directamente según el canal de tu preferencia.",
+                label_name: "Tu Nombre / Empresa",
+                label_email: "Correo de Contacto",
+                label_brief: "¿Qué deseas construir?",
+                label_channel: "Protocolo de Transmisión Preferido",
+                channel_wa_desc: "Enviar al instante como mensaje estructurado.",
+                channel_mail_desc: "Enviar vía tu manejador de correo.",
+                btn_transmit: "Transmitir Brief",
+                cta_title: "¿Listo para evolucionar?",
+                cta_subtitle: "Aceptamos nuevas asociaciones estratégicas. Construyamos el futuro del software juntos.",
+                btn_initiate_cta: "Iniciar Proyecto",
+                footer_desc: "Ingeniería de realidades digitales inmersivas mediante código y creatividad.",
+                status_online: "ESTADO: EN LÍNEA",
+                social_label: "SOCIAL",
+                studio_label: "ESTUDIO",
+                contact: "Contacto",
+                terms: "Términos"
+            }
+        };
+
+        const servicesData = [
+            {
+                id: "gamification",
+                icon: "sports_esports",
+                code: "PROTOCOL_01",
+                title: { en: "Interactive Gamification", es: "Gamificación Interactiva" },
+                desc: { 
+                    en: "Building high-engagement interactive systems and custom canvas engines that convert user attention into immersive digital experiences.", 
+                    es: "Construcción de sistemas interactivos de alto engagement y motores canvas personalizados para convertir la atención en experiencias inmersivas." 
+                },
+                deliverables: {
+                    en: ["2D/3D Web Games", "Custom Canvas Physics", "Interactive Simulators", "WebGL Card Games"],
+                    es: ["Juegos Web 2D/3D", "Físicas Canvas a Medida", "Simuladores Interactivos", "Juegos de Cartas WebGL"]
+                },
+                tech: ["Vanilla JS", "WebGL", "Three.js", "Phaser", "Canvas 2D"],
+                cases: [
+                    { num: "001", name: "Crypto Water War", link: "repository.html" },
+                    { num: "004", name: "Futstreet", link: "repository.html" },
+                    { num: "006", name: "Western Poker", link: "repository.html" },
+                    { num: "012", name: "EduKids Galactic", link: "repository.html" }
+                ]
+            },
+            {
+                id: "webdev",
+                icon: "terminal",
+                code: "PROTOCOL_02",
+                title: { en: "Full-Stack Architectures", es: "Arquitecturas Full-Stack" },
+                desc: { 
+                    en: "High-performance, secure, and SEO-optimized web systems tailored for digital businesses and premium interfaces.", 
+                    es: "Sistemas web de alto rendimiento, seguros y optimizados para SEO, diseñados para negocios digitales e interfaces premium." 
+                },
+                deliverables: {
+                    en: ["Next.js Custom Portals", "High-Speed E-commerce Storefronts", "Dynamic Booking Engines", "Interactive Landings"],
+                    es: ["Portales Next.js a Medida", "Tiendas E-commerce Ultra-Rápidas", "Motores de Reserva Dinámicos", "Landings Interactivas"]
+                },
+                tech: ["Next.js", "React", "Node.js", "PostgreSQL", "Firebase"],
+                cases: [
+                    { num: "008", name: "Pino Espace Verts", link: "repository.html" },
+                    { num: "009", name: "Oliveros Estudio", link: "repository.html" },
+                    { num: "013", name: "ACACENTRO", link: "repository.html" },
+                    { num: "015", name: "Inmobiliaria Premium", link: "repository.html" }
+                ]
+            },
+            {
+                id: "ai",
+                icon: "neurology",
+                code: "PROTOCOL_03",
+                title: { en: "AI Art & Visual Direction", es: "Arte IA y Dirección Visual" },
+                desc: { 
+                    en: "Synthesizing cutting-edge generative AI models to accelerate production workflows and craft unique brand aesthetics.", 
+                    es: "Sintetizando modelos de IA generativa de vanguardia para acelerar flujos de producción y diseñar estéticas de marca únicas." 
+                },
+                deliverables: {
+                    en: ["Concept Art Generation", "Character Design & Casting", "Editorial Curation", "AI Workflow Automation"],
+                    es: ["Generación de Arte Conceptual", "Diseño de Personajes", "Curaduría Editorial", "Automatización de Flujo IA"]
+                },
+                tech: ["Midjourney", "Kling AI", "Stable Diffusion", "Prompt Engineering"],
+                cases: [
+                    { num: "002", name: "Bon Dia", link: "repository.html" },
+                    { num: "016", name: "Entre Páginas", link: "repository.html" }
+                ]
+            },
+            {
+                id: "automation",
+                icon: "settings_suggest",
+                code: "PROTOCOL_04",
+                title: { en: "Automation & Utilities", es: "Automatización y Utilidades" },
+                desc: { 
+                    en: "Custom extension and scripting protocols to eliminate repetitive tasks and streamline operations.", 
+                    es: "Protocolos de extensiones y scripting a medida para eliminar tareas repetitivas y optimizar operaciones comerciales." 
+                },
+                deliverables: {
+                    en: ["Google Chrome Extensions", "Custom Web Scrapers", "Image Processing Pipelines", "Shell Automations"],
+                    es: ["Extensiones de Chrome", "Scrapers Web a Medida", "Procesadores de Imagen en Lote", "Automatizaciones de Consola"]
+                },
+                tech: ["Chrome APIs", "Python PIL", "Node.js", "Shell Scripting"],
+                cases: [
+                    { num: "003", name: "Polar Campaign", link: "repository.html" },
+                    { num: "007", name: "Jabones con Historia", link: "repository.html" }
+                ]
+            },
+            {
+                id: "ugc",
+                icon: "video_camera_back",
+                code: "PROTOCOL_05",
+                title: { en: "High-Retention Content (UGC)", es: "Contenido de Alta Retención (UGC)" },
+                desc: { 
+                    en: "Viral video production and rhythmic content strategies designed to capture and hold user attention in social environments.", 
+                    es: "Producción de video viral y estrategias de contenido rítmicas diseñadas para capturar y retener la atención en redes sociales." 
+                },
+                deliverables: {
+                    en: ["Short-form Video Production", "Rhythmic Audio Syncing", "Instagram Grid Strategy", "High-Retention Ad Loops"],
+                    es: ["Producción de Videos Cortos", "Sincronización Rítmica de Audio", "Estrategia de Rejilla de IG", "Loops Publicitarios de Alta Retención"]
+                },
+                tech: ["CapCut Pro", "UGC Video Loops", "Audio APIs", "Engagement Analytics"],
+                cases: [
+                    { num: "014", name: "BEATREGS", link: "repository.html" },
+                    { num: "016", name: "Entre Páginas", link: "repository.html" }
+                ]
+            },
+            {
+                id: "branding",
+                icon: "photo_size_select_small",
+                code: "PROTOCOL_06",
+                title: { en: "Branding & UX/UI Layout", es: "Branding y Maquetación UX/UI" },
+                desc: { 
+                    en: "Designing precise graphic identities, structural packaging dielines, and clean wireframes for seamless digital-physical interfaces.", 
+                    es: "Diseño de identidades gráficas precisas, troqueles estructurales para empaques y esquemas limpios para interfaces digitales y físicas." 
+                },
+                deliverables: {
+                    en: ["Structural Packaging Dielines", "Brand Identity Manuals", "UX/UI High-Fidelity Mockups", "Vector Dieline Engineering"],
+                    es: ["Troqueles de Empaque Estructurales", "Manuales de Identidad de Marca", "Prototipos UX/UI de Alta Fidelidad", "Ingeniería de Troquel Vectorial"]
+                },
+                tech: ["Figma", "Adobe Illustrator", "InDesign", "Vector Engineering"],
+                cases: [
+                    { num: "005", name: "Pocket AI App", link: "repository.html" },
+                    { num: "010", name: "Alivia", link: "repository.html" },
+                    { num: "011", name: "Dawn Dielines", link: "repository.html" }
+                ]
+            },
+            {
+                id: "consulting",
+                icon: "insights",
+                code: "PROTOCOL_07",
+                title: { en: "Creative Tech Consulting", es: "Consultoría Tecnológica Creativa" },
+                desc: { 
+                    en: "Guiding brands through digital transformation, custom tool mapping, and creative-technical strategy to maximize engagement and optimize workflows.", 
+                    es: "Guiando a las marcas a través de la transformación digital, diseño de herramientas a medida y estrategia de tecnología creativa para optimizar flujos." 
+                },
+                deliverables: {
+                    en: ["Digital Architecture Mapping", "UX/UI Auditing & Optimization", "AI Workflow Audits", "Creative Direction Dossiers"],
+                    es: ["Planificación de Arquitectura Digital", "Auditoría y Optimización UX/UI", "Auditorías de Flujo IA", "Dossieres de Dirección Creativa"]
+                },
+                tech: ["Figma", "GA4 Analytics", "Engagement Audits", "Tech Stacks Planning"],
+                cases: [
+                    { num: "001", name: "Crypto Water War", link: "repository.html" },
+                    { num: "005", name: "Pocket AI App", link: "repository.html" },
+                    { num: "014", name: "BEATREGS", link: "repository.html" }
+                ]
+            }
+        ];
+
+        let activeServiceIdx = 0;
+
+        function renderServices() {
+            const tabsContainer = document.getElementById('services-tabs-container');
+            const deliverablesList = document.getElementById('console-deliverables-list');
+            const techList = document.getElementById('console-tech-list');
+            const nodesList = document.getElementById('console-nodes-list');
+
+            if (!tabsContainer) return;
+
+            // Render Left Tabs
+            tabsContainer.innerHTML = servicesData.map((service, idx) => {
+                const isActive = idx === activeServiceIdx;
+                const activeClasses = isActive 
+                    ? 'border-primary-fixed bg-primary-fixed/20 text-primary-fixed font-bold shadow-premium'
+                    : 'border-outline-variant/30 text-on-surface-variant hover:border-primary-fixed hover:text-on-surface bg-surface-container-low/90';
+                
+                return `
+                    <button type="button" onclick="selectService(${idx})" class="w-full text-left p-4 rounded-xl border flex items-center justify-between transition-all duration-300 group ${activeClasses}">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-xl ${isActive ? 'text-primary-fixed animate-pulse' : 'text-on-surface-variant group-hover:text-primary-fixed'}">${service.icon}</span>
+                            <div class="flex flex-col">
+                                <span class="font-label-mono text-[9px] text-outline tracking-wider uppercase">${service.code}</span>
+                                <span class="font-headline-md text-sm tracking-tight text-white">${service.title[state.lang]}</span>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'opacity-100 text-primary-fixed' : 'text-on-surface-variant'}">arrow_forward_ios</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Render Right Details Console
+            const current = servicesData[activeServiceIdx];
+            document.getElementById('console-protocol-code').textContent = current.code;
+            document.getElementById('console-protocol-title').textContent = current.title[state.lang];
+            document.getElementById('console-protocol-desc').textContent = current.desc[state.lang];
+
+            // Render Deliverables
+            deliverablesList.innerHTML = current.deliverables[state.lang].map(del => `
+                <li class="flex items-center gap-3 text-on-surface-variant text-sm">
+                    <span class="w-1.5 h-1.5 bg-primary-fixed rounded-full"></span>
+                    <span>${del}</span>
+                </li>
+            `).join('');
+
+            // Render Tech Tags
+            techList.innerHTML = current.tech.map(tech => `
+                <span class="font-label-mono text-[10px] text-on-surface-variant border border-outline-variant/30 px-2.5 py-1 bg-surface-container-low/10 rounded-lg">${tech}</span>
+            `).join('');
+
+            // Render Nodes
+            nodesList.innerHTML = current.cases.map(c => `
+                <a href="${c.link}" class="font-label-mono text-[10px] text-primary-fixed border border-primary-fixed/20 hover:border-primary-fixed hover:bg-primary-fixed/5 px-2.5 py-1 transition-all flex items-center gap-1.5 bg-primary-fixed/5">
+                    <span class="w-1 h-1 bg-primary-fixed rounded-full animate-pulse"></span>
+                    <span>CASE_${c.num}: ${c.name}</span>
+                </a>
+            `).join('');
+        }
+
+        window.selectService = function(index) {
+            activeServiceIdx = index;
+            renderServices();
+        };
+
+        // Force Dark Theme
+        document.documentElement.classList.add('dark');
+        document.body.classList.remove('light-theme');
+
+        // Language Toggle Logic
+        const langBtn = document.getElementById('lang-toggle');
+        const langLabel = document.getElementById('lang-label');
+
+        function updateLanguage() {
+            langLabel.textContent = state.lang.toUpperCase();
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                if (translations[state.lang][key]) {
+                    el.textContent = translations[state.lang][key];
+                }
+            });
+            renderServices();
+        }
+
+        langBtn.addEventListener('click', () => {
+            state.lang = state.lang === 'en' ? 'es' : 'en';
+            updateLanguage();
+        });
+
+        // Auto-detect browser language
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('es')) {
+            state.lang = 'es';
+            updateLanguage();
+        }
+
+        // Clock Utility
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('real-time').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Interactive Scroll Parallax and Logo Rotation
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            
+            // Fixed Background Watermark subtle interaction
+            const bodyWatermark = document.getElementById('body-watermark-container');
+            if (bodyWatermark) {
+                const watermarkRotate = scrollY * 0.02;
+                const watermarkScale = 1 + scrollY * 0.0001;
+                bodyWatermark.style.transform = `scale(${watermarkScale}) rotate(${watermarkRotate}deg)`;
+            }
 
 
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Poster.png" alt="Poster Oficial" data-title="Poster Oficial" data-desc="Arte oficial de lanzamiento del juego Crypto Water War."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Poster Ad.png" alt="Publicidad Poster" data-title="Publicidad — Poster Ad" data-desc="Anuncio publicitario vertical de alto impacto para plataformas digitales."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Flat-Lay Sport Ad.png" alt="Sport Ad" data-title="Flat-Lay Sport Ad" data-desc="Composición flat-lay de estilo deportivo para contenido premium en redes sociales."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Summer Ad.png" alt="Summer Ad" data-title="Summer Ad" data-desc="Campaña de verano para Crypto Water con identidad visual de hidratación activa."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Macro Shot.png" alt="Macro Shot" data-title="Macro Shot" data-desc="Fotografía de producto en macro con el envase de Crypto Water en primer plano."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Infographic Ad.png" alt="Infographic" data-title="Infographic Ad" data-desc="Piezas informativas sobre los beneficios del producto con diseño editorial limpio."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/CryptoWater Insta Story.png" alt="Insta Story" data-title="Insta Story" data-desc="Formato vertical optimizado para Instagram Stories con CTA de alto rendimiento."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/crypto/Mountain Glacier Ad.png" alt="Mountain Ad" data-title="Mountain Glacier Ad" data-desc="Composición con montaña y glaciar que refuerza el concepto de pureza del agua."><div class="zoom-icon">⤢</div></div>
-                </div>
-            </div>
-        </div>
-    </div>
+        });
 
-    <!-- Modal: Bon Dia -->
-    <div class="modal" id="modal-bondia">
-        <div class="modal-content">
-            <button class="close-modal" data-sound="click">&times;</button>
-            <div class="modal-header">
-                <span class="tag">IA Generativa / Arte</span>
-                <h3>Concepto "Bon Dia"</h3>
-                <p>Dirección Visual con IA Generativa para Social Media.</p>
-            </div>
-            <div class="modal-body">
-                <ul class="modal-details">
-                    <li><span>Prompt Engineering</span>Búsquedas profundas de arte conceptual con motores generativos de vanguardia. Iteración de semillas, iluminación y estilo paramétrico para resultados únicos y consistentes.</li>
-                    <li><span>Aplicabilidad</span>Activos optimizados para carruseles de Instagram con layouts de alto swipe rate y retención de audiencia elevada.</li>
-                    <li><span>Herramientas</span>Midjourney · Kling AI · Nano Banana · Photoshop · CapCut Pro</li>
-                </ul>
-                <div class="modal-gallery" data-gallery="bondia">
-                    <div class="gallery-item"><img src="assets/projects/bondia/bondia1.png" alt="Bon Dia 1" data-title="Bon Dia — Portada" data-desc="Arte de presentación de la serie Bon Dia. Paleta suave y tipografía de alta legibilidad para Social Media."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/bondia2.png" alt="Bon Dia 2" data-title="Bon Dia — Variante" data-desc="Segunda variación de Bon Dia con composición centrada y tonos cálidos de amanecer."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042314.png" alt="Bon Dia 3" data-title="Bon Dia — Iteración IA 1" data-desc="Primer resultado generado con Midjourney. Exploración de paleta y estilo ilustrativo."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042319.png" alt="Bon Dia 4" data-title="Bon Dia — Iteración IA 2" data-desc="Segunda iteración refinada con mayor control de iluminación y composición visual."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/el_esl_16_202604042314.png" alt="Bon Dia 5" data-title="Bon Dia — Personaje" data-desc="Exploración de personaje para la identidad visual de la serie. Diseño de línea limpia."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042321.png" alt="Bon Dia 6" data-title="Bon Dia — Editorial" data-desc="Composición editorial con texto integrado, optimizada para carruseles de Instagram."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042322 (1).png" alt="Bon Dia 7" data-title="Bon Dia — Color Alt" data-desc="Versión alternativa con paleta fría. Misma composición base, diferente atmósfera."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/bondia/quiero_que_me_202604042322.png" alt="Bon Dia 8" data-title="Bon Dia — Versión Final" data-desc="Resultado final aprobado de la serie Bon Dia, listo para publicación en redes sociales."><div class="zoom-icon">⤢</div></div>
-                </div>
-            </div>
-        </div>
-    </div>
+        // Scroll Observer
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
 
-    <!-- Modal: Polar -->
-    <div class="modal" id="modal-polar">
-        <div class="modal-content">
-            <button class="close-modal" data-sound="click">&times;</button>
-            <div class="modal-header">
-                <span class="tag">Diseño Corporativo</span>
-                <h3>Campaña Digital Polar</h3>
-                <p>Brochure Digital &amp; Brand Book para Cervecería Polar.</p>
-            </div>
-            <div class="modal-body">
-                <ul class="modal-details">
-                    <li><span>Enfoque Técnico</span>Diseño y ejecución de scripts automatizados para formatear masivamente la identidad de marca de Cervecería Polar, generando activos visuales consistentes a escala.</li>
-                    <li><span>Herramientas</span>Adobe InDesign · Illustrator · HTML/CSS · Shell Scripting</li>
-                </ul>
-                <div class="modal-gallery" data-gallery="polar">
-                    <div class="gallery-item"><img src="assets/projects/polar/polar1.jpg" alt="Polar Brochure" data-title="Brochure Corporativo" data-desc="Portada del brochure corporativo de Cervecería Polar con identidad visual completa."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/polar2.jpg" alt="Polar Interior" data-title="Interior del Brochure" data-desc="Página interior del brochure con layout de producto y datos de posicionamiento de marca."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.22.jpeg" alt="Polar 3" data-title="Material de Marca — 1" data-desc="Pieza visual de identidad corporativa Polar. Sistema de colores y tipografía oficial."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (1).jpeg" alt="Polar 4" data-title="Material de Marca — 2" data-desc="Segunda pieza del sistema visual Polar con composición de producto en primer plano."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (2).jpeg" alt="Polar 5" data-title="Material de Marca — 3" data-desc="Diseño de campaña con fotografía del producto y jerarquía visual clara."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (3).jpeg" alt="Polar 6" data-title="Material de Marca — 4" data-desc="Variante horizontal con layout adaptado para banner digital y redes sociales."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (4).jpeg" alt="Polar 7" data-title="Material de Marca — 5" data-desc="Pieza de campaña con elementos de identidad de marca integrados en composición dinámica."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (5).jpeg" alt="Polar 8" data-title="Material de Marca — 6" data-desc="Variante con imagen de producto en contexto social, orientada al segmento joven."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (6).jpeg" alt="Polar 9" data-title="Material de Marca — 7" data-desc="Composición de tonos oscuros con contraste alto. Énfasis en el slogan de la marca."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23 (7).jpeg" alt="Polar 10" data-title="Material de Marca — 8" data-desc="Octava pieza del sistema visual, con uso de grid modular y espaciado premium."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.23.jpeg" alt="Polar 11" data-title="Material de Marca — 9" data-desc="Fotografía de producto integrada con elementos tipográficos de la identidad Polar."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.04.45.jpeg" alt="Polar 12" data-title="Material de Marca — 10" data-desc="Pieza final de la campaña con mensaje institucional y logo de Cervecería Polar."><div class="zoom-icon">⤢</div></div>
-                    <div class="gallery-item"><img src="assets/projects/polar/WhatsApp Image 2026-03-30 at 10.10.04.jpeg" alt="Polar 13" data-title="Tablero Digital" data-desc="Captura del dashboard digital generado como parte del sistema de Brand Book automatizado."><div class="zoom-icon">⤢</div></div>
-                </div>
-            </div>
-        </div>
-    </div>
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
 
-    <!-- Dynamic photobook modals -->
-    <div id="dynamic-modals-container"></div>
+        // Event listener hooks
+        document.querySelectorAll('[data-t="btn_build"], [data-t="btn_initiate"], [data-t="btn_initiate_cta"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('brief').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
 
-    <!-- ═══ LIGHTBOX ═══ -->
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-        <button class="lb-close" id="lb-close" aria-label="Cerrar">&times;</button>
-        <button class="lb-btn lb-prev" id="lb-prev" aria-label="Anterior">&#8592;</button>
-        <div class="lightbox-img-wrap">
-            <img class="lightbox-img" id="lb-img" src="" alt="">
-        </div>
-        <button class="lb-btn lb-next" id="lb-next" aria-label="Siguiente">&#8594;</button>
-        <div class="lb-caption" id="lb-caption"></div>
-        <div class="lb-counter" id="lb-counter"><span id="lb-cur">1</span> / <span id="lb-tot">1</span></div>
-    </div>
+        const dossierBtn = document.querySelector('[data-t="btn_dossier"]');
+        if (dossierBtn) {
+            dossierBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open('assets/cv.pdf', '_blank');
+            });
+        }
 
-    <script src="script.js"></script>
+        // Connect Service Console Select Button to Brief Form
+        const consoleSelectBtn = document.getElementById('console-select-btn');
+        if (consoleSelectBtn) {
+            consoleSelectBtn.addEventListener('click', () => {
+                const current = servicesData[activeServiceIdx];
+                const formBrief = document.getElementById('client-brief');
+                if (formBrief) {
+                    const template = state.lang === 'en'
+                        ? `Hello JOM STUDIO! 🚀 I am interested in your "${current.title.en}" (${current.code}) service protocol for my project.`
+                        : `¡Hola JOM STUDIO! 🚀 Estoy interesado en el protocolo de servicio de "${current.title.es}" (${current.code}) para mi proyecto.`;
+                    formBrief.value = template;
+                    
+                    // Focus name input to kickstart brief completion
+                    const clientName = document.getElementById('client-name');
+                    document.getElementById('brief').scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        if (clientName) clientName.focus();
+                    }, 800);
+                }
+            });
+        }
+
+        // Initialize dynamic services view
+        renderServices();
+
+        // Interactive Brief Submission
+        const briefForm = document.getElementById('project-brief-form');
+        if (briefForm) {
+            briefForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('client-name').value.trim();
+                const email = document.getElementById('client-email').value.trim();
+                const briefText = document.getElementById('client-brief').value.trim();
+                const channel = document.querySelector('input[name="comm-channel"]:checked').value;
+
+                if (channel === 'wa') {
+                    // WhatsApp message format
+                    const message = `¡Hola JOM STUDIO! 🚀%0A%0AMe gustaría cotizar un proyecto:%0A%0A*Nombre/Empresa:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Brief:* ${encodeURIComponent(briefText)}`;
+                    window.open(`https://wa.me/584165159067?text=${message}`, '_blank');
+                } else {
+                    // Email message format
+                    const subject = encodeURIComponent(`Nuevo Proyecto JOM STUDIO - ${name}`);
+                    const body = encodeURIComponent(`Hola JOM STUDIO,\n\nMe gustaría cotizar un proyecto:\n\nNombre/Empresa: ${name}\nEmail: ${email}\n\nBrief del Proyecto:\n${briefText}`);
+                    window.open(`mailto:jomstudiovzla@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                }
+            });
+        }
+
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('custom-cursor-dot');
+        const cursorCircle = document.getElementById('custom-cursor-circle');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let circleX = 0;
+        let circleY = 0;
+        let isCursorActive = false;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!isCursorActive) {
+                isCursorActive = true;
+                if (cursorDot) cursorDot.style.opacity = '1';
+                if (cursorCircle) cursorCircle.style.opacity = '1';
+            }
+            
+            // Instantly move the dot using transform
+            if (cursorDot) {
+                cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (cursorDot) cursorDot.style.opacity = '0';
+            if (cursorCircle) cursorCircle.style.opacity = '0';
+            isCursorActive = false;
+        });
+
+        // Smooth trailing circle movement (lerp)
+        function animateCircle() {
+            const lerpSpeed = 0.15;
+            circleX += (mouseX - circleX) * lerpSpeed;
+            circleY += (mouseY - circleY) * lerpSpeed;
+
+            if (cursorCircle) {
+                cursorCircle.style.transform = `translate3d(${circleX}px, ${circleY}px, 0) translate(-50%, -50%)`;
+            }
+
+            requestAnimationFrame(animateCircle);
+        }
+        requestAnimationFrame(animateCircle);
+
+        // Hover Effect on Interactive Elements
+        const hoverables = 'a, button, input, textarea, [onclick], .glass-card, #services-tabs-container button';
+        
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest(hoverables)) {
+                document.body.classList.add('cursor-hover');
+            }
+        });
+
+        document.body.addEventListener('mouseout', (e) => {
+            if (e.target.closest(hoverables)) {
+                document.body.classList.remove('cursor-hover');
+            }
+        });
+    </script>
 </body>
 </html>

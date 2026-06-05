@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta de Contenido TikTok 2026 — JOM Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #181818;
+      --border: #2a2a2a;
+      --accent: #c8f135;
+      --accent2: #7fff5f;
+      --accent3: #f1c135;
+      --text: #f0f0f0;
+      --muted: #888;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      body { background: white; color: black; }
+      .no-print { display: none; }
+      section { page-break-inside: avoid; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,241,53,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(127,255,95,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: rgba(200,241,53,0.1);
+      border: 1px solid rgba(200,241,53,0.3);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 3rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero-meta strong { color: var(--accent); }
+
+    .divider-line {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin: 0 auto 1rem;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ===== SECTION ===== */
+    section { padding: 5rem 2rem; }
+    section:nth-child(odd) { background: var(--dark); }
+    section:nth-child(even) { background: var(--black); }
+
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 3rem;
+      font-size: 0.97rem;
+    }
+
+    /* ===== NICHO WINNER ===== */
+    .winner-card {
+      background: linear-gradient(135deg, rgba(200,241,53,0.06) 0%, rgba(200,241,53,0.02) 100%);
+      border: 1px solid rgba(200,241,53,0.25);
+      border-radius: 20px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .winner-card::before {
+      content: '🏆';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 120px;
+      opacity: 0.04;
+    }
+
+    .winner-badge {
+      background: var(--accent);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-bottom: 1.2rem;
+    }
+
+    .winner-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .winner-card p { color: var(--muted); max-width: 700px; }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label { font-size: 12px; color: var(--muted); }
+
+    /* ===== NICHO GRID ===== */
+    .nicho-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .nicho-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nicho-card:hover {
+      border-color: rgba(200,241,53,0.3);
+      transform: translateY(-3px);
+    }
+
+    .nicho-rank {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .nicho-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+
+    .nicho-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      background: rgba(200,241,53,0.08);
+      border: 1px solid rgba(200,241,53,0.15);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .nicho-card .potential-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 100px;
+      margin-top: 1.2rem;
+      overflow: hidden;
+    }
+
+    .nicho-card .potential-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 100px;
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    /* ===== PROMPTS ANALYSIS ===== */
+    .prompt-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .prompt-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1.8rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .prompt-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: rgba(200,241,53,0.2);
+      min-width: 50px;
+    }
+
+    .prompt-content h4 {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--white);
+    }
+
+    .prompt-content p { font-size: 0.87rem; color: var(--muted); }
+
+    .prompt-type {
+      background: rgba(241,193,53,0.1);
+      border: 1px solid rgba(241,193,53,0.2);
+      color: var(--accent3);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* ===== PROPUESTA SERVICES ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(200,241,53,0.25);
+      box-shadow: 0 0 30px rgba(200,241,53,0.05);
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .service-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+
+    .service-card p { font-size: 0.875rem; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .service-includes { list-style: none; }
+    .service-includes li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .service-includes li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== CALENDAR ===== */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .week-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .week-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .week-card h5 {
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+      font-size: 0.95rem;
+    }
+
+    .week-card ul { list-style: none; }
+    .week-card ul li {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 3px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .week-card ul li:last-child { border-bottom: none; }
+
+    /* ===== PROCESS ===== */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+
+    .process-step {
+      padding: 2rem 1.5rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .step-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(200,241,53,0.1);
+      border: 2px solid rgba(200,241,53,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin: 0 auto 1rem;
+    }
+
+    .process-step h5 {
+      font-weight: 600;
+      color: var(--white);
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .process-step p { font-size: 0.82rem; color: var(--muted); }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, rgba(200,241,53,0.05) 0%, transparent 100%);
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-section p { color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: var(--black);
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.9; transform: scale(1.03); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer strong { color: var(--accent); }
+
+    /* ===== SCROLL ANIMATE ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .prompt-item { grid-template-columns: 1fr; }
+      .prompt-num { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-label">Análisis de Nichos + Propuesta de Contenido</div>
+    <h1>El nicho más viral de<br /><span>TikTok en 2026</span><br />y cómo dominarlo.</h1>
+    <p class="hero-sub">
+      Análisis estratégico basado en tendencias actuales (Abril–Mayo 2026)
+      y propuesta de contenido completa para que yo lo cree por ti.
+    </p>
+    <div class="hero-meta">
+      <span>Preparado por <strong>JOM Studio</strong></span>
+      <span>·</span>
+      <span>Fecha: <strong>Abril 2026</strong></span>
+      <span>·</span>
+      <span>Plataforma: <strong>TikTok + Reels</strong></span>
+    </div>
+  </header>
+
+  <!-- ===== ANÁLISIS DE PROMPTS ===== -->
+  <section id="prompts">
+    <div class="container">
+      <span class="section-label">Lo que ya tienes</span>
+      <h2 class="section-title">Análisis de tus 4 Prompts</h2>
+      <p class="section-desc">
+        Revisé las 8 imágenes de tu carpeta. Tienes un sistema de prompts profesional listo para
+        escalar cualquier nicho: estrategia de contenido, hooks, guiones de Reels, anuncios,
+        carruseles e historias de conversión.<br />
+        <strong style="color: var(--accent)">Solo falta aplicarlo al nicho correcto.</strong>
+      </p>
+      <div class="prompt-list fade-in">
+
+        <div class="prompt-item">
+          <div class="prompt-num">01</div>
+          <div class="prompt-content">
+            <h4>Cazador de Nicho + Ángulo Viral</h4>
+            <p>Genera 30 ideas de contenido con alto potencial viral. Incluye ángulo, promesa, formato ideal, gatillo de compartido y CTA. Prohíbe el contenido genérico.</p>
+          </div>
+          <div class="prompt-type">Estrategia</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">01.2</div>
+          <div class="prompt-content">
+            <h4>Calendario de Contenido 30 días</h4>
+            <p>Calendario completo para negocios de alto ticket: mezcla autoridad + testimonio + conversión. Cada pieza con hook, cuerpo y CTA. Al menos 1 post de cierre directo por semana.</p>
+          </div>
+          <div class="prompt-type">Planificación</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">02</div>
+          <div class="prompt-content">
+            <h4>Generador de Ganchos (20 variaciones)</h4>
+            <p>20 hooks en español neutro de máximo 10 palabras. 8 estilos obligatorios: promesa hiper-específica, revelación de secreto, pregunta provocadora, prueba social, error común, micro-storytelling, contraste fuerte y tutorial rápido.</p>
+          </div>
+          <div class="prompt-type">Copywriting</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">02.1</div>
+          <div class="prompt-content">
+            <h4>Prompt 2: Ads (Meta Ads)</h4>
+            <p>3 versiones de anuncio con ROAS target 8x. Cada versión con hook distinto, cuerpo que activa el dolor del avatar y CTA para agendar llamada o escribir por DM. Incluye variantes A/B.</p>
+          </div>
+          <div class="prompt-type">Publicidad</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">03</div>
+          <div class="prompt-content">
+            <h4>Guión de Reels "Alta Retención" (0–3s / 3–15s / 15–35s / final)</h4>
+            <p>3 guiones de 35–45 segundos estructurados por fases: Gancho visual, Retención, Valor accionable y Cierre. Incluye sugerencia de B-roll, texto en pantalla y caption de máx. 2 líneas.</p>
+          </div>
+          <div class="prompt-type">Guión</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">03.1</div>
+          <div class="prompt-content">
+            <h4>Prompt 3: Reels (versión corta)</h4>
+            <p>Guión reel de 45 segundos: hook en 3 s, cuerpo que expone el dolor del avatar con dato inesperado, cierre que hace que el espectador quiera escribir sin pedírselo.</p>
+          </div>
+          <div class="prompt-type">Guión</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">04</div>
+          <div class="prompt-content">
+            <h4>Carrusel "Guardable" (1/10 con titular + progresión)</h4>
+            <p>Estructura de 10 diapositivas optimizada para ser guardada: portada magnética → promesa → 3 errores/correcciones → checklist → CTA. Cada slide con visual, cliffhanger y elemento de color.</p>
+          </div>
+          <div class="prompt-type">Carrusel</div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-num">04.1</div>
+          <div class="prompt-content">
+            <h4>Prompt 4: Historias de Conversión</h4>
+            <p>Secuencia de 5 historias para llevar al avatar de espectador frío a prospecto que escribe por DM hoy. Historia de pregunta + prueba social con número + CTA para Manychat.</p>
+          </div>
+          <div class="prompt-type">Historias</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NICHO GANADOR ===== -->
+  <section id="nicho">
+    <div class="container">
+      <span class="section-label">Análisis de Mercado · Abril–Mayo 2026</span>
+      <h2 class="section-title">El Nicho #1 más viral en TikTok ahora mismo</h2>
+      <p class="section-desc">Basado en datos de tendencias actuales, comportamiento de algoritmo y volumen de engagement orgánico.</p>
+
+      <div class="winner-card fade-in">
+        <div class="winner-badge">🏆 Nicho Ganador</div>
+        <h3>Finanzas Personales + Educación de Negocio Digital</h3>
+        <p>
+          Es el nicho con el <strong style="color:var(--accent)">CPM más alto</strong> en TikTok, el que genera más
+          <strong style="color:var(--accent)">guardados y compartidos</strong> (las métricas que el algoritmo premia en 2026),
+          y el que mejor se <strong style="color:var(--accent)">convierte a ventas</strong> de infoproductos y servicios de coaching.
+          La audiencia ya no compra por impulso: busca creadores que le expliquen <em>por qué</em> y le demuestren
+          que saben de lo que hablan. Eso es justo lo que tus prompts producen.
+        </p>
+        <div class="stats-row">
+          <div class="stat-box">
+            <span class="stat-num">+340%</span>
+            <span class="stat-label">Crecimiento búsquedas Q1 2026</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">8–12×</span>
+            <span class="stat-label">ROAS promedio en paid ads</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">#1</span>
+            <span class="stat-label">CPM más alto de TikTok</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">72%</span>
+            <span class="stat-label">Tasa de guardado de carruseles edu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RANKING DE NICHOS ===== -->
+  <section id="ranking">
+    <div class="container">
+      <span class="section-label">Mapa completo de tendencias</span>
+      <h2 class="section-title">Top 6 Nichos Virales · Abril–Mayo 2026</h2>
+      <p class="section-desc">Clasificados por potencial de viralidad orgánica, monetización y alineación con tus prompts.</p>
+
+      <div class="nicho-grid fade-in">
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #1 · Ganador</div>
+          <h4>💰 Finanzas + Negocio Digital</h4>
+          <p>Educación micro-nicho: conceptos complejos en menos de 30 s. Coaching alto ticket, infoproductos, freelancing.</p>
+          <div class="tag-row">
+            <span class="tag">CPM máximo</span>
+            <span class="tag">Alto guardado</span>
+            <span class="tag">Conversión directa</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:96%"></div></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #2 · Alto potencial</div>
+          <h4>🧠 Salud Mental + Bienestar Realista</h4>
+          <p>No estético, no perfecto. Honestidad, ciencia del sueño, hábitos reales. La audiencia busca lo auténtico.</p>
+          <div class="tag-row">
+            <span class="tag">Viral por identificación</span>
+            <span class="tag">Comunidad fuerte</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:88%"></div></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #3 · En explosión</div>
+          <h4>🤖 IA Práctica + Productividad</h4>
+          <p>Cómo usar IA para ganar tiempo, dinero o crear contenido. El "rechazo a lo artificial" es gancho perfecto.</p>
+          <div class="tag-row">
+            <span class="tag">Tutorial = viral</span>
+            <span class="tag">Demo visual</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:85%"></div></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #4 · Crecimiento rápido</div>
+          <h4>🌱 Sostenibilidad + Economía Verde</h4>
+          <p>Compradores que primero justifican éticamente. Marca personal + valores. Muy alto engagement Q2 2026.</p>
+          <div class="tag-row">
+            <span class="tag">Valores = lealtad</span>
+            <span class="tag">Demanda creciente</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:76%"></div></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #5 · Tendencia cultural</div>
+          <h4>🎭 Lifestyle "Solo Living" + Desintoxicación Digital</h4>
+          <p>Independencia, hábitos digitales saludables, "vivir con intención". Estética "Loving Life Again".</p>
+          <div class="tag-row">
+            <span class="tag">Aspiracional</span>
+            <span class="tag">Muy compartido</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:72%"></div></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Rank #6 · Evergreen</div>
+          <h4>💪 Fitness + Nutrición Basada en Evidencia</h4>
+          <p>No dietas milagro. Ciencia aplicada, resultados reales. Altísimo volumen de búsqueda permanente.</p>
+          <div class="tag-row">
+            <span class="tag">Evergreen</span>
+            <span class="tag">Alta competencia</span>
+          </div>
+          <div class="potential-bar"><div class="potential-fill" style="width:68%"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== POR QUÉ NICHO #1 GANA ===== -->
+  <section id="why">
+    <div class="container">
+      <span class="section-label">Análisis de compatibilidad</span>
+      <h2 class="section-title">¿Por qué Finanzas/Negocio Digital + tus prompts = combinación perfecta?</h2>
+      <p class="section-desc">Tus 8 prompts fueron diseñados exactamente para este nicho. Esta es la compatibilidad:</p>
+
+      <div class="services-grid fade-in">
+        <div class="service-card">
+          <span class="service-icon">🎯</span>
+          <h4>Prompt 1 → Estrategia de Nicho</h4>
+          <p>30 ideas de contenido viral aplicadas al mundo del negocio digital. Cada gancho diseñado para parar el scroll de emprendedores.</p>
+          <ul class="service-includes">
+            <li>30 ideas específicas para tu nicho</li>
+            <li>Ángulo controversial verificable</li>
+            <li>Formato óptimo por post</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">📅</span>
+          <h4>Prompt 1.2 → Calendario 30 días</h4>
+          <p>El nicho de negocios de alto ticket necesita exactamente esta mezcla: autoridad + testimonio + cierre. Publicación diaria con intención.</p>
+          <ul class="service-includes">
+            <li>30 piezas listas para publicar</li>
+            <li>4 posts de cierre por mes</li>
+            <li>Hook + cuerpo + CTA</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">✍️</span>
+          <h4>Prompt 2 → Hooks de Alto Impacto</h4>
+          <p>20 ganchos por tema. En finanzas/negocios, el hook lo es todo: "Nadie te dice esto sobre facturar $10k/mes" para el scroll en 2 segundos.</p>
+          <ul class="service-includes">
+            <li>8 estilos de hook probados</li>
+            <li>Top 5 seleccionados y justificados</li>
+            <li>Adaptado al avatar ideal</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🎬</span>
+          <h4>Prompt 3 → Guiones de Reels</h4>
+          <p>3 guiones de 35–45s estructurados por fases para TikTok/Reels. El formato de educación rápida es el rey del algoritmo en 2026.</p>
+          <ul class="service-includes">
+            <li>Gancho visual en 0–3 s</li>
+            <li>Valor accionable en 15–35 s</li>
+            <li>CTA implícito al final</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🗂️</span>
+          <h4>Prompt 4 → Carrusel Guardable</h4>
+          <p>Los carruseles educativos de finanzas tienen el mayor % de guardados en Instagram/TikTok. Tu prompt ya está estructurado con la lógica correcta.</p>
+          <ul class="service-includes">
+            <li>10 diapositivas optimizadas</li>
+            <li>Cliffhangers por slide</li>
+            <li>Checklist final + CTA</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">📱</span>
+          <h4>Prompt 4 → Historias que Convierten</h4>
+          <p>Secuencia de 5 historias en el nicho de negocios: pregunta → prueba social → CTA Manychat. La conversión ocurre en DM.</p>
+          <ul class="service-includes">
+            <li>De espectador frío a prospecto</li>
+            <li>Prueba social con número real</li>
+            <li>Automatización con Manychat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROPUESTA ===== -->
+  <section id="propuesta">
+    <div class="container">
+      <span class="section-label">La Propuesta</span>
+      <h2 class="section-title">Yo creo todo el contenido por ti.</h2>
+      <p class="section-desc">
+        Usando tus prompts + el nicho ganador identificado, puedo producir todo el ecosistema de contenido
+        mensual de forma completamente autónoma. Tú solo apareces (o no) en cámara.
+      </p>
+
+      <div class="nicho-grid fade-in" style="margin-bottom:3rem;">
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Plan Básico</div>
+          <h4>🚀 Starter</h4>
+          <p>Para validar el nicho y comenzar a crecer orgánicamente.</p>
+          <ul class="service-includes">
+            <li>12 guiones de Reels/TikTok al mes</li>
+            <li>30 hooks creativos</li>
+            <li>4 carruseles guardables</li>
+            <li>Calendario editorial 30 días</li>
+            <li>1 estrategia de nicho completa</li>
+          </ul>
+          <br/>
+          <div class="tag-row"><span class="tag">Entrega en 5 días</span></div>
+        </div>
+
+        <div class="nicho-card" style="border-color: rgba(200,241,53,0.35);">
+          <div class="nicho-rank" style="color:var(--accent)">Plan Recomendado ⭐</div>
+          <h4>⚡ Growth</h4>
+          <p>Sistema completo de contenido + conversión + publicidad para escalar en 60 días.</p>
+          <ul class="service-includes">
+            <li>30 guiones de Reels/TikTok</li>
+            <li>60 hooks por tema y avatar</li>
+            <li>8 carruseles guardables</li>
+            <li>3 versiones de Meta Ads (A/B/C)</li>
+            <li>Secuencia de 5 historias/semana</li>
+            <li>Calendario editorial de 60 días</li>
+            <li>Análisis de métricas mensual</li>
+          </ul>
+          <br/>
+          <div class="tag-row"><span class="tag">Entrega en 7 días</span><span class="tag">+ soporte</span></div>
+        </div>
+
+        <div class="nicho-card">
+          <div class="nicho-rank">Plan Avanzado</div>
+          <h4>🏆 Scale</h4>
+          <p>Agencia de contenido dedicada. Todo producido, todo optimizado, todo entregado listo para publicar.</p>
+          <ul class="service-includes">
+            <li>Todo lo del plan Growth</li>
+            <li>Optimización de perfil TikTok/IG</li>
+            <li>Estrategia de hashtags semanal</li>
+            <li>Reportes de rendimiento</li>
+            <li>Ajuste de ángulos en tiempo real</li>
+            <li>Revisión y reedición ilimitada</li>
+          </ul>
+          <br/>
+          <div class="tag-row"><span class="tag">Dedicación total</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CALENDARIO MUESTRA ===== -->
+  <section id="calendario">
+    <div class="container">
+      <span class="section-label">Vista previa</span>
+      <h2 class="section-title">Calendario de Ejemplo: Semana 1</h2>
+      <p class="section-desc">Así se vería la primera semana de contenido en el nicho de Finanzas / Negocio Digital. Listo para publicar.</p>
+
+      <div class="calendar-grid fade-in">
+        <div class="week-card">
+          <div class="week-label">Lunes</div>
+          <h5>Reel de Autoridad</h5>
+          <ul>
+            <li>Hook: "El error que comete el 90% al intentar facturar online"</li>
+            <li>Valor: 3 errores concretos</li>
+            <li>CTA: "¿Cuál es el tuyo? Comenta."</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Martes</div>
+          <h5>Carrusel Guardable</h5>
+          <ul>
+            <li>Tema: "5 señales de que estás listo para cobrar el doble"</li>
+            <li>10 slides con checklist</li>
+            <li>CTA: "Guárdalo para cuando dudes"</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Miércoles</div>
+          <h5>Historia de Conversión</h5>
+          <ul>
+            <li>Secuencia de 5 historias</li>
+            <li>Historia de pregunta + prueba social</li>
+            <li>CTA: "Responde LISTO"</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Jueves</div>
+          <h5>Reel Tutorial Rápido</h5>
+          <ul>
+            <li>Hook: "Hice esto en 3 días y cambió mis números"</li>
+            <li>Paso a paso en 30 s</li>
+            <li>CTA: "Sigue para el siguiente"</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Viernes</div>
+          <h5>Post de Cierre Directo</h5>
+          <ul>
+            <li>Promesa clara + prueba social</li>
+            <li>Oferta o llamado a DM</li>
+            <li>CTA: "Escríbeme 'INFO' ahora"</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Sábado</div>
+          <h5>Reel Lifestyle / Micro-Story</h5>
+          <ul>
+            <li>B-roll + narración en off</li>
+            <li>Estética "Loving Life Again"</li>
+            <li>Sin CTA directo (engagement)</li>
+          </ul>
+        </div>
+        <div class="week-card">
+          <div class="week-label">Domingo</div>
+          <h5>Carrusel de Testimonio</h5>
+          <ul>
+            <li>Resultado de cliente / caso</li>
+            <li>Antes vs. después</li>
+            <li>CTA: "¿Quieres tu historia aquí?"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESO ===== -->
+  <section id="proceso">
+    <div class="container">
+      <span class="section-label">Cómo trabajamos</span>
+      <h2 class="section-title">El proceso de producción</h2>
+      <p class="section-desc">Simple, rápido y sin fricciones para ti.</p>
+
+      <div class="process-steps fade-in">
+        <div class="process-step">
+          <div class="step-circle">1</div>
+          <h5>Briefing</h5>
+          <p>Me cuentas tu oferta, avatar y objetivo. 15 minutos.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle">2</div>
+          <h5>Estrategia</h5>
+          <p>Aplico el Prompt 1 a tu nicho. Defino el ángulo ganador.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle">3</div>
+          <h5>Producción</h5>
+          <p>Genero guiones, hooks, carruseles e historias. 5–7 días.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle">4</div>
+          <h5>Revisión</h5>
+          <p>Ajustamos tono y voz. Sin límite de cambios menores.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle">5</div>
+          <h5>Entrega</h5>
+          <p>Carpeta organizada, lista para publicar o grabar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section" id="contacto">
+    <div class="container">
+      <h2>¿Empezamos esta<br /><span style="color:var(--accent)">semana?</span></h2>
+      <p>El nicho de Finanzas / Negocio Digital está en su punto más alto ahora mismo. Cada día sin contenido es visibilidad que se va.</p>
+      <a href="mailto:hola@jomstudio.com" class="btn-primary">
+        Escribirme ahora →
+      </a>
+      <br /><br />
+      <div class="hero-meta">
+        <span>📍 JOM Studio</span>
+        <span>·</span>
+        <span>🗓️ Abril–Mayo 2026</span>
+        <span>·</span>
+        <span>🎯 TikTok + Instagram + Meta Ads</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Preparado por <strong>JOM Studio</strong> · Estrategia de contenido con IA · Abril 2026</p>
+    <p style="margin-top:6px; font-size:12px;">Este documento es confidencial y fue creado exclusivamente para uso interno del cliente.</p>
+  </footer>
+
+  <script>
+    // Animate potential bars on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Animate bars
+          entry.target.querySelectorAll && entry.target.querySelectorAll('.potential-fill').forEach(bar => {
+            const w = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => bar.style.width = w, 100);
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

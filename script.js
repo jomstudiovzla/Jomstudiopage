@@ -693,6 +693,108 @@ const photobookData = [
                 desc: "Retrato nocturno urbano con luces de neón azules, rojas y amarillas al fondo. El bokeh envuelve la escena en color mientras Jesus, de negro con su pin de caballito de mar, observa hacia arriba con serenidad. Una imagen que mezcla lo íntimo con lo urbano."
             }
         ]
+    },
+    {
+        id: "sesion-5",
+        title: "Sesión V: Retratos & Edición",
+        desc: "Galería exclusiva de retratos seleccionados y editados de Jesús Omar Martínez. Capturas de alta definición, iluminación cuidada y atmósferas íntimas creadas en post-producción.",
+        images: [
+            {
+                file: "Yo/yo_post_1.jpeg",
+                title: "Conexión Digital",
+                desc: "Retrato íntimo enfocado en la interacción del creador con sus herramientas y pantallas. La luz suave resalta el perfil sereno del artista en pleno flujo de ideas."
+            },
+            {
+                file: "Yo/yo_post_2.jpeg",
+                title: "Fondo y Enfoque",
+                desc: "Juego de profundidades donde la textura y los colores del entorno urbano enmarcan la presencia decidida de Jesús. Composición audaz con gran carga expresiva."
+            },
+            {
+                file: "Yo/yo_post_3.jpeg",
+                title: "Retrato Editorial I",
+                desc: "Primer plano de alta fidelidad. Los contrastes lumínicos destacan las facciones del creador en una atmósfera íntima y sumamente cuidada."
+            },
+            {
+                file: "Yo/yo_post_4.jpeg",
+                title: "Mirada Introspectiva",
+                desc: "Toma de perfil que captura un instante reflexivo. El claroscuro esculpe el contorno del rostro con elegancia, transmitiendo paz creativa."
+            },
+            {
+                file: "Yo/yo_post_5.jpeg",
+                title: "Atmósfera Ámbar",
+                desc: "Retrato bañado en tonalidades doradas que evocan el atardecer urbano. La calidez cromática envuelve la escena en una vibra nostálgica y reconfortante."
+            },
+            {
+                file: "Yo/yo_post_6.jpeg",
+                title: "Esencia Analógica",
+                desc: "Retrato con grano sutil de película clásica. Jesús posa con naturalidad ante un entorno que respira autenticidad y amor por las artes clásicas."
+            },
+            {
+                file: "Yo/yo_post_7.jpeg",
+                title: "Luces Urbanas",
+                desc: "Composición dinámica con la ciudad de noche como telón de fondo. Las luces de neón desenfocadas crean un efecto bokeh que realza el primer plano."
+            },
+            {
+                file: "Yo/yo_post_8.jpeg",
+                title: "Enfoque Creativo",
+                desc: "Captura espontánea del fotógrafo en su hábitat. La postura y los detalles reflejan dedicación y una búsqueda constante de la belleza en la cotidianidad."
+            },
+            {
+                file: "Yo/yo_post_9.jpeg",
+                title: "Perfil del Creador",
+                desc: "Fotografía que estudia la silueta del artista en contraluz. Una imagen poética y minimalista que resalta el misterio del proceso artístico."
+            },
+            {
+                file: "Yo/yo_post_10.jpeg",
+                title: "Mirada al Horizonte",
+                desc: "Gesto sereno de cara al futuro. La iluminación lateral suave acentúa la expresión decidida e inspiradora de Jesús."
+            },
+            {
+                file: "Yo/yo_post_11.jpeg",
+                title: "Detalles del Alma",
+                desc: "Toma artística en primerísimo primer plano. La nitidez y el juego de sombras revelan la profundidad de la mirada del fotógrafo."
+            },
+            {
+                file: "Yo/yo_post_12.jpeg",
+                title: "Expresión Urbana",
+                desc: "Retrato que capta la complicidad entre el sujeto y el espacio urbano, logrando una armonía perfecta entre arquitectura y retrato humano."
+            },
+            {
+                file: "Yo/yo_post_13.jpeg",
+                title: "Luz de Estudio",
+                desc: "Retrato captado bajo iluminación de estudio profesional. Las sombras suaves y los matices cromáticos esculpen una composición premium impecable."
+            },
+            {
+                file: "Yo/yo_post_14.jpeg",
+                title: "Frecuencia Silenciosa",
+                desc: "Jesús retratado en su espacio de creación con auriculares. La escena transmite concentración total y el aislamiento necesario para pulir grandes ideas."
+            },
+            {
+                file: "Yo/yo_post_15.jpeg",
+                title: "Encuadre Cinematográfico",
+                desc: "Fotografía con una relación de aspecto y colorización digna de un fotograma de cine independiente. Narra una historia en una sola mirada."
+            },
+            {
+                file: "Yo/yo_post_16.jpeg",
+                title: "Instante Dorado",
+                desc: "Toma al aire libre con luz natural de hora dorada. Los rayos del sol destacan la calidez y espontaneidad del retrato."
+            },
+            {
+                file: "Yo/yo_post_17.jpeg",
+                title: "Estilo & Presencia",
+                desc: "Retrato que resalta el estilo urbano y el cuidado de los detalles del artista. Una pieza de corte editorial con carácter y actitud."
+            },
+            {
+                file: "Yo/yo_post_18.jpeg",
+                title: "Geometría del Rostro",
+                desc: "Juego de luces angulares que proyectan sombras definidas, aportando una dimensión tridimensional y dramática al retrato."
+            },
+            {
+                file: "Yo/yo_post_19.jpeg",
+                title: "Identidad & Textura",
+                desc: "Retrato de gran formato con un enfoque meticuloso en las texturas de la piel y los detalles de vestuario, cerrando la sesión con máxima fidelidad."
+            }
+        ]
     }
 ];
 
