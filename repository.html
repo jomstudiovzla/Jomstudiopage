@@ -115,14 +115,13 @@
         }
 
         #body-watermark-container img {
-            filter: invert(1) brightness(1.8) contrast(1.1);
+            filter: brightness(1.2) contrast(1.15) grayscale(0.1);
             mix-blend-mode: screen;
             transition: filter 0.5s ease, mix-blend-mode 0.5s ease;
         }
 
-        header img[src*="logo_jom.png"] {
-            filter: invert(1) brightness(1.5);
-            /* NO mix-blend-mode to avoid Safari/Chrome backdrop-filter bug in header */
+        header img[src*="logo_jom_square.jpg"] {
+            /* No filters needed as it is already a clean dark square icon */
         }
 
         /* Hide native cursor on desktop to support custom cursor */
@@ -246,13 +245,13 @@
 
     <!-- Background Watermark Logo -->
     <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
-        <img src="assets/logo_jom.png" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+        <img src="assets/logo_jom_square.jpg" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
     <!-- Header Navigation -->
     <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
         <a href="index.html" class="flex items-center gap-3 group">
-            <img src="assets/logo_jom.png" alt="JOM STUDIO" class="h-8 w-auto transition-transform duration-300 group-hover:scale-105"/>
+            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-8 w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
             <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
         </a>
         <div class="flex items-center gap-6">
@@ -268,6 +267,11 @@
                 <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
                     <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-accent uppercase" id="lang-label">EN</span>
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">language</span>
+                </button>
+                
+                <!-- Admin Lock Trigger -->
+                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-accent transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
+                    <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">lock</span>
                 </button>
             </div>
             <button class="bg-accent text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn" data-en="Let's Build" data-es="Construyamos">
@@ -850,6 +854,14 @@
                 bodyWatermark.style.transform = `scale(${watermarkScale}) rotate(${watermarkRotate}deg)`;
             }
         });
+
+        // Admin Redirect Logic
+        const adminTrigger = document.getElementById('admin-trigger');
+        if (adminTrigger) {
+            adminTrigger.addEventListener('click', () => {
+                window.location.href = 'index.html?admin=true';
+            });
+        }
 
         // Custom Cursor Logic
         const cursorDot = document.getElementById('custom-cursor-dot');

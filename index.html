@@ -96,14 +96,13 @@
         }
 
         #body-watermark-container img {
-            filter: invert(1) brightness(1.8) contrast(1.1);
+            filter: brightness(1.2) contrast(1.15) grayscale(0.1);
             mix-blend-mode: screen;
             transition: filter 0.5s ease, mix-blend-mode 0.5s ease;
         }
 
-        header img[src*="logo_jom.png"] {
-            filter: invert(1) brightness(1.5);
-            /* NO mix-blend-mode to avoid Safari/Chrome backdrop-filter bug in header */
+        header img[src*="logo_jom_square.jpg"] {
+            /* No filters needed as it is already a clean dark square icon */
         }
 
         /* Hide native cursor on desktop to support custom cursor */
@@ -223,13 +222,13 @@
 
     <!-- Background Watermark Logo -->
     <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
-        <img src="assets/logo_jom.png" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+        <img src="assets/logo_jom_square.jpg" alt="" class="w-[120%] md:w-[75%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
     <!-- Header Navigation -->
     <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
         <a href="index.html" class="flex items-center gap-3 group">
-            <img src="assets/logo_jom.png" alt="JOM STUDIO" class="h-8 w-auto transition-transform duration-300 group-hover:scale-105"/>
+            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-8 w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
             <span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
         </a>
         <div class="flex items-center gap-6">
@@ -245,6 +244,11 @@
                 <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center gap-2" id="lang-toggle" title="Switch Language">
                     <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-primary-fixed uppercase" id="lang-label">EN</span>
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">language</span>
+                </button>
+
+                <!-- Admin Lock Trigger -->
+                <button class="px-3 py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
+                    <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">lock</span>
                 </button>
             </div>
             <button class="bg-primary-fixed text-on-primary-container font-label-mono text-label-mono px-6 py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95" data-t="btn_build">
@@ -988,6 +992,17 @@
                 const briefText = document.getElementById('client-brief').value.trim();
                 const channel = document.querySelector('input[name="comm-channel"]:checked').value;
 
+                // Log brief submission locally for Admin Command Center
+                const briefsLog = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
+                briefsLog.push({
+                    name,
+                    email,
+                    briefText,
+                    channel,
+                    timestamp: new Date().toLocaleString()
+                });
+                localStorage.setItem('jom_contact_briefs', JSON.stringify(briefsLog));
+
                 if (channel === 'wa') {
                     // WhatsApp message format
                     const message = `¡Hola JOM STUDIO! 🚀%0A%0AMe gustaría cotizar un proyecto:%0A%0A*Nombre/Empresa:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Brief:* ${encodeURIComponent(briefText)}`;
@@ -1061,6 +1076,253 @@
                 document.body.classList.remove('cursor-hover');
             }
         });
+
+        // Analytics & Geolocation Logger
+        function initAnalytics() {
+            // Views counter
+            let totalViews = parseInt(localStorage.getItem('jom_analytics_views') || '0');
+            totalViews++;
+            localStorage.setItem('jom_analytics_views', totalViews.toString());
+
+            // Geolocation tracking
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.country_name) {
+                        const country = data.country_name;
+                        const countries = JSON.parse(localStorage.getItem('jom_analytics_countries') || '{}');
+                        countries[country] = (countries[country] || 0) + 1;
+                        localStorage.setItem('jom_analytics_countries', JSON.stringify(countries));
+                    }
+                })
+                .catch(() => {
+                    // Fallback to offline/unknown local views
+                    const country = 'Local Loopback';
+                    const countries = JSON.parse(localStorage.getItem('jom_analytics_countries') || '{}');
+                    countries[country] = (countries[country] || 0) + 1;
+                    localStorage.setItem('jom_analytics_countries', JSON.stringify(countries));
+                });
+        }
+        initAnalytics();
+
+        // Admin Dashboard Console Logic
+        window.openAdminModal = function(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeAdminModal = function(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.submitAdminLogin = function() {
+            const userId = document.getElementById('admin-id').value.trim();
+            const userPass = document.getElementById('admin-pass').value.trim();
+            const errorMsg = document.getElementById('admin-error-msg');
+
+            if (userId === 'JOM' && userPass === 'Studio') {
+                sessionStorage.setItem('jom_admin_logged', 'true');
+                document.getElementById('admin-id').value = '';
+                document.getElementById('admin-pass').value = '';
+                if (errorMsg) errorMsg.classList.add('hidden');
+                
+                closeAdminModal('admin-login-modal');
+                openAdminDashboard();
+            } else {
+                if (errorMsg) {
+                    errorMsg.classList.remove('hidden');
+                    errorMsg.style.color = '#EF4444';
+                    setTimeout(() => errorMsg.style.color = '#F87171', 150);
+                    setTimeout(() => errorMsg.style.color = '#EF4444', 300);
+                }
+            }
+        };
+
+        window.adminLogout = function() {
+            sessionStorage.removeItem('jom_admin_logged');
+            closeAdminModal('admin-dashboard-modal');
+        };
+
+        window.clearAnalyticsData = function() {
+            if (confirm('Are you sure you want to clear all views and briefs log? This action cannot be undone.')) {
+                localStorage.setItem('jom_analytics_views', '1');
+                localStorage.setItem('jom_analytics_countries', '{}');
+                localStorage.setItem('jom_contact_briefs', '[]');
+                renderDashboardData();
+            }
+        };
+
+        window.deleteBrief = function(index) {
+            const briefs = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
+            briefs.splice(index, 1);
+            localStorage.setItem('jom_contact_briefs', JSON.stringify(briefs));
+            renderDashboardData();
+        };
+
+        function renderDashboardData() {
+            const totalViews = localStorage.getItem('jom_analytics_views') || '1';
+            const countries = JSON.parse(localStorage.getItem('jom_analytics_countries') || '{}');
+            const briefs = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
+
+            // Set Total Views
+            document.getElementById('analytics-total-views').textContent = totalViews;
+
+            // Render Countries List
+            const countriesList = document.getElementById('analytics-countries-list');
+            if (countriesList) {
+                const sortedCountries = Object.entries(countries).sort((a, b) => b[1] - a[1]);
+                if (sortedCountries.length > 0) {
+                    countriesList.innerHTML = sortedCountries.map(([country, count]) => {
+                        const percent = Math.round((count / totalViews) * 100);
+                        return `
+                            <div class="space-y-1">
+                                <div class="flex items-center justify-between text-xs font-label-mono text-white">
+                                    <span>${country}</span>
+                                    <span class="text-primary-fixed">${count} views (${percent}%)</span>
+                                </div>
+                                <div class="w-full bg-outline-variant/30 h-1 rounded overflow-hidden">
+                                    <div class="bg-primary h-full transition-all duration-500" style="width: ${percent}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    countriesList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase">No traffic data logged.</div>';
+                }
+            }
+
+            // Render Briefs
+            const briefsList = document.getElementById('analytics-briefs-list');
+            if (briefsList) {
+                if (briefs.length > 0) {
+                    briefsList.innerHTML = briefs.map((brief, idx) => `
+                        <div class="border border-outline-variant/20 p-4 rounded-xl bg-surface-container relative group transition-all hover:border-primary-fixed/50">
+                            <button onclick="deleteBrief(${idx})" class="absolute top-4 right-4 text-red-500 hover:text-red-400 font-label-mono text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-headline-md text-sm text-white font-bold">${brief.name}</span>
+                                <span class="font-label-mono text-[9px] text-outline uppercase">${brief.timestamp}</span>
+                            </div>
+                            <div class="text-xs text-on-surface-variant font-label-mono mb-2">Email: <a href="mailto:${brief.email}" class="text-primary-fixed hover:underline">${brief.email}</a> | Protocol: <span class="text-primary-fixed">${brief.channel.toUpperCase()}</span></div>
+                            <p class="text-sm text-on-surface-variant font-body-md whitespace-pre-wrap leading-relaxed">${brief.briefText}</p>
+                        </div>
+                    `).reverse().join('');
+                } else {
+                    briefsList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-12">No client briefs logged.</div>';
+                }
+            }
+        }
+
+        function openAdminDashboard() {
+            openAdminModal('admin-dashboard-modal');
+            renderDashboardData();
+        }
+
+        // Trigger Admin Authentication flow
+        const triggerBtn = document.getElementById('admin-trigger');
+        if (triggerBtn) {
+            triggerBtn.addEventListener('click', () => {
+                if (sessionStorage.getItem('jom_admin_logged') === 'true') {
+                    openAdminDashboard();
+                } else {
+                    openAdminModal('admin-login-modal');
+                }
+            });
+        }
+
+        // Deep-linking query parameter check (?admin=true)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            if (sessionStorage.getItem('jom_admin_logged') === 'true') {
+                openAdminDashboard();
+            } else {
+                openAdminModal('admin-login-modal');
+            }
+        }
     </script>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-md px-4">
+        <div class="glass-panel max-w-sm w-full p-6 md:p-8 rounded-2xl relative border border-outline-variant/30 text-center shadow-accent animate-pulse-glow">
+            <button class="absolute top-4 right-4 text-on-surface-variant hover:text-white text-xl" onclick="closeAdminModal('admin-login-modal')">&times;</button>
+            <span class="material-symbols-outlined text-[48px] text-primary-fixed mb-4">security</span>
+            <h3 class="font-headline-md text-headline-md text-white mb-2">SECURITY PROTOCOL</h3>
+            <p class="font-body-md text-xs text-on-surface-variant mb-6">Access restricted to authorized JOM STUDIO personnel.</p>
+            
+            <div class="space-y-4 text-left">
+                <div class="flex flex-col gap-2">
+                    <label class="font-label-mono text-[9px] text-outline uppercase" for="admin-id">ID / USERNAME</label>
+                    <input type="text" id="admin-id" autocomplete="off" class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none text-sm transition-all" placeholder="Enter operator ID"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-label-mono text-[9px] text-outline uppercase" for="admin-pass">PASSWORD</label>
+                    <input type="password" id="admin-pass" class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none text-sm transition-all" placeholder="••••••••"/>
+                </div>
+                <div id="admin-error-msg" class="text-red-500 font-label-mono text-[10px] text-center uppercase hidden">
+                    ACCESS DENIED: INVALID CREDENTIALS
+                </div>
+                <button onclick="submitAdminLogin()" class="w-full bg-primary text-on-primary-container font-label-mono text-label-mono py-3 uppercase tracking-widest font-bold border border-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] mt-2 flex items-center justify-center gap-2">
+                    <span>AUTHENTICATE</span>
+                    <span class="material-symbols-outlined text-sm">verified_user</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="admin-dashboard-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-lg overflow-y-auto px-4 py-8">
+        <div class="glass-panel max-w-5xl w-full mx-auto p-6 md:p-8 rounded-2xl border border-outline-variant/30 shadow-accent relative">
+            <button class="absolute top-6 right-6 text-on-surface-variant hover:text-white text-2xl font-bold" onclick="closeAdminModal('admin-dashboard-modal')">&times;</button>
+            
+            <div class="border-b border-outline-variant/20 pb-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-primary-fixed font-label-mono text-xs uppercase tracking-widest">
+                        <span class="w-2 h-2 bg-primary rounded-full animate-ping"></span>
+                        <span>COMMAND CENTER // ACTIVE SESSION</span>
+                    </div>
+                    <h2 class="font-headline-lg text-2xl md:text-3xl text-white mt-1 uppercase">JOM STUDIO ANALYTICS</h2>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="clearAnalyticsData()" class="px-4 py-2 border border-red-500/30 text-red-500 hover:bg-red-500/10 font-label-mono text-xs uppercase tracking-wider transition-all">Clear Logs</button>
+                    <button onclick="adminLogout()" class="px-4 py-2 border border-outline-variant/40 text-on-surface hover:border-primary-fixed transition-all font-label-mono text-xs uppercase tracking-wider">Log Out</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+                <div class="md:col-span-4 space-y-6">
+                    <div class="p-6 border border-outline-variant/20 bg-surface-container-lowest/80 rounded-xl">
+                        <span class="font-label-mono text-[10px] text-outline uppercase">Total Page Views</span>
+                        <span class="font-headline-lg text-4xl text-primary-fixed block font-black mt-2" id="analytics-total-views">0</span>
+                        <span class="font-body-md text-xs text-on-surface-variant block mt-1">Real-time local tracking active</span>
+                    </div>
+                    
+                    <div class="p-6 border border-outline-variant/20 bg-surface-container-lowest/80 rounded-xl">
+                        <span class="font-label-mono text-[10px] text-outline uppercase mb-3 block">Views by Country</span>
+                        <div class="space-y-3 max-h-[200px] overflow-y-auto pr-2" id="analytics-countries-list">
+                            <div class="text-on-surface-variant text-sm font-label-mono uppercase">No traffic data logged.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-8 p-6 border border-outline-variant/20 bg-surface-container-lowest/80 rounded-xl flex flex-col justify-between min-h-[400px]">
+                    <div>
+                        <span class="font-label-mono text-[10px] text-outline uppercase mb-4 block">Transmitted Client Briefs</span>
+                        <div class="space-y-4 max-h-[450px] overflow-y-auto pr-2" id="analytics-briefs-list">
+                            <div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-12">No client briefs logged.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
