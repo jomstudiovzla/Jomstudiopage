@@ -7,6 +7,8 @@
     <title>JOM STUDIO | DIGITAL ALCHEMY</title>
     <meta name="description" content="JOM STUDIO — Where Technical Architecture Meets Artistic Direction. Gamification, Generative AI, Web Development & Chrome Extensions." />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <style>
@@ -58,6 +60,8 @@
             --theme-primary: #00F2FF;
             --theme-primary-alpha: rgba(0, 242, 255, 0.15);
             --theme-primary-glow: rgba(0, 242, 255, 0.4);
+            --theme-gold: #C4A35A;
+            --theme-gold-alpha: rgba(196, 163, 90, 0.15);
             
             --color-bg: #050505;
             --color-text: #E0E0E0;
@@ -72,7 +76,12 @@
             --color-outline-variant: rgba(255, 255, 255, 0.1);
         }
 
-
+        /* Searchlight Mask Reveal */
+        .reveal-mask-top {
+            color: var(--theme-gold) !important;
+            clip-path: circle(85px at var(--mouse-x, -999px) var(--mouse-y, -999px));
+            transition: clip-path 0.04s ease-out;
+        }
 
         .dynamic-primary-text { color: var(--theme-primary); }
         .dynamic-primary-bg { background-color: var(--theme-primary); }
@@ -216,6 +225,9 @@
     </script>
 </head>
 <body class="font-body-md text-on-surface">
+    <!-- Fixed Global 3D Background Canvas -->
+    <canvas id="hero-canvas" class="fixed inset-0 w-screen h-screen pointer-events-none" style="z-index:0"></canvas>
+
     <!-- Custom Cursor elements -->
     <div id="custom-cursor-dot" class="hidden md:block"></div>
     <div id="custom-cursor-circle" class="hidden md:block"></div>
@@ -257,15 +269,16 @@
         </div>
     </header>
 
-    <main>
+    <main class="relative" style="z-index:1">
         <!-- Hero Section -->
-        <section class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-margin-mobile md:px-margin-desktop text-center overflow-hidden">
+        <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-margin-mobile md:px-margin-desktop text-center overflow-hidden">
             <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container/5 blur-[120px] rounded-full pointer-events-none"></div>
             <div class="relative z-10 space-y-6">
                 <span class="font-label-mono text-label-mono text-primary-fixed border border-primary-fixed/30 px-3 py-1 bg-primary-container/5" data-t="system_status">SYSTEM STATUS: OPTIMIZED</span>
-                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg text-primary-fixed tracking-tighter uppercase max-w-5xl mx-auto" data-t="hero_title">
-                    DIGITAL ALCHEMY
+                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-5xl mx-auto relative select-none" id="hero-title-container">
+                    <span data-t="hero_title" id="hero-title-base" class="block text-primary-fixed">DIGITAL ALCHEMY</span>
+                    <span id="hero-title-top" class="reveal-mask-top font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-5xl mx-auto absolute inset-0 select-none pointer-events-none text-white">DIGITAL ALCHEMY</span>
                 </h1>
                 <p class="font-headline-md text-lg sm:text-xl md:text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light" data-t="hero_subtitle">
                     Where Technical Architecture Meets Artistic Direction.
@@ -306,7 +319,7 @@
                 </div>
                 
                 <!-- Right Console Pane: Details Dashboard -->
-                <div class="lg:col-span-8 glass-panel p-6 md:p-8 rounded-xl relative flex flex-col justify-between overflow-hidden" id="services-console-pane">
+                <div class="lg:col-span-8 glass-panel p-6 md:p-8 rounded-xl relative flex flex-col justify-between overflow-hidden tilt-card" id="services-console-pane">
                     <!-- Top dynamic colored indicator strip -->
                     <div class="absolute top-0 left-0 w-full h-[3px] dynamic-primary-bg opacity-80"></div>
                     
@@ -370,7 +383,7 @@
                     <h2 class="font-headline-lg text-headline-lg text-on-surface">Crypto Water War</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-                    <div class="md:col-span-7 relative overflow-hidden group border border-outline-variant/20 rounded-xl">
+                    <div class="md:col-span-7 relative overflow-hidden group border border-outline-variant/20 rounded-xl tilt-card">
                         <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60 z-10"></div>
                         <img class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Crypto Water War UI card game" src="assets/crypto1.png"/>
                         <div class="absolute bottom-8 left-8 z-20">
@@ -410,9 +423,9 @@
         <section id="about" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
                 <div class="lg:col-span-5 relative flex justify-center py-4">
-                    <div class="relative w-64 h-80 md:w-80 md:h-96">
+                    <div class="relative w-64 h-80 md:w-80 md:h-96 tilt-card group">
                         <div class="absolute inset-0 border border-primary-fixed/30 rounded-xl translate-x-4 translate-y-4 animate-pulse-glow"></div>
-                        <img src="assets/profile_jesus.jpg" alt="Jesús Omar Martínez" class="w-full h-full object-cover rounded-xl border-2 border-primary-fixed filter grayscale hover:grayscale-0 transition-all duration-500 shadow-premium"/>
+                        <img src="assets/profile_jesus.jpg" alt="Jesús Omar Martínez" class="w-full h-full object-cover rounded-xl border-2 border-primary-fixed filter grayscale group-hover:grayscale-0 transition-all duration-500 shadow-premium"/>
                     </div>
                 </div>
                 <div class="lg:col-span-7 space-y-6">
@@ -884,6 +897,10 @@
                 const key = el.getAttribute('data-t');
                 if (translations[state.lang][key]) {
                     el.textContent = translations[state.lang][key];
+                    if (key === 'hero_title') {
+                        const top = document.getElementById('hero-title-top');
+                        if (top) top.textContent = translations[state.lang][key];
+                    }
                 }
             });
             renderServices();
@@ -1324,5 +1341,6 @@
             </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

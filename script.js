@@ -79,252 +79,526 @@ const loader = document.getElementById('page-loader');
 const loaderBar = document.getElementById('loader-bar');
 const loaderPct = document.getElementById('loader-pct');
 
-let progress = 0;
-const loaderInterval = setInterval(() => {
-    progress += Math.random() * 15;
-    if (progress >= 100) {
-        progress = 100;
-        clearInterval(loaderInterval);
-        loaderBar.style.width = '100%';
-        loaderPct.textContent = '100%';
-        setTimeout(() => {
-            playSound('loader');
-            loader.classList.add('hidden');
-            document.body.style.overflow = '';
-            // Trigger hero reveal
-            document.querySelectorAll('#hero .reveal-up').forEach((el, i) => {
-                setTimeout(() => el.classList.add('visible'), i * 120);
-            });
-        }, 400);
-    }
-    loaderBar.style.width = Math.min(progress, 100) + '%';
-    loaderPct.textContent = Math.round(Math.min(progress, 100)) + '%';
-}, 60);
+if (loader && loaderBar && loaderPct) {
+    let progress = 0;
+    const loaderInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(loaderInterval);
+            loaderBar.style.width = '100%';
+            loaderPct.textContent = '100%';
+            setTimeout(() => {
+                playSound('loader');
+                loader.classList.add('hidden');
+                document.body.style.overflow = '';
+                // Trigger hero reveal
+                document.querySelectorAll('#hero .reveal-up').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 120);
+                });
+            }, 400);
+        }
+        loaderBar.style.width = Math.min(progress, 100) + '%';
+        loaderPct.textContent = Math.round(Math.min(progress, 100)) + '%';
+    }, 60);
 
-// Block scroll during load
-document.body.style.overflow = 'hidden';
+    // Block scroll during load
+    document.body.style.overflow = 'hidden';
+} else {
+    // If no loader exists, ensure scroll is enabled and reveal hero elements immediately
+    document.body.style.overflow = '';
+    document.querySelectorAll('#hero .reveal-up').forEach((el) => {
+        el.classList.add('visible');
+    });
+}
 
 /* ─────────────────────────────────────────────
-   HERO CANVAS — Animated Logo Background
+   HERO CANVAS — Three.js WebGL 3D Engine (Global Ecosystem)
 ───────────────────────────────────────────── */
-const canvas = document.getElementById('hero-canvas');
-const ctx = canvas.getContext('2d');
+/* ─────────────────────────────────────────────
+   HERO CANVAS — Three.js WebGL 3D Engine (Global Ecosystem)
+───────────────────────────────────────────── */
+let canvas, renderer, scene, camera;
+let gridHelper, logoGroup, innerMesh, outerMesh, logoPlane, logoBackLight, logoFrontLight;
+let ringMesh1, ringMesh2, lensMesh, particlePoints;
+let planeZ, raycaster, targetLensPos;
+let particlePositions, initialPositions, particleGeo, particleMat;
+const clock = new THREE.Clock();
 
-let logoImg = null;
-let particles = [];
-let mouse = { x: -999, y: -999 };
-let animFrame;
+// Camera Target Vectors
+const cameraTargetPos = new THREE.Vector3(0, 0, 8);
+const cameraTargetRot = new THREE.Euler(0, 0, 0);
+const logoTargetPos = new THREE.Vector3(0, 0, 0);
+let logoTargetScale = 1.0;
+let gridTargetOpacity = 0.05;
+const gridTargetPos = new THREE.Vector3(0, -8, 0);
 
-// Load logo
-const img = new Image();
-img.src = 'assets/logo_jom.png';
-img.onload = () => {
-    logoImg = img;
-    initCanvas();
-    animateCanvas();
-};
-img.onerror = () => {
-    initCanvas();
-    animateCanvas();
-};
+// Interaction Vectors
+const mouse = new THREE.Vector2(0, 0);
+const targetMouse = new THREE.Vector2(0, 0);
+let isMouseActive = false;
+let gravityStrength = 0.0;
+
+// Scroll section configurations (Section Targets)
+const sectionTargets = [
+    { // Hero
+        camPos: new THREE.Vector3(0, 0, 8),
+        camRot: new THREE.Euler(0, 0, 0),
+        logoPos: new THREE.Vector3(0, 0, 0),
+        logoScale: 1.0,
+        gridOpacity: 0.05,
+        gridPos: new THREE.Vector3(0, -8, 0)
+    },
+    { // Services
+        camPos: new THREE.Vector3(-2.0, 0, 8.5),
+        camRot: new THREE.Euler(0, -Math.PI * 0.08, 0),
+        logoPos: new THREE.Vector3(-2.5, 0.5, 0),
+        logoScale: 0.65,
+        gridOpacity: 0.08,
+        gridPos: new THREE.Vector3(0, -6, 0)
+    },
+    { // About
+        camPos: new THREE.Vector3(2.0, -0.5, 8.2),
+        camRot: new THREE.Euler(0, Math.PI * 0.08, 0),
+        logoPos: new THREE.Vector3(2.6, -0.8, -1),
+        logoScale: 0.60,
+        gridOpacity: 0.04,
+        gridPos: new THREE.Vector3(0, -7, 0)
+    },
+    { // Brief & Contact
+        camPos: new THREE.Vector3(0, -3.8, 9.0),
+        camRot: new THREE.Euler(-Math.PI * 0.1, 0, 0),
+        logoPos: new THREE.Vector3(0, -1.5, 0),
+        logoScale: 0.85,
+        gridOpacity: 0.14,
+        gridPos: new THREE.Vector3(0, -5, 0)
+    }
+];
 
 function resizeCanvas() {
-    const hero = document.getElementById('hero');
-    canvas.width = hero.offsetWidth;
-    canvas.height = hero.offsetHeight;
-}
-
-class Particle {
-    constructor() { this.reset(true); }
-    reset(initial = false) {
-        this.x = Math.random() * canvas.width;
-        this.y = initial ? Math.random() * canvas.height : canvas.height + 10;
-        this.size = Math.random() * 1.5 + 0.4;
-        this.speedY = -(Math.random() * 0.4 + 0.1);
-        this.speedX = (Math.random() - 0.5) * 0.2;
-        this.opacity = Math.random() * 0.4 + 0.1;
-        this.life = 1;
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Repel from mouse
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
-            const force = (100 - dist) / 100;
-            this.x += (dx / dist) * force * 1.5;
-            this.y += (dy / dist) * force * 1.5;
-        }
-
-        if (this.y < -10) this.reset();
-    }
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = '#2EC4B6';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-    }
-}
-
-function initCanvas() {
-    resizeCanvas();
-    particles = [];
-    const count = Math.floor((canvas.width * canvas.height) / 8000);
-    for (let i = 0; i < Math.max(count, 40); i++) {
-        particles.push(new Particle());
-    }
-}
-
-let logoAlpha = 0;
-let logoScale = 1;
-let logoRotation = 0;
-let logoTime = 0;
-
-function drawLogo() {
-    if (!logoImg) return;
-    ctx.save();
-
-    logoTime += 0.003;
-    logoAlpha = 0.04 + Math.sin(logoTime * 0.7) * 0.015;
-    logoScale = 1 + Math.sin(logoTime * 0.5) * 0.015;
-    logoRotation = Math.sin(logoTime * 0.3) * 0.008;
-
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
-    const maxW = canvas.width * 0.7;
-    const maxH = canvas.height * 0.7;
-    const scale = Math.min(maxW / logoImg.width, maxH / logoImg.height) * logoScale;
-    const w = logoImg.width * scale;
-    const h = logoImg.height * scale;
-
-    ctx.globalAlpha = logoAlpha;
-    ctx.translate(cx, cy);
-    ctx.rotate(logoRotation);
-
-    // Teal tint overlay
-    ctx.filter = 'hue-rotate(20deg) saturate(1.2)';
-    ctx.drawImage(logoImg, -w / 2, -h / 2, w, h);
-
-    ctx.restore();
-}
-
-// Scan line effect
-let scanY = 0;
-function drawScanLine() {
-    scanY += 1.5;
-    if (scanY > canvas.height) scanY = 0;
-    const grad = ctx.createLinearGradient(0, scanY - 60, 0, scanY + 60);
-    grad.addColorStop(0, 'rgba(46,196,182,0)');
-    grad.addColorStop(0.5, 'rgba(46,196,182,0.04)');
-    grad.addColorStop(1, 'rgba(46,196,182,0)');
-    ctx.save();
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, scanY - 60, canvas.width, 120);
-    ctx.restore();
-}
-
-// Grid overlay
-function drawGrid() {
-    ctx.save();
-    ctx.globalAlpha = 0.025;
-    ctx.strokeStyle = '#2EC4B6';
-    ctx.lineWidth = 0.5;
-    const spacing = 60;
-    for (let x = 0; x < canvas.width; x += spacing) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-    }
-    for (let y = 0; y < canvas.height; y += spacing) {
-        ctx.beginPath();
-        ctx.moveTo(0, y); ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-    }
-    ctx.restore();
+    if (!renderer || !camera) return;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 }
 
 function animateCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!renderer) return;
+    const elapsedTime = clock.getElapsedTime();
 
-    // Dark base
-    ctx.fillStyle = '#0e0e0e';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Mouse Lerp
+    mouse.x += (targetMouse.x - mouse.x) * 0.06;
+    mouse.y += (targetMouse.y - mouse.y) * 0.06;
 
-    drawGrid();
-    drawLogo();
-    drawScanLine();
+    // Project cursor onto plane to locate the magnifier glass
+    if (raycaster && camera && planeZ && lensMesh) {
+        raycaster.setFromCamera(mouse, camera);
+        const intersectPoint = new THREE.Vector3();
+        raycaster.ray.intersectPlane(planeZ, intersectPoint);
+        if (intersectPoint) {
+            targetLensPos.copy(intersectPoint);
+        }
+        lensMesh.position.lerp(targetLensPos, 0.08);
+        const targetScale = isMouseActive ? 1.0 : 0.0;
+        lensMesh.scale.x += (targetScale - lensMesh.scale.x) * 0.08;
+        lensMesh.scale.y += (targetScale - lensMesh.scale.y) * 0.08;
+        lensMesh.scale.z += (targetScale - lensMesh.scale.z) * 0.08;
+    }
 
-    particles.forEach(p => { p.update(); p.draw(); });
+    // Logo Autonomous rotation
+    if (logoGroup) {
+        logoGroup.rotation.y = elapsedTime * 0.12;
+        logoGroup.rotation.x = Math.sin(elapsedTime * 0.2) * 0.08;
+        logoGroup.rotation.y += mouse.x * 0.3;
+        logoGroup.rotation.x -= mouse.y * 0.3;
 
-    // Radial glow from center
-    const grd = ctx.createRadialGradient(
-        canvas.width / 2, canvas.height / 2, 0,
-        canvas.width / 2, canvas.height / 2, canvas.width * 0.5
-    );
-    grd.addColorStop(0, 'rgba(46,196,182,0.04)');
-    grd.addColorStop(1, 'rgba(14,14,14,0)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const finalLogoPos = new THREE.Vector3().copy(logoTargetPos);
+        finalLogoPos.x += mouse.x * 0.4;
+        finalLogoPos.y += mouse.y * 0.4;
+        logoGroup.position.lerp(finalLogoPos, 0.05);
 
-    animFrame = requestAnimationFrame(animateCanvas);
+        if (!gsap.isTweening(logoGroup.scale)) {
+            logoGroup.scale.x += (logoTargetScale - logoGroup.scale.x) * 0.05;
+            logoGroup.scale.y += (logoTargetScale - logoGroup.scale.y) * 0.05;
+            logoGroup.scale.z += (logoTargetScale - logoGroup.scale.z) * 0.05;
+        }
+    }
+
+    if (ringMesh1) ringMesh1.rotation.z = -elapsedTime * 0.06;
+    if (ringMesh2) ringMesh2.rotation.z = elapsedTime * 0.09;
+    if (logoPlane) logoPlane.rotation.y = Math.sin(elapsedTime * 0.4) * 0.04;
+
+    // Particles simulation
+    if (particleGeo && initialPositions) {
+        const posArr = particleGeo.attributes.position.array;
+        const attractStrength = gravityStrength * 0.06;
+        
+        for (let i = 0; i < posArr.length; i += 3) {
+            const px = initialPositions[i];
+            const pz = initialPositions[i + 2];
+            const theta = elapsedTime * 0.01 + (i * 0.001);
+            const cosTheta = Math.cos(theta);
+            const sinTheta = Math.sin(theta);
+            
+            const basePx = px * cosTheta - pz * sinTheta;
+            const basePy = initialPositions[i + 1] + Math.sin(elapsedTime * 0.05 + i) * 0.5;
+            const basePz = px * sinTheta + pz * cosTheta;
+            
+            posArr[i] += (basePx - posArr[i]) * 0.03;
+            posArr[i + 1] += (basePy - posArr[i + 1]) * 0.03;
+            posArr[i + 2] += (basePz - posArr[i + 2]) * 0.03;
+            
+            if (gravityStrength > 0 && isMouseActive && targetLensPos) {
+                const dx = targetLensPos.x - posArr[i];
+                const dy = targetLensPos.y - posArr[i + 1];
+                const dz = targetLensPos.z - posArr[i + 2];
+                const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                
+                if (dist < 14) {
+                    const force = ((14 - dist) / 14) * attractStrength;
+                    posArr[i] += dx * force;
+                    posArr[i + 1] += dy * force;
+                    posArr[i + 2] += dz * force;
+                }
+            }
+        }
+        particleGeo.attributes.position.needsUpdate = true;
+    }
+
+    // Camera Lerp
+    camera.position.lerp(cameraTargetPos, 0.05);
+    camera.rotation.x += (cameraTargetRot.x - camera.rotation.x) * 0.05;
+    camera.rotation.y += (cameraTargetRot.y - camera.rotation.y) * 0.05;
+
+    // Grid properties
+    if (gridHelper) {
+        gridHelper.material.opacity += (gridTargetOpacity - gridHelper.material.opacity) * 0.05;
+        gridHelper.position.lerp(gridTargetPos, 0.05);
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animateCanvas);
 }
 
-// Track mouse for particle repulsion
-document.getElementById('hero').addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+try {
+    canvas = document.getElementById('hero-canvas');
+    if (canvas) {
+        // Create Three.js WebGL Renderer
+        renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: true,
+            alpha: true,
+            powerPreference: "default"
+        });
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        scene = new THREE.Scene();
+
+        // Camera Setup
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 0, 8);
+
+        // Lighting Setup
+        const ambientLight = new THREE.AmbientLight(0x0a0a0a, 2.0);
+        scene.add(ambientLight);
+
+        const spotLight = new THREE.SpotLight(0x2EC4B6, 18, 30, Math.PI * 0.2, 0.5, 1);
+        spotLight.position.set(-5, 8, 10);
+        scene.add(spotLight);
+
+        const pointLight = new THREE.PointLight(0xC4A35A, 14, 20);
+        pointLight.position.set(5, -4, 6);
+        scene.add(pointLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        dirLight.position.set(0, 10, 0);
+        scene.add(dirLight);
+
+        // 3D Digital Grid
+        gridHelper = new THREE.GridHelper(50, 40, 0x2EC4B6, 0x2EC4B6);
+        gridHelper.position.y = -8;
+        gridHelper.material.opacity = 0.05;
+        gridHelper.material.transparent = true;
+        scene.add(gridHelper);
+
+        // Central Logo & Crystal Group
+        logoGroup = new THREE.Group();
+        scene.add(logoGroup);
+
+        // 1. Inner Crystalline Icosahedron (Teal Glassmorphism)
+        const innerGeo = new THREE.IcosahedronGeometry(1.6, 1);
+        const innerMat = new THREE.MeshPhysicalMaterial({
+            color: 0x2EC4B6,
+            emissive: 0x051b1a,
+            roughness: 0.05,
+            metalness: 0.0,
+            transmission: 0.98,
+            ior: 1.5,
+            thickness: 1.2,
+            specularIntensity: 1.0,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.05,
+            transparent: true,
+            opacity: 0.45
+        });
+        const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+        logoGroup.add(innerMesh);
+
+        // 2. Outer Wireframe Icosahedron (Gold)
+        const outerGeo = new THREE.IcosahedronGeometry(1.63, 1);
+        const outerMat = new THREE.MeshBasicMaterial({
+            color: 0xC4A35A,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.35,
+            blending: THREE.AdditiveBlending
+        });
+        const outerMesh = new THREE.Mesh(outerGeo, outerMat);
+        logoGroup.add(outerMesh);
+
+        // 3. Central Hologram Plane with logo_jom.png
+        const textureLoader = new THREE.TextureLoader();
+        const logoTexture = textureLoader.load('assets/logo_jom.png');
+        const planeGeo = new THREE.PlaneGeometry(2.3, 2.3);
+        const planeMat = new THREE.MeshBasicMaterial({
+            map: logoTexture,
+            transparent: true,
+            opacity: 0.95,
+            side: THREE.DoubleSide,
+            blending: THREE.NormalBlending,
+            depthWrite: true
+        });
+        logoPlane = new THREE.Mesh(planeGeo, planeMat);
+        logoGroup.add(logoPlane);
+
+        // Emissive Core Back-Light
+        logoBackLight = new THREE.PointLight(0xffffff, 20, 6);
+        logoBackLight.position.set(0, 0, -0.3);
+        logoGroup.add(logoBackLight);
+
+        // Emissive Core Front-Light
+        logoFrontLight = new THREE.PointLight(0xffffff, 14, 5);
+        logoFrontLight.position.set(0, 0, 0.4);
+        logoGroup.add(logoFrontLight);
+
+        // 4. Digital Alchemical Rings
+        const ringGeo1 = new THREE.RingGeometry(2.3, 2.32, 64);
+        const ringMat1 = new THREE.MeshBasicMaterial({
+            color: 0xC4A35A,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.3,
+            blending: THREE.AdditiveBlending
+        });
+        ringMesh1 = new THREE.Mesh(ringGeo1, ringMat1);
+        ringMesh1.rotation.x = Math.PI * 0.35;
+        logoGroup.add(ringMesh1);
+
+        const ringGeo2 = new THREE.RingGeometry(2.5, 2.52, 64);
+        const ringMat2 = new THREE.MeshBasicMaterial({
+            color: 0x2EC4B6,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.25,
+            blending: THREE.AdditiveBlending
+        });
+        ringMesh2 = new THREE.Mesh(ringGeo2, ringMat2);
+        ringMesh2.rotation.x = -Math.PI * 0.25;
+        ringMesh2.rotation.y = Math.PI * 0.25;
+        logoGroup.add(ringMesh2);
+
+        // circular glass magnifier lens
+        const lensGeo = new THREE.SphereGeometry(1.0, 32, 32);
+        const lensMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            roughness: 0.0,
+            metalness: 0.0,
+            transmission: 0.98,
+            ior: 1.6,
+            thickness: 0.8,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.0,
+            transparent: true,
+            opacity: 0.95,
+            depthWrite: false
+        });
+        lensMesh = new THREE.Mesh(lensGeo, lensMat);
+        scene.add(lensMesh);
+
+        planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2);
+        raycaster = new THREE.Raycaster();
+        targetLensPos = new THREE.Vector3(0, 0, 0);
+
+        // Particles System
+        const particleCount = 2000;
+        particleGeo = new THREE.BufferGeometry();
+        particlePositions = new Float32Array(particleCount * 3);
+        initialPositions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            const px = (Math.random() - 0.5) * 45;
+            const py = (Math.random() - 0.5) * 45;
+            const pz = (Math.random() - 0.5) * 45 - 5;
+            
+            particlePositions[i] = px;
+            particlePositions[i + 1] = py;
+            particlePositions[i + 2] = pz;
+            
+            initialPositions[i] = px;
+            initialPositions[i + 1] = py;
+            initialPositions[i + 2] = pz;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+        particleMat = new THREE.PointsMaterial({
+            size: 0.08,
+            color: 0x2EC4B6,
+            transparent: true,
+            opacity: 0.45,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        particlePoints = new THREE.Points(particleGeo, particleMat);
+        scene.add(particlePoints);
+
+        // Initial triggers
+        resizeCanvas();
+        window.dispatchEvent(new Event('scroll'));
+        animateCanvas();
+    }
+} catch (e) {
+    console.warn("Three.js WebGL context creation failed or unsupported: ", e);
+}
+
+// Track mouse position globally
+window.addEventListener('mousemove', (e) => {
+    isMouseActive = true;
+    if (renderer) {
+        targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
 });
-document.getElementById('hero').addEventListener('mouseleave', () => {
-    mouse.x = -999; mouse.y = -999;
+document.addEventListener('mouseenter', () => { isMouseActive = true; });
+document.addEventListener('mouseleave', () => {
+    isMouseActive = false;
+    targetMouse.set(0, 0);
 });
 
-window.addEventListener('resize', () => {
-    cancelAnimationFrame(animFrame);
-    initCanvas();
-    animateCanvas();
+// Particle magnetism trigger on interactive hovers
+document.addEventListener('mouseover', (e) => {
+    if (!renderer) return;
+    const target = e.target;
+    if (target && (
+        target.closest('a') || 
+        target.closest('button') || 
+        target.closest('.project-card') || 
+        target.closest('.cv-box') || 
+        target.closest('.photobook-item')
+    )) {
+        gravityStrength = 0.8;
+    } else {
+        gravityStrength = 0.0;
+    }
 });
+
+// Click Interaction anywhere triggers click pulse
+window.addEventListener('click', () => {
+    if (!renderer || !logoGroup) return;
+    gsap.fromTo(logoGroup.scale,
+        { x: logoTargetScale * 1.25, y: logoTargetScale * 1.25, z: logoTargetScale * 1.25 },
+        { x: logoTargetScale, y: logoTargetScale, z: logoTargetScale, duration: 1.2, ease: "elastic.out(1.0, 0.3)" }
+    );
+    const spot = scene.getObjectByProperty('type', 'SpotLight');
+    const point = scene.getObjectByProperty('type', 'PointLight');
+    if (spot) gsap.fromTo(spot, { intensity: 32 }, { intensity: 18, duration: 0.8, ease: "power2.out" });
+    if (point) gsap.fromTo(point, { intensity: 28 }, { intensity: 14, duration: 0.8, ease: "power2.out" });
+});
+
+// Scroll interpolation mapping for multisections (aligned with actual DOM section positions)
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    
+    const heroSec = document.getElementById('hero');
+    const servicesSec = document.getElementById('services');
+    const aboutSec = document.getElementById('about');
+    const briefSec = document.getElementById('brief');
+    
+    const heroTop = heroSec ? heroSec.offsetTop : 0;
+    const servicesTop = servicesSec ? servicesSec.offsetTop : window.innerHeight;
+    const aboutTop = aboutSec ? aboutSec.offsetTop : window.innerHeight * 2;
+    const briefTop = briefSec ? briefSec.offsetTop : window.innerHeight * 3;
+    
+    let start, end, fraction;
+    
+    if (scrollY < servicesTop) {
+        start = sectionTargets[0];
+        end = sectionTargets[1];
+        fraction = Math.min(Math.max((scrollY - heroTop) / ((servicesTop - heroTop) || 1), 0), 1);
+    } else if (scrollY < aboutTop) {
+        start = sectionTargets[1];
+        end = sectionTargets[2];
+        fraction = Math.min(Math.max((scrollY - servicesTop) / ((aboutTop - servicesTop) || 1), 0), 1);
+    } else {
+        start = sectionTargets[2];
+        end = sectionTargets[3];
+        fraction = Math.min(Math.max((scrollY - aboutTop) / ((briefTop - aboutTop) || 1), 0), 1);
+    }
+    
+    cameraTargetPos.lerpVectors(start.camPos, end.camPos, fraction);
+    cameraTargetRot.set(
+        start.camRot.x + (end.camRot.x - start.camRot.x) * fraction,
+        start.camRot.y + (end.camRot.y - start.camRot.y) * fraction,
+        start.camRot.z + (end.camRot.z - start.camRot.z) * fraction
+    );
+    logoTargetPos.lerpVectors(start.logoPos, end.logoPos, fraction);
+    logoTargetScale = start.logoScale + (end.logoScale - start.logoScale) * fraction;
+    gridTargetOpacity = start.gridOpacity + (end.gridOpacity - start.gridOpacity) * fraction;
+    gridTargetPos.lerpVectors(start.gridPos, end.gridPos, fraction);
+});
+
+// Unified smooth scroll handler for all internal anchor links (menu & clicks)
+document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a[href^="#"]');
+    if (anchor) {
+        e.preventDefault();
+        const targetId = anchor.getAttribute('href');
+        if (targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+});
+
+// Resize handler
+window.addEventListener('resize', resizeCanvas);
 
 /* ─────────────────────────────────────────────
-   CUSTOM CURSOR
+   CUSTOM CURSOR (position via script.js backup — inline takes priority)
 ───────────────────────────────────────────── */
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('cursor-follower');
-let followerX = 0, followerY = 0;
-let cursorX = 0, cursorY = 0;
+// NOTE: Cursor position is handled by the inline script via transform3d.
+// The animateCursor below is the backup trailing circle only.
 
-document.addEventListener('mousemove', (e) => {
-    cursorX = e.clientX;
-    cursorY = e.clientY;
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-});
 
-function animateCursor() {
-    followerX += (cursorX - followerX) * 0.12;
-    followerY += (cursorY - followerY) * 0.12;
-    follower.style.left = followerX + 'px';
-    follower.style.top = followerY + 'px';
-    requestAnimationFrame(animateCursor);
-}
-animateCursor();
+// Hover state class on body (body.cursor-hover) — handled by inline script.
+// This section only applies the legacy .hovered class to individual cursor elements
+// if the inline approach is unavailable.
+const cursor = document.getElementById('custom-cursor-dot');
+const follower = document.getElementById('custom-cursor-circle');
 
 // Hover state on interactive elements
 const hoverEls = document.querySelectorAll('a, button, .project-card, .cv-box, .photobook-item');
 hoverEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hovered');
-        follower.classList.add('hovered');
+        if (cursor) cursor.classList.add('hovered');
+        if (follower) follower.classList.add('hovered');
     });
     el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hovered');
-        follower.classList.remove('hovered');
+        if (cursor) cursor.classList.remove('hovered');
+        if (follower) follower.classList.remove('hovered');
     });
 });
 
@@ -360,22 +634,26 @@ document.querySelectorAll('.nav-link').forEach(el => {
    NAVIGATION — Scroll & Burger
 ───────────────────────────────────────────── */
 const nav = document.getElementById('main-nav');
-window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+if (nav) {
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+}
 
 const burger = document.getElementById('nav-burger');
 const mobileMenu = document.getElementById('mobile-menu');
-burger.addEventListener('click', () => {
-    playSound('click');
-    burger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-});
+if (burger && mobileMenu) {
+    burger.addEventListener('click', () => {
+        playSound('click');
+        burger.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+        document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+}
 document.querySelectorAll('.mobile-link').forEach(link => {
     link.addEventListener('click', () => {
-        burger.classList.remove('open');
-        mobileMenu.classList.remove('open');
+        if (burger) burger.classList.remove('open');
+        if (mobileMenu) mobileMenu.classList.remove('open');
         document.body.style.overflow = '';
     });
 });
@@ -458,13 +736,13 @@ document.addEventListener('click', (e) => {
 // Close via Escape
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        if (lightbox.classList.contains('active')) {
+        if (lightbox && lightbox.classList.contains('active')) {
             closeLightbox();
         } else {
             document.querySelectorAll('.modal.active').forEach(closeModal);
         }
     }
-    if (lightbox.classList.contains('active')) {
+    if (lightbox && lightbox.classList.contains('active')) {
         if (e.key === 'ArrowRight') lbNext();
         if (e.key === 'ArrowLeft') lbPrev();
     }
@@ -552,24 +830,30 @@ document.addEventListener('click', (e) => {
 });
 
 // Lightbox controls
-document.getElementById('lb-close').addEventListener('click', closeLightbox);
-document.getElementById('lb-next').addEventListener('click', lbNext);
-document.getElementById('lb-prev').addEventListener('click', lbPrev);
+const lbCloseBtn = document.getElementById('lb-close');
+const lbNextBtn = document.getElementById('lb-next');
+const lbPrevBtn = document.getElementById('lb-prev');
+
+if (lbCloseBtn) lbCloseBtn.addEventListener('click', closeLightbox);
+if (lbNextBtn) lbNextBtn.addEventListener('click', lbNext);
+if (lbPrevBtn) lbPrevBtn.addEventListener('click', lbPrev);
 
 // Close on backdrop click (not image)
-lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox || e.target.classList.contains('lightbox-img-wrap')) {
-        closeLightbox();
-    }
-});
+if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-img-wrap')) {
+            closeLightbox();
+        }
+    });
 
-// Touch swipe support
-let lbTouchX = 0;
-lightbox.addEventListener('touchstart', (e) => { lbTouchX = e.touches[0].clientX; }, { passive: true });
-lightbox.addEventListener('touchend', (e) => {
-    const dx = e.changedTouches[0].clientX - lbTouchX;
-    if (Math.abs(dx) > 50) { dx < 0 ? lbNext() : lbPrev(); }
-}, { passive: true });
+    // Touch swipe support
+    let lbTouchX = 0;
+    lightbox.addEventListener('touchstart', (e) => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - lbTouchX;
+        if (Math.abs(dx) > 50) { dx < 0 ? lbNext() : lbPrev(); }
+    }, { passive: true });
+}
 
 
 /* ─────────────────────────────────────────────
@@ -869,16 +1153,37 @@ if (cardsContainer && modalsContainer) {
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); });
     });
 
-    // Re-apply hover cursor
-    document.querySelectorAll('.project-card, .photobook-item').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovered');
-            follower.classList.add('hovered');
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovered');
-            follower.classList.remove('hovered');
-        });
+    // No-op (Cleaned up redundant cursor hover listeners)
+}
+
+// 3D Card Hover Tilt Effect (Inspired by Reel 3 UX) - Active globally
+const tiltCards = document.querySelectorAll('.project-card, .cv-box, .photobook-item, .glass-card, .tilt-card');
+tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const px = x / (rect.width / 2);
+        const py = y / (rect.height / 2);
+        
+        card.style.transform = `perspective(1000px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) scale3d(1.02, 1.02, 1.02)`;
+        card.style.transition = 'transform 0.05s ease-out';
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+});
+
+// Circular Searchlight Text Mask Reveal (Inspired by Reel 2)
+const heroTitleContainer = document.getElementById('hero-title-container');
+if (heroTitleContainer) {
+    window.addEventListener('mousemove', (e) => {
+        const rect = heroTitleContainer.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        heroTitleContainer.style.setProperty('--mouse-x', `${mx}px`);
+        heroTitleContainer.style.setProperty('--mouse-y', `${my}px`);
     });
 }
 

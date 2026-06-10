@@ -7,6 +7,8 @@
     <title>OUR REPOSITORY | JOM STUDIO</title>
     <meta name="description" content="JOM STUDIO Repository — Technical specs, code repositories, and structural case studies of gamification, AI systems, and web architecture." />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <style>
@@ -239,6 +241,8 @@
     </script>
 </head>
 <body class="font-body-md text-on-surface">
+    <!-- Fixed Global 3D Background Canvas -->
+    <canvas id="repo-canvas" class="fixed inset-0 w-screen h-screen pointer-events-none" style="z-index:0"></canvas>
     <!-- Custom Cursor elements -->
     <div id="custom-cursor-dot" class="hidden md:block"></div>
     <div id="custom-cursor-circle" class="hidden md:block"></div>
@@ -280,7 +284,7 @@
         </div>
     </header>
 
-    <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop">
+    <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop relative" style="z-index:1">
         <!-- Header Section -->
         <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-gutter">
             <div class="max-w-2xl">
@@ -923,6 +927,121 @@
                 document.body.classList.remove('cursor-hover');
             }
         });
+        // =========================================================
+        // 3D TILT EFFECT — All .glass-card elements
+        // =========================================================
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const px = x / (rect.width / 2);
+                const py = y / (rect.height / 2);
+                card.style.transform = `perspective(1200px) rotateY(${px * 9}deg) rotateX(${-py * 9}deg) scale3d(1.02, 1.02, 1.02) translateY(-4px)`;
+                card.style.transition = 'transform 0.05s ease-out';
+                // Dynamic glow follow
+                const glowX = (px + 1) / 2 * 100;
+                const glowY = (py + 1) / 2 * 100;
+                card.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(0,242,255,0.07), rgba(10,10,10,0.6) 60%)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.background = '';
+                card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease';
+            });
+        });
+
+        // =========================================================
+        // REPOSITORY 3D BACKGROUND — Three.js Particle Field
+        // =========================================================
+        (function initRepoCanvas() {
+            try {
+                const canvas = document.getElementById('repo-canvas');
+                if (!canvas || typeof THREE === 'undefined') return;
+
+                const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+                camera.position.set(0, 0, 30);
+
+                // Particle System
+                const count = 1800;
+                const geo = new THREE.BufferGeometry();
+                const positions = new Float32Array(count * 3);
+                const initial = new Float32Array(count * 3);
+                for (let i = 0; i < count * 3; i += 3) {
+                    const x = (Math.random() - 0.5) * 80;
+                    const y = (Math.random() - 0.5) * 80;
+                    const z = (Math.random() - 0.5) * 60 - 10;
+                    positions[i] = initial[i] = x;
+                    positions[i+1] = initial[i+1] = y;
+                    positions[i+2] = initial[i+2] = z;
+                }
+                geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const mat = new THREE.PointsMaterial({
+                    size: 0.12,
+                    color: 0x2EC4B6,
+                    transparent: true,
+                    opacity: 0.4,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                const points = new THREE.Points(geo, mat);
+                scene.add(points);
+
+                // Grid
+                const grid = new THREE.GridHelper(120, 50, 0x2EC4B6, 0x2EC4B6);
+                grid.position.y = -20;
+                grid.material.opacity = 0.04;
+                grid.material.transparent = true;
+                scene.add(grid);
+
+                // Mouse parallax
+                let mx = 0, my = 0;
+                window.addEventListener('mousemove', (e) => {
+                    mx = (e.clientX / window.innerWidth - 0.5) * 2;
+                    my = -(e.clientY / window.innerHeight - 0.5) * 2;
+                });
+
+                // Resize
+                window.addEventListener('resize', () => {
+                    renderer.setSize(window.innerWidth, window.innerHeight, false);
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                });
+
+                const clock = new THREE.Clock();
+                function animate() {
+                    const t = clock.getElapsedTime();
+                    const pos = geo.attributes.position.array;
+                    for (let i = 0; i < pos.length; i += 3) {
+                        const theta = t * 0.008 + i * 0.0008;
+                        pos[i] = initial[i] * Math.cos(theta) - initial[i+2] * Math.sin(theta);
+                        pos[i+1] = initial[i+1] + Math.sin(t * 0.04 + i) * 0.3;
+                        pos[i+2] = initial[i] * Math.sin(theta) + initial[i+2] * Math.cos(theta);
+                    }
+                    geo.attributes.position.needsUpdate = true;
+
+                    // Camera gentle parallax from mouse
+                    camera.position.x += (mx * 2 - camera.position.x) * 0.03;
+                    camera.position.y += (my * 1 - camera.position.y) * 0.03;
+
+                    // Scroll camera drift
+                    const scrollFrac = window.scrollY / (document.body.scrollHeight - window.innerHeight || 1);
+                    camera.position.z = 30 - scrollFrac * 8;
+                    grid.material.opacity = 0.04 + scrollFrac * 0.08;
+
+                    renderer.render(scene, camera);
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            } catch(e) {
+                console.warn('Repository canvas WebGL failed:', e);
+            }
+        })();
     </script>
 </body>
 </html>

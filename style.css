@@ -161,10 +161,10 @@ button { cursor: none; }
     overflow: hidden;
 }
 #hero-canvas {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
+    position: fixed; inset: 0;
+    width: 100vw; height: 100vh;
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
 }
 .noise-overlay {
     position: absolute; inset: 0; z-index: 1;
@@ -715,4 +715,18 @@ button { cursor: none; }
 
 /* ─── SELECTION ──────────────────────────────── */
 ::selection { background: rgba(46,196,182,0.3); color: var(--text); }
+
+/* Circular Searchlight Text Mask Reveal (Reel 2) */
+.reveal-mask-container {
+    position: relative;
+    user-select: none;
+}
+.reveal-mask-top {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    color: var(--gold) !important;
+    clip-path: circle(80px at var(--mouse-x, -999px) var(--mouse-y, -999px));
+    pointer-events: none;
+    transition: clip-path 0.05s ease-out;
+}
 
