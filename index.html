@@ -252,11 +252,20 @@
             <!-- HUD Control Buttons -->
             <div class="flex items-center gap-1 sm:gap-2 border-x border-outline-variant/30 px-2 sm:px-4">
 
-                <!-- Language Toggle -->
-                <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center gap-1 sm:gap-2" id="lang-toggle" title="Switch Language">
-                    <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-primary-fixed uppercase" id="lang-label">EN</span>
-                    <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">language</span>
-                </button>
+                                <!-- Language Toggle -->
+                <div class="relative group" id="lang-menu-container">
+                    <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 flex items-center gap-1 sm:gap-2 bg-surface" id="lang-toggle" title="Switch Language">
+                        <span class="font-label-mono text-[10px] text-on-surface-variant group-hover:text-primary-fixed uppercase" id="lang-label">EN</span>
+                        <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">language</span>
+                    </button>
+                    <div class="absolute right-0 top-full mt-2 w-32 bg-surface border border-outline-variant/40 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col z-50">
+                        <button class="lang-option text-left px-4 py-2 font-label-mono text-[10px] text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container" data-lang="en">🇺🇸 ENGLISH</button>
+                        <button class="lang-option text-left px-4 py-2 font-label-mono text-[10px] text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container" data-lang="es">🇪🇸 ESPAÑOL</button>
+                        <button class="lang-option text-left px-4 py-2 font-label-mono text-[10px] text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container" data-lang="fr">🇫🇷 FRANÇAIS</button>
+                        <button class="lang-option text-left px-4 py-2 font-label-mono text-[10px] text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container" data-lang="pt">🇧🇷 PORTUGUÊS</button>
+                        <button class="lang-option text-left px-4 py-2 font-label-mono text-[10px] text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container border-t border-outline-variant/40" data-lang="auto">🌐 AUTO</button>
+                    </div>
+                </div>
 
                 <!-- Admin Lock Trigger -->
                 <button class="px-2 py-1 sm:px-3 sm:py-1.5 border border-outline-variant/40 hover:border-primary-fixed transition-all duration-300 group flex items-center justify-center rounded-lg" id="admin-trigger" title="Admin Command Center">
@@ -674,6 +683,96 @@
                 studio_label: "ESTUDIO",
                 contact: "Contacto",
                 terms: "Términos"
+            },
+            fr: {
+                nav_projects: "Projets",
+                nav_services: "Services",
+                nav_about: "À propos",
+                btn_build: "Construisons",
+                system_status: "ÉTAT DU SYSTÈME : OPTIMISÉ",
+                hero_title: "ALCHIMIE NUMÉRIQUE",
+                hero_subtitle: "Où l'architecture technique rencontre la direction artistique.",
+                btn_initiate: "Initier le Projet",
+                btn_dossier: "Voir le Dossier",
+                scroll_decrypt: "Faire défiler",
+                services_title: "Opérations & Services",
+                services_subtitle: "Un système unifié de capacités numériques structuré à travers des cas de déploiement éprouvés.",
+                service_deliverables_head: "Livrables & Portée",
+                service_tech_head: "Pile Technologique",
+                service_nodes_head: "Nœuds de Dépôt",
+                service_btn_select: "Activer le Protocole",
+                deployment_label: "Déploiement Sélectionné",
+                case_study_desc: "Un simulateur de gestion de ressources décentralisé où l'eau est le principal actif. Nous avons construit la couche d'interaction de A à Z en utilisant WebGL pour la dynamique des fluides en temps réel et un pont blockchain personnalisé pour une vérification instantanée des actifs.",
+                nodes_label: "Nœuds Actifs",
+                latency_label: "Latence de Sync",
+                specs_link: "Spécifications",
+                about_label: "LEADERSHIP CRÉATIF",
+                about_title: "Jesús Omar Martínez",
+                about_desc: "Directeur Créatif & Développeur Digital derrière JOM STUDIO. Fusionner l'excellence technique (WebGL, Canvas, Extensions Chrome) avec la direction artistique et la stratégie commerciale pour créer des écosystèmes numériques complets et performants.",
+                brief_eyebrow: "Brief Interactif",
+                brief_title: "Dites-nous ce que vous voulez",
+                brief_subtitle: "Remplissez les conditions ci-dessous. Votre message sera formaté et envoyé directement via votre canal préféré.",
+                label_name: "Votre Nom / Entreprise",
+                label_email: "Adresse Email",
+                label_brief: "Que voulez-vous construire ?",
+                label_channel: "Protocole de Transmission",
+                channel_wa_desc: "Message instantané.",
+                channel_mail_desc: "Envoyer par e-mail.",
+                btn_transmit: "Transmettre le Brief",
+                cta_title: "Prêt à évoluer ?",
+                cta_subtitle: "Nous acceptons actuellement de nouveaux partenariats stratégiques. Construisons ensemble l'avenir du logiciel.",
+                btn_initiate_cta: "Initier le Projet",
+                footer_desc: "Ingénierie de réalités numériques immersives par le code et la créativité.",
+                status_online: "STATUT : EN LIGNE",
+                social_label: "SOCIAL",
+                studio_label: "STUDIO",
+                contact: "Contact",
+                terms: "Termes"
+            },
+            pt: {
+                nav_projects: "Projetos",
+                nav_services: "Serviços",
+                nav_about: "Sobre nós",
+                btn_build: "Vamos Construir",
+                system_status: "STATUS DO SISTEMA: OTIMIZADO",
+                hero_title: "ALQUIMIA DIGITAL",
+                hero_subtitle: "Onde a Arquitetura Técnica Encontra a Direção Artística.",
+                btn_initiate: "Iniciar Projeto",
+                btn_dossier: "Ver Dossiê",
+                scroll_decrypt: "Role para baixo",
+                services_title: "Operações & Serviços",
+                services_subtitle: "Um sistema unificado de capacidades digitais estruturado através de casos de implantação comprovados.",
+                service_deliverables_head: "Entregáveis & Escopo",
+                service_tech_head: "Stack Tecnológico",
+                service_nodes_head: "Nós de Repositório",
+                service_btn_select: "Ativar Protocolo",
+                deployment_label: "Implantação Selecionada",
+                case_study_desc: "Um simulador de gerenciamento de recursos descentralizado onde a água é o principal ativo. Construímos toda a camada de interação do zero, utilizando WebGL para dinâmica de fluidos em tempo real e uma ponte blockchain customizada.",
+                nodes_label: "Nós Ativos",
+                latency_label: "Latência de Sinc",
+                specs_link: "Especificações",
+                about_label: "LIDERANÇA CRIATIVA",
+                about_title: "Jesús Omar Martínez",
+                about_desc: "Diretor Criativo e Desenvolvedor Digital por trás do JOM STUDIO. Unindo a excelência técnica (WebGL, Canvas, Extensões Chrome) com direção artística e estratégia de negócios para criar ecossistemas digitais completos de alto desempenho.",
+                brief_eyebrow: "Brief Interativo",
+                brief_title: "O que você deseja construir",
+                brief_subtitle: "Preencha os requisitos abaixo. Sua mensagem será formatada e enviada diretamente a nós pelo seu canal preferido.",
+                label_name: "Seu Nome / Empresa",
+                label_email: "Endereço de Email",
+                label_brief: "O que construir?",
+                label_channel: "Canal de Transmissão",
+                channel_wa_desc: "Mensagem instantânea.",
+                channel_mail_desc: "Enviar por e-mail.",
+                btn_transmit: "Transmitir Brief",
+                cta_title: "Pronto para evoluir?",
+                cta_subtitle: "Atualmente estamos aceitando novas parcerias estratégicas. Vamos construir o futuro do software juntos.",
+                btn_initiate_cta: "Iniciar Projeto",
+                footer_desc: "Engenharia de realidades digitais imersivas através de código e criatividade.",
+                status_online: "STATUS: ONLINE",
+                social_label: "SOCIAL",
+                studio_label: "ESTÚDIO",
+                contact: "Contato",
+                terms: "Termos"
             }
         };
 
