@@ -991,35 +991,83 @@
         document.body.classList.remove('light-theme');
 
         // Language Toggle Logic
-        const langBtn = document.getElementById('lang-toggle');
         const langLabel = document.getElementById('lang-label');
+        const langMenuContainer = document.getElementById('lang-menu-container');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        function detectDeviceLang() {
+            const nav = navigator.language || navigator.userLanguage || 'en';
+            const code = nav.slice(0, 2).toLowerCase();
+            return translations[code] ? code : 'en';
+        }
 
         function updateLanguage() {
-            langLabel.textContent = state.lang.toUpperCase();
+            let actualLang = state.lang === 'auto' ? detectDeviceLang() : state.lang;
+            if (state.lang === 'auto') {
+                langLabel.textContent = "AUTO";
+            } else {
+                langLabel.textContent = actualLang.toUpperCase();
+            }
+            
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                if (translations[state.lang][key]) {
-                    el.textContent = translations[state.lang][key];
+                if (translations[actualLang] && translations[actualLang][key]) {
+                    el.innerHTML = translations[actualLang][key];
                     if (key === 'hero_title') {
                         const top = document.getElementById('hero-title-top');
-                        if (top) top.textContent = translations[state.lang][key];
+                        if (top) top.innerHTML = translations[actualLang][key];
                     }
                 }
             });
             renderServices();
         }
 
-        langBtn.addEventListener('click', () => {
-            state.lang = state.lang === 'en' ? 'es' : 'en';
-            updateLanguage();
+        langOptions.forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const lang = opt.dataset.lang;
+                state.lang = lang;
+                localStorage.setItem('jom_lang', lang);
+                updateLanguage();
+                
+                // Hide dropdown
+                const dropdown = langMenuContainer.querySelector('div.absolute');
+                if(dropdown) {
+                    dropdown.classList.remove('opacity-100', 'visible');
+                    dropdown.classList.add('opacity-0', 'invisible');
+                }
+            });
         });
 
-        // Auto-detect browser language
-        const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('es')) {
-            state.lang = 'es';
-            updateLanguage();
+        const langToggleBtn = document.getElementById('lang-toggle');
+        langToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = langMenuContainer.querySelector('div.absolute');
+            if(dropdown.classList.contains('opacity-0')) {
+                dropdown.classList.remove('opacity-0', 'invisible');
+                dropdown.classList.add('opacity-100', 'visible');
+            } else {
+                dropdown.classList.remove('opacity-100', 'visible');
+                dropdown.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        document.addEventListener('click', () => {
+            const dropdown = langMenuContainer?.querySelector('div.absolute');
+            if(dropdown && dropdown.classList.contains('opacity-100')) {
+                dropdown.classList.remove('opacity-100', 'visible');
+                dropdown.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        // Load saved language
+        const savedLang = localStorage.getItem('jom_lang');
+        if (savedLang) {
+            state.lang = savedLang;
+        } else {
+            state.lang = 'auto';
         }
+        updateLanguage();
 
         // Clock Utility
         function updateClock() {

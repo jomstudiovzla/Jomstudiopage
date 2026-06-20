@@ -845,6 +845,7 @@
 
         // Language Toggle Logic
         const langLabel = document.getElementById('lang-label');
+        const langMenuContainer = document.getElementById('lang-menu-container');
         const langOptions = document.querySelectorAll('.lang-option');
 
         function detectDeviceLang() {
@@ -871,12 +872,41 @@
         }
 
         langOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
+            opt.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const lang = opt.dataset.lang;
                 currentLang = lang;
                 localStorage.setItem('jom_lang', lang);
                 updateLanguage();
+                
+                // Hide dropdown
+                const dropdown = langMenuContainer.querySelector('div.absolute');
+                if(dropdown) {
+                    dropdown.classList.remove('opacity-100', 'visible');
+                    dropdown.classList.add('opacity-0', 'invisible');
+                }
             });
+        });
+
+        const langToggleBtn = document.getElementById('lang-toggle');
+        langToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = langMenuContainer.querySelector('div.absolute');
+            if(dropdown.classList.contains('opacity-0')) {
+                dropdown.classList.remove('opacity-0', 'invisible');
+                dropdown.classList.add('opacity-100', 'visible');
+            } else {
+                dropdown.classList.remove('opacity-100', 'visible');
+                dropdown.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        document.addEventListener('click', () => {
+            const dropdown = langMenuContainer?.querySelector('div.absolute');
+            if(dropdown && dropdown.classList.contains('opacity-100')) {
+                dropdown.classList.remove('opacity-100', 'visible');
+                dropdown.classList.add('opacity-0', 'invisible');
+            }
         });
 
         // Load saved language
