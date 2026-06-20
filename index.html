@@ -988,6 +988,7 @@
         let activeServiceIdx = 0;
 
         function renderServices() {
+            let currentDisplayLang = state.lang === 'auto' ? detectDeviceLang() : state.lang;
             const tabsContainer = document.getElementById('services-tabs-container');
             const deliverablesList = document.getElementById('console-deliverables-list');
             const techList = document.getElementById('console-tech-list');
@@ -1008,7 +1009,7 @@
                             <span class="material-symbols-outlined text-xl ${isActive ? 'text-primary-fixed animate-pulse' : 'text-on-surface-variant group-hover:text-primary-fixed'}">${service.icon}</span>
                             <div class="flex flex-col">
                                 <span class="font-label-mono text-[9px] text-outline tracking-wider uppercase">${service.code}</span>
-                                <span class="font-headline-md text-sm tracking-tight text-white">${service.title[state.lang]}</span>
+                                <span class="font-headline-md text-sm tracking-tight text-white">${service.title[currentDisplayLang] || service.title['en']}</span>
                             </div>
                         </div>
                         <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'opacity-100 text-primary-fixed' : 'text-on-surface-variant'}">arrow_forward_ios</span>
@@ -1019,11 +1020,11 @@
             // Render Right Details Console
             const current = servicesData[activeServiceIdx];
             document.getElementById('console-protocol-code').textContent = current.code;
-            document.getElementById('console-protocol-title').textContent = current.title[state.lang];
-            document.getElementById('console-protocol-desc').textContent = current.desc[state.lang];
+            document.getElementById('console-protocol-title').textContent = current.title[currentDisplayLang] || current.title['en'];
+            document.getElementById('console-protocol-desc').textContent = current.desc[currentDisplayLang] || current.desc['en'];
 
             // Render Deliverables
-            deliverablesList.innerHTML = current.deliverables[state.lang].map(del => `
+            deliverablesList.innerHTML = (current.deliverables[currentDisplayLang] || current.deliverables['en']).map(del => `
                 <li class="flex items-center gap-3 text-on-surface-variant text-sm">
                     <span class="w-1.5 h-1.5 bg-primary-fixed rounded-full"></span>
                     <span>${del}</span>
