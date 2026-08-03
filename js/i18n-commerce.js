@@ -78,6 +78,11 @@
       success_sub: "Kickoff within 24h after USDT confirmation on Binance / wallet.",
       success_wa: "Confirm on WhatsApp",
       lang: "Language",
+      nav_policies: "Policies",
+      policies_accept:
+        "I understand revisions, idle close (30 days) and restart rules. Full policies apply.",
+      policies_link: "Read full work policies",
+      policies_box_title: "Work rules (summary)",
     },
     es: {
       page_title: "PRECIOS Y PAQUETES | JOM STUDIO",
@@ -151,6 +156,11 @@
       success_sub: "Kickoff en menos de 24h tras confirmar el USDT en Binance / wallet.",
       success_wa: "Confirmar por WhatsApp",
       lang: "Idioma",
+      nav_policies: "Políticas",
+      policies_accept:
+        "Entiendo revisiones, cierre por inactividad (30 días) y reglas de reinicio. Aplican las políticas completas.",
+      policies_link: "Leer políticas de trabajo completas",
+      policies_box_title: "Reglas de trabajo (resumen)",
     },
     fr: {
       page_title: "TARIFS & PACKS | JOM STUDIO",
@@ -224,6 +234,11 @@
       success_sub: "Kickoff sous 24h après confirmation USDT sur Binance / wallet.",
       success_wa: "Confirmer sur WhatsApp",
       lang: "Langue",
+      nav_policies: "Politiques",
+      policies_accept:
+        "Je comprends révisions, clôture d'inactivité (30 j.) et reprises. Les politiques complètes s'appliquent.",
+      policies_link: "Lire les politiques de travail",
+      policies_box_title: "Règles de travail (résumé)",
     },
     pt: {
       page_title: "PREÇOS E PACOTES | JOM STUDIO",
@@ -297,6 +312,11 @@
       success_sub: "Kickoff em menos de 24h após confirmar o USDT na Binance / wallet.",
       success_wa: "Confirmar no WhatsApp",
       lang: "Idioma",
+      nav_policies: "Políticas",
+      policies_accept:
+        "Entendo revisões, fechamento por inatividade (30 dias) e regras de reinício. Valem as políticas completas.",
+      policies_link: "Ler políticas de trabalho completas",
+      policies_box_title: "Regras de trabalho (resumo)",
     },
   };
 

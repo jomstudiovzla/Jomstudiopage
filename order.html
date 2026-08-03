@@ -21,11 +21,12 @@
     .addr { word-break:break-all; }
     h1,h2 { overflow-wrap:anywhere; word-break:break-word; }
   </style>
-  <script src="js/config.js?v=3"></script>
-  <script src="js/i18n-commerce.js?v=3"></script>
-  <script src="js/crm.js?v=3"></script>
-  <script src="js/tron.js?v=3"></script>
-  <script src="js/commerce.js?v=3"></script>
+  <script src="js/config.js?v=4"></script>
+  <script src="js/i18n-commerce.js?v=4"></script>
+  <script src="js/policies.js?v=4"></script>
+  <script src="js/crm.js?v=4"></script>
+  <script src="js/tron.js?v=4"></script>
+  <script src="js/commerce.js?v=4"></script>
 </head>
 <body class="min-h-screen py-6 sm:py-8 px-4">
   <div class="max-w-5xl mx-auto">
@@ -56,7 +57,17 @@
         <p class="mono text-xs text-gray-500"><span data-i18n="eta_label">ETA</span>: <span id="p-eta">—</span> · <span id="p-network">TRC20</span></p>
         <div id="p-bundle-compare" class="hidden text-xs mono text-amber-200 border border-amber-500/30 rounded p-2"></div>
         <ul id="p-deliverables" class="text-xs text-gray-300 space-y-1.5 border-t border-white/10 pt-4"></ul>
+        <div id="rev-note" class="text-[11px] mono text-cyan-200/90 border border-cyan-500/20 rounded p-2"></div>
         <div id="wallet-warn" class="hidden text-xs mono text-amber-300 border border-amber-500/40 rounded p-3"></div>
+        <div class="border border-amber-500/30 rounded p-3 space-y-2">
+          <div class="mono text-[10px] text-amber-300 tracking-widest uppercase" data-i18n="policies_box_title">Policies</div>
+          <ul id="order-policy-summary" class="text-[11px] text-gray-400 space-y-1"></ul>
+          <label class="flex items-start gap-2 text-[11px] text-gray-300 cursor-pointer">
+            <input type="checkbox" id="accept-policies" required class="mt-0.5 accent-cyan-400"/>
+            <span data-i18n="policies_accept">Accept policies</span>
+          </label>
+          <a href="policies.html" target="_blank" class="mono text-[10px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
+        </div>
       </aside>
 
       <section class="lg:col-span-3 space-y-5 min-w-0">
@@ -158,6 +169,28 @@
           .filter((d) => d && d !== "undefined")
           .map((d) => `<li class="flex gap-2"><span class="text-cyan-400">✓</span><span>${d}</span></li>`)
           .join("");
+        // Revisions note from policies
+        const revEl = document.getElementById("rev-note");
+        if (revEl && window.JOM_POLICIES) {
+          const rounds = JOM_POLICIES.revisionsForPrice(p.priceUsdt);
+          const extra = JOM_POLICIES.extraRevisionUsdt;
+          const lang = L();
+          revEl.textContent =
+            lang === "es"
+              ? `Revisiones incluidas: ${rounds} ronda(s). Extra: ${extra} USDT c/u. Idle 30 días = cierre.`
+              : lang === "fr"
+              ? `Révisions incluses : ${rounds}. Extra : ${extra} USDT. Idle 30 j. = clôture.`
+              : lang === "pt"
+              ? `Revisões incluídas: ${rounds}. Extra: ${extra} USDT. Idle 30 dias = fechamento.`
+              : `Revisions included: ${rounds} round(s). Extra: ${extra} USDT each. Idle 30 days = close.`;
+        }
+        const polList = document.getElementById("order-policy-summary");
+        if (polList && window.JOM_POLICIES) {
+          polList.innerHTML = (JOM_POLICIES.summaryLines(L()) || [])
+            .slice(0, 4)
+            .map((s) => `<li>· ${s}</li>`)
+            .join("");
+        }
         const cmp = document.getElementById("p-bundle-compare");
         if (p.type === "bundle") {
           const sep = JOM_COMMERCE.separateSum(p);
@@ -217,6 +250,16 @@
 
       document.getElementById("order-form").addEventListener("submit", async (e) => {
         e.preventDefault();
+        const accept = document.getElementById("accept-policies");
+        if (accept && !accept.checked) {
+          accept.focus();
+          alert(
+            L() === "es"
+              ? "Debes aceptar las políticas de trabajo para continuar."
+              : "You must accept the work policies to continue."
+          );
+          return;
+        }
         const btn = document.getElementById("btn-create");
         btn.disabled = true;
         try {

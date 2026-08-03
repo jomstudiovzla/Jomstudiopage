@@ -23,11 +23,12 @@
       .pad-x { padding-left:16px; padding-right:16px; }
     }
   </style>
-  <script src="js/config.js?v=3"></script>
-  <script src="js/i18n-commerce.js?v=3"></script>
-  <script src="js/crm.js?v=3"></script>
-  <script src="js/tron.js?v=3"></script>
-  <script src="js/commerce.js?v=3"></script>
+  <script src="js/config.js?v=4"></script>
+  <script src="js/i18n-commerce.js?v=4"></script>
+  <script src="js/policies.js?v=4"></script>
+  <script src="js/crm.js?v=4"></script>
+  <script src="js/tron.js?v=4"></script>
+  <script src="js/commerce.js?v=4"></script>
 </head>
 <body class="min-h-screen">
   <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 md:px-10 py-3 bg-black/85 backdrop-blur border-b border-white/10">
@@ -37,6 +38,7 @@
     </a>
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="index.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_home">Home</a>
+      <a href="policies.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_policies">Policies</a>
       <a href="repository.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase hidden sm:inline" data-i18n="nav_dossier">Dossier</a>
       <!-- Language (syncs with home via jom_lang) -->
       <div class="relative group">
@@ -82,12 +84,23 @@
           <span class="material-symbols-outlined text-sm">chat</span> <span data-i18n="wa_commercial">WhatsApp</span>
         </a>
         <a href="order.html?product=spark" class="btn-p px-4 py-2.5 rounded" data-i18n="start_200">Start at $200 USDT</a>
+        <a href="policies.html" class="mono text-[11px] text-gray-400 hover:text-cyan-300 underline self-center" data-i18n="policies_link">Policies</a>
       </div>
+    </section>
+
+    <!-- Policies summary -->
+    <section class="mt-10 glass rounded-xl p-5 sm:p-6 border border-amber-500/25" id="policies-summary-box">
+      <h2 class="mono text-xs text-amber-300 tracking-widest uppercase mb-3" data-i18n="policies_box_title">Work rules</h2>
+      <ul class="space-y-2 text-sm text-gray-300" id="policies-summary-list"></ul>
+      <p class="mt-4 text-xs text-gray-500" data-i18n="policies_accept"></p>
+      <a href="policies.html" class="inline-block mt-3 mono text-[11px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
     </section>
   </main>
 
   <footer class="border-t border-white/10 py-8 text-center text-xs mono text-gray-500">
-    © 2026 JOM STUDIO · USDT TRC20 · <a href="admin-ops.html" class="hover:text-cyan-300">Ops</a>
+    © 2026 JOM STUDIO · USDT TRC20 ·
+    <a href="policies.html" class="hover:text-cyan-300" data-i18n="nav_policies">Policies</a> ·
+    <a href="admin-ops.html" class="hover:text-cyan-300">Ops</a>
   </footer>
 
   <script>
@@ -294,10 +307,20 @@
         root.innerHTML = html || `<p class="text-gray-500">${JOM_I18N.t("empty", lang)}</p>`;
       }
 
+      function renderPoliciesSummary() {
+        const list = document.getElementById("policies-summary-list");
+        if (!list || !window.JOM_POLICIES) return;
+        const items = JOM_POLICIES.summaryLines(L()) || [];
+        list.innerHTML = items
+          .map((s) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${s}</span></li>`)
+          .join("");
+      }
+
       function fullRender() {
         applyStaticI18n();
         renderTabs();
         renderCatalog();
+        renderPoliciesSummary();
       }
 
       document.querySelectorAll(".lang-opt").forEach((btn) => {
