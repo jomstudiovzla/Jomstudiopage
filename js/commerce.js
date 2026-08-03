@@ -19,11 +19,33 @@
     return ["en", "es", "fr", "pt"].includes(code) ? code : "en";
   }
 
+  /**
+   * Always produce a UI-safe product (name/headline never undefined).
+   * Works even if i18n-commerce.js failed to load.
+   */
   function localize(raw, L) {
+    if (!raw) return null;
     if (global.JOM_I18N && typeof global.JOM_I18N.localizeProduct === "function") {
-      return global.JOM_I18N.localizeProduct(raw, L || lang());
+      const loc = global.JOM_I18N.localizeProduct(raw, L || lang());
+      if (loc && loc.name && loc.name !== "undefined") return loc;
     }
-    return raw;
+    // Fallback: read i18n map directly
+    const code = L || lang() || "en";
+    const block =
+      (raw.i18n && (raw.i18n[code] || raw.i18n.en || raw.i18n.es)) || {};
+    const name = block.name || raw.name || raw.id || "Package";
+    return {
+      ...raw,
+      name: name === "undefined" ? raw.id || "Package" : name,
+      badge: block.badge || raw.badge || "",
+      headline: block.headline || raw.headline || "",
+      description: block.description || raw.description || "",
+      eta: block.eta || raw.eta || "",
+      deliverables: block.deliverables || raw.deliverables || [],
+      notIncluded: block.notIncluded || raw.notIncluded || [],
+      combinesLabel: block.combines || [],
+      lang: code,
+    };
   }
 
   function product(id, L) {
@@ -36,7 +58,7 @@
     const p = config().products || {};
     return Object.keys(p)
       .map((k) => localize(p[k], L))
-      .filter(Boolean);
+      .filter((item) => item && item.id);
   }
 
   function productsByCategory(category, L) {

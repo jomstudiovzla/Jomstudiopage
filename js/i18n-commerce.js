@@ -324,47 +324,80 @@
   }
 
   function resolveLang(mode) {
-    const m = mode != null ? mode : getStoredLangMode();
+    let m = mode != null ? mode : getStoredLangMode();
+    if (m == null || m === "") m = "auto";
+    m = String(m).toLowerCase().trim();
+    // Accept "es-ve" / "en-US" → "es" / "en"
+    if (m.includes("-")) m = m.split("-")[0];
     if (m === "auto") return detectDeviceLang();
     return SUPPORTED.includes(m) ? m : "en";
   }
 
   function t(key, lang) {
+    if (!key) return "";
     const L = resolveLang(lang);
-    return (UI[L] && UI[L][key]) || (UI.en && UI.en[key]) || key;
+    const val = (UI[L] && UI[L][key]) || (UI.en && UI.en[key]);
+    return val != null ? val : String(key);
   }
 
   function pickI18n(obj, lang) {
-    if (!obj) return {};
-    if (typeof obj === "string") return obj;
+    if (!obj || typeof obj !== "object") return {};
+    if (typeof obj === "string") return {};
     const L = resolveLang(lang);
-    return obj[L] || obj.en || obj.es || Object.values(obj)[0] || {};
+    // Prefer resolved language, then en/es, then first object-like value
+    const direct = obj[L];
+    if (direct && typeof direct === "object") return direct;
+    if (obj.en && typeof obj.en === "object") return obj.en;
+    if (obj.es && typeof obj.es === "object") return obj.es;
+    const first = Object.values(obj).find((v) => v && typeof v === "object" && !Array.isArray(v));
+    return first || {};
+  }
+
+  function str(v, fallback) {
+    if (v == null || v === "undefined" || v === "null") return fallback || "";
+    return String(v);
   }
 
   /**
    * Normalize product: supports legacy flat fields OR i18n map.
+   * NEVER returns undefined name/headline (root cause of "undefined undefined" in UI).
    */
   function localizeProduct(raw, lang) {
     if (!raw) return null;
     const L = resolveLang(lang);
-    const block = raw.i18n ? pickI18n(raw.i18n, L) : null;
-    const name = (block && block.name) || raw.name || raw.id;
+    const block = raw.i18n ? pickI18n(raw.i18n, L) : {};
+    const enBlock = raw.i18n && raw.i18n.en && typeof raw.i18n.en === "object" ? raw.i18n.en : {};
+    const name = str(block.name || raw.name || enBlock.name || raw.id, raw.id || "Package");
     const badgeKey = raw.badgeKey;
-    const badge =
-      (block && block.badge) ||
-      raw.badge ||
-      (badgeKey ? t(badgeKey, L) : "");
+    let badge = str(block.badge || raw.badge, "");
+    if (!badge && badgeKey) badge = str(t(badgeKey, L), "");
     return {
       ...raw,
       lang: L,
       name,
       badge,
-      headline: (block && block.headline) || raw.headline || "",
-      description: (block && block.description) || raw.description || "",
-      eta: (block && block.eta) || raw.eta || "",
-      deliverables: (block && block.deliverables) || raw.deliverables || [],
-      notIncluded: (block && block.notIncluded) || raw.notIncluded || [],
-      combinesLabel: (block && block.combines) || raw.combines || [],
+      headline: str(block.headline || raw.headline || enBlock.headline, ""),
+      description: str(block.description || raw.description || enBlock.description, ""),
+      eta: str(block.eta || raw.eta || enBlock.eta, ""),
+      deliverables: Array.isArray(block.deliverables)
+        ? block.deliverables
+        : Array.isArray(raw.deliverables)
+          ? raw.deliverables
+          : Array.isArray(enBlock.deliverables)
+            ? enBlock.deliverables
+            : [],
+      notIncluded: Array.isArray(block.notIncluded)
+        ? block.notIncluded
+        : Array.isArray(raw.notIncluded)
+          ? raw.notIncluded
+          : Array.isArray(enBlock.notIncluded)
+            ? enBlock.notIncluded
+            : [],
+      combinesLabel: Array.isArray(block.combines)
+        ? block.combines
+        : Array.isArray(enBlock.combines)
+          ? enBlock.combines
+          : [],
     };
   }
 

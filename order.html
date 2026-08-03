@@ -21,11 +21,11 @@
     .addr { word-break:break-all; }
     h1,h2 { overflow-wrap:anywhere; word-break:break-word; }
   </style>
-  <script src="js/config.js"></script>
-  <script src="js/i18n-commerce.js"></script>
-  <script src="js/crm.js"></script>
-  <script src="js/tron.js"></script>
-  <script src="js/commerce.js"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/i18n-commerce.js?v=3"></script>
+  <script src="js/crm.js?v=3"></script>
+  <script src="js/tron.js?v=3"></script>
+  <script src="js/commerce.js?v=3"></script>
 </head>
 <body class="min-h-screen py-6 sm:py-8 px-4">
   <div class="max-w-5xl mx-auto">
@@ -143,20 +143,19 @@
 
       function fillProduct() {
         p = JOM_COMMERCE.product(productId);
-        if (!p || (!p.priceUsdt && p.id === "custom")) {
+        if (!p || !p.priceUsdt) {
           location.href = "index.html#brief";
           return;
         }
-        if (!p.priceUsdt) {
-          location.href = "index.html#brief";
-          return;
-        }
-        document.getElementById("p-name").textContent = p.name;
-        document.getElementById("p-headline").textContent = p.headline;
+        const name = p.name && p.name !== "undefined" ? p.name : productId;
+        const headline = p.headline && p.headline !== "undefined" ? p.headline : "";
+        document.getElementById("p-name").textContent = name;
+        document.getElementById("p-headline").textContent = headline;
         document.getElementById("p-price").textContent = p.priceUsdt;
         document.getElementById("p-network").textContent = p.network || "TRC20";
-        document.getElementById("p-eta").textContent = p.eta;
+        document.getElementById("p-eta").textContent = (p.eta && p.eta !== "undefined") ? p.eta : "—";
         document.getElementById("p-deliverables").innerHTML = (p.deliverables || [])
+          .filter((d) => d && d !== "undefined")
           .map((d) => `<li class="flex gap-2"><span class="text-cyan-400">✓</span><span>${d}</span></li>`)
           .join("");
         const cmp = document.getElementById("p-bundle-compare");

@@ -23,11 +23,11 @@
       .pad-x { padding-left:16px; padding-right:16px; }
     }
   </style>
-  <script src="js/config.js"></script>
-  <script src="js/i18n-commerce.js"></script>
-  <script src="js/crm.js"></script>
-  <script src="js/tron.js"></script>
-  <script src="js/commerce.js"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/i18n-commerce.js?v=3"></script>
+  <script src="js/crm.js?v=3"></script>
+  <script src="js/tron.js?v=3"></script>
+  <script src="js/commerce.js?v=3"></script>
 </head>
 <body class="min-h-screen">
   <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 md:px-10 py-3 bg-black/85 backdrop-blur border-b border-white/10">
@@ -151,32 +151,44 @@
         });
       }
 
-      function cardHTML(p) {
+      function safe(v, fb) {
+        if (v == null || v === "undefined" || v === "null") return fb || "";
+        return String(v);
+      }
+
+      function cardHTML(raw) {
         const lang = L();
+        // Force re-localize every render (avoids stale/undefined fields)
+        const p = JOM_COMMERCE.product(raw.id) || JOM_COMMERCE.localize(raw) || raw;
+        const name = safe(p.name, p.id || "Package");
+        const headline = safe(p.headline, "");
+        const badge = safe(p.badge, "");
+        const eta = safe(p.eta, "—");
         const isQuote = !p.priceUsdt;
         const isBundle = p.type === "bundle";
         const sep = isBundle ? JOM_COMMERCE.separateSum(p) : 0;
         const save = isBundle ? JOM_COMMERCE.savings(p) : 0;
-        const dels = (p.deliverables || []).slice(0, 5);
-        const combines = (p.combinesLabel || []).length
+        const dels = (Array.isArray(p.deliverables) ? p.deliverables : []).slice(0, 5);
+        const combines = (Array.isArray(p.combinesLabel) && p.combinesLabel.length
           ? p.combinesLabel
           : (p.combines || []).map((id) => {
               const part = JOM_COMMERCE.product(id);
-              return part ? part.name : id;
-            });
+              return part ? safe(part.name, id) : id;
+            })
+        ).filter(Boolean);
 
         return `
-          <article class="glass rounded-xl p-5 flex flex-col gap-3 min-w-0 ${p.featured ? "featured" : ""}" id="pkg-${p.id}">
+          <article class="glass rounded-xl p-5 flex flex-col gap-3 min-w-0 ${p.featured ? "featured" : ""}" id="pkg-${safe(p.id, "x")}">
             <div class="flex justify-between items-start gap-2">
-              <span class="mono text-[9px] tracking-widest text-cyan-300 border border-cyan-400/30 px-2 py-0.5">${p.badge || ""}</span>
-              <span class="mono text-[9px] text-gray-500">${p.sku || ""}</span>
+              <span class="mono text-[9px] tracking-widest text-cyan-300 border border-cyan-400/30 px-2 py-0.5">${badge}</span>
+              <span class="mono text-[9px] text-gray-500">${safe(p.sku, "")}</span>
             </div>
             <div class="min-w-0">
-              <h3 class="text-base sm:text-lg font-bold uppercase tracking-tight leading-snug">${p.name}</h3>
-              <p class="text-sm text-gray-400 mt-1">${p.headline}</p>
+              <h3 class="text-base sm:text-lg font-bold uppercase tracking-tight leading-snug">${name}</h3>
+              ${headline ? `<p class="text-sm text-gray-400 mt-1">${headline}</p>` : ""}
             </div>
             <div class="mono text-2xl sm:text-3xl font-bold text-cyan-300">
-              ${isQuote ? JOM_I18N.t("badge_quote", lang) : p.priceUsdt + ' <span class="text-sm text-gray-400">USDT</span>'}
+              ${isQuote ? JOM_I18N.t("badge_quote", lang) : safe(p.priceUsdt, "0") + ' <span class="text-sm text-gray-400">USDT</span>'}
             </div>
             ${
               isBundle && sep > 0
@@ -186,18 +198,18 @@
                   </div>`
                 : ""
             }
-            <p class="mono text-[10px] text-gray-500">${JOM_I18N.t("eta_label", lang)}: ${p.eta} · ${p.network || "TRC20"}</p>
+            <p class="mono text-[10px] text-gray-500">${JOM_I18N.t("eta_label", lang)}: ${eta} · ${safe(p.network, "TRC20")}</p>
             ${
               isBundle && combines.length
                 ? `<p class="text-[11px] text-gray-400"><span class="text-amber-300 mono">${JOM_I18N.t("from_categories", lang)}:</span> ${combines.join(" + ")}</p>`
                 : ""
             }
             <ul class="text-xs text-gray-300 space-y-1 flex-1">
-              ${dels.map((d) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${d}</span></li>`).join("")}
+              ${dels.map((d) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${safe(d, "")}</span></li>`).join("")}
             </ul>
             <a href="${isQuote ? "index.html#brief" : JOM_COMMERCE.orderUrl(p.id)}"
                class="${isQuote ? "btn-g" : "btn-p"} w-full text-center py-2.5 rounded">
-              ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + p.priceUsdt + " USDT"}
+              ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + safe(p.priceUsdt, "0") + " USDT"}
             </a>
           </article>
         `;
