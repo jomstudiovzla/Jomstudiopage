@@ -18,6 +18,81 @@
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
+        /* Prevent large headings / labels from clipping on narrow viewports */
+        h1, h2, h3, .font-display-lg, .font-headline-lg {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        @media (max-width: 767px) {
+            html { -webkit-text-size-adjust: 100%; }
+            /* Compact header so brand + actions stay on one row */
+            header {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+                gap: 8px;
+            }
+            header .font-headline-md {
+                font-size: 12px !important;
+                letter-spacing: -0.02em;
+            }
+            /* Hero: use dynamic viewport; never clip CTAs */
+            #hero {
+                min-height: 100svh;
+                min-height: 100dvh;
+                justify-content: flex-start !important;
+                padding-top: 5.5rem !important;
+                padding-bottom: 4rem !important;
+                overflow-x: hidden !important;
+                overflow-y: visible !important;
+            }
+            #hero .relative.z-10 {
+                width: 100%;
+                max-width: 100%;
+            }
+            #hero .absolute.bottom-12 {
+                display: none; /* free vertical space on short phones */
+            }
+            /* Section rhythm: less side/stack pressure */
+            section {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            #services .font-label-mono.text-primary-fixed\/60,
+            #services .text-primary-fixed\/60 {
+                font-size: 9px !important;
+                line-height: 1.4;
+                word-break: break-word;
+                max-width: 100%;
+            }
+            /* Protocol tabs: full width text, no icon crush */
+            #services-tabs-container button {
+                padding: 12px 14px !important;
+            }
+            #services-tabs-container .font-headline-md {
+                font-size: 13px !important;
+                line-height: 1.25;
+                white-space: normal;
+            }
+            #services-console-pane {
+                padding: 1rem !important;
+            }
+            /* Case study image height on phone */
+            img[alt*="Crypto Water"] {
+                height: 220px !important;
+            }
+            /* Footer & CTA: stack without horizontal overflow */
+            footer {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            /* Watermark: don't dominate / push layout perception */
+            #body-watermark-container img {
+                width: 120% !important;
+                max-width: none;
+                opacity: 0.85;
+            }
+        }
         .glass-panel {
             backdrop-filter: blur(24px);
             background: rgba(10, 10, 10, 0.92);
@@ -198,7 +273,7 @@
                         "stack-md": "32px",
                         "container-max": "1440px",
                         "margin-desktop": "80px",
-                        "margin-mobile": "24px",
+                        "margin-mobile": "16px",
                         "stack-lg": "64px"
                     },
                     "fontFamily": {
@@ -273,7 +348,7 @@
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary-fixed">lock</span>
                 </button>
             </div>
-            <button class="bg-primary-fixed text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-3 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95" data-t="btn_build">
+            <button class="bg-primary-fixed text-on-primary-container font-label-mono text-[9px] sm:text-label-mono px-2.5 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-primary-fixed border border-primary-fixed transition-all duration-300 active:scale-95 shrink-0" data-t="btn_build">
                 Let's Build
             </button>
         </div>
@@ -281,37 +356,39 @@
 
     <main class="relative" style="z-index:1">
         <!-- Hero Section -->
-        <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-margin-mobile md:px-margin-desktop text-center overflow-hidden">
+        <section id="hero" class="relative min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center pt-24 pb-16 md:pb-0 px-4 sm:px-margin-mobile md:px-margin-desktop text-center overflow-x-hidden">
             <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container/5 blur-[120px] rounded-full pointer-events-none"></div>
-            <div class="relative z-10 space-y-6">
-                <span class="font-label-mono text-label-mono text-primary-fixed border border-primary-fixed/30 px-3 py-1 bg-primary-container/5" data-t="system_status">SYSTEM STATUS: OPTIMIZED</span>
-                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-5xl mx-auto relative select-none" id="hero-title-container">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-primary-container/5 blur-[120px] rounded-full pointer-events-none"></div>
+            <div class="relative z-10 space-y-4 sm:space-y-6 w-full max-w-5xl mx-auto px-0">
+                <span class="inline-block font-label-mono text-[9px] sm:text-label-mono text-primary-fixed border border-primary-fixed/30 px-2 sm:px-3 py-1 bg-primary-container/5" data-t="system_status">SYSTEM STATUS: OPTIMIZED</span>
+                <h1 class="font-display-lg text-[1.75rem] leading-[1.05] sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-full mx-auto relative select-none break-words" id="hero-title-container">
                     <span data-t="hero_title" id="hero-title-base" class="block text-primary-fixed">DIGITAL ALCHEMY</span>
-                    <span id="hero-title-top" class="reveal-mask-top font-display-lg text-4xl sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-5xl mx-auto absolute inset-0 select-none pointer-events-none text-white">DIGITAL ALCHEMY</span>
+                    <span id="hero-title-top" class="reveal-mask-top font-display-lg text-[1.75rem] leading-[1.05] sm:text-6xl md:text-7xl lg:text-display-lg tracking-tighter uppercase max-w-full mx-auto absolute inset-0 select-none pointer-events-none text-white break-words">DIGITAL ALCHEMY</span>
                 </h1>
-                <p class="font-headline-md text-lg sm:text-xl md:text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light" data-t="hero_subtitle">
+                <p class="font-headline-md text-sm sm:text-xl md:text-headline-md text-on-surface-variant max-w-2xl mx-auto font-light px-1" data-t="hero_subtitle">
                     Where Technical Architecture Meets Artistic Direction.
                 </p>
-                <div class="pt-6 sm:pt-stack-md flex flex-col sm:flex-row gap-4 sm:gap-gutter justify-center items-center">
-                    <a href="order.html?product=launch" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-xs sm:text-label-mono px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center" data-t="btn_buy_launch" id="btn-buy-launch">
+                <div class="pt-4 sm:pt-stack-md flex flex-col sm:flex-row gap-3 sm:gap-gutter justify-center items-stretch sm:items-center w-full max-w-md sm:max-w-none mx-auto">
+                    <a href="order.html?product=launch" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-4 py-3.5 sm:px-12 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center" data-t="btn_buy_launch" id="btn-buy-launch">
                         Launch Kit · 300 USDT
                     </a>
-                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-secondary px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_initiate">
+                    <button class="w-full sm:w-auto font-label-mono text-[10px] sm:text-label-mono text-secondary px-4 py-3.5 sm:px-12 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_initiate">
                         Initiate Project
                     </button>
-                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-on-surface-variant px-6 py-4 sm:px-8 sm:py-5 uppercase tracking-[0.2em] border border-outline-variant/40 bg-transparent hover:border-primary-fixed/50 transition-all duration-300" data-t="btn_dossier">
+                    <button class="w-full sm:w-auto font-label-mono text-[10px] sm:text-label-mono text-on-surface-variant px-4 py-3.5 sm:px-8 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] border border-outline-variant/40 bg-transparent hover:border-primary-fixed/50 transition-all duration-300" data-t="btn_dossier">
                         View Dossier
                     </button>
                 </div>
-                <p class="font-label-mono text-[10px] text-on-surface-variant/70 pt-2">
+                <p class="font-label-mono text-[9px] sm:text-[10px] text-on-surface-variant/70 pt-1 leading-relaxed px-1">
                     <a href="services.html" class="text-primary-fixed hover:underline">Ver todos los paquetes</a>
-                    · Pago USDT TRC20 (Binance)
-                    · <a href="order.html?product=spark" class="text-secondary hover:underline">Spark 200 USDT</a>
+                    <span class="hidden sm:inline"> · </span><br class="sm:hidden"/>
+                    Pago USDT TRC20 (Binance)
+                    <span class="hidden sm:inline"> · </span><br class="sm:hidden"/>
+                    <a href="order.html?product=spark" class="text-secondary hover:underline">Spark 200 USDT</a>
                 </p>
             </div>
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+            <!-- Scroll Indicator (desktop / tall screens) -->
+            <div class="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 opacity-40">
                 <span class="font-label-mono text-[10px] uppercase tracking-widest" data-t="scroll_decrypt">Scroll to Decrypt</span>
                 <div class="w-[1px] h-12 bg-gradient-to-b from-primary-fixed to-transparent"></div>
             </div>
@@ -319,25 +396,25 @@
 
         <!-- Core Pillars Section (Bento Grid) -->
         <!-- Interactive Services Hub -->
-        <section id="services" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-stack-lg gap-gutter">
-                <div class="max-w-xl">
-                    <h2 class="font-headline-lg text-headline-lg text-secondary mb-stack-sm uppercase" data-t="services_title">Operations & Services</h2>
-                    <p class="font-body-lg text-body-lg text-on-surface-variant" data-t="services_subtitle">A unified system of digital capabilities structured through proven deployment cases.</p>
+        <section id="services" class="py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10 w-full overflow-x-hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-stack-lg gap-4 sm:gap-gutter w-full">
+                <div class="w-full max-w-full md:max-w-xl min-w-0">
+                    <h2 class="font-headline-lg text-[1.65rem] leading-tight sm:text-4xl md:text-headline-lg text-secondary mb-3 sm:mb-stack-sm uppercase break-words max-w-full" data-t="services_title">Operations & Services</h2>
+                    <p class="font-body-lg text-sm sm:text-base md:text-body-lg text-on-surface-variant max-w-full break-words" data-t="services_subtitle">A unified system of digital capabilities structured through proven deployment cases.</p>
                 </div>
-                <div class="font-label-mono text-label-mono text-primary-fixed/60">
+                <div class="font-label-mono text-[9px] sm:text-label-mono text-primary-fixed/60 break-words max-w-full">
                     PROTOCOL: SECURE_CAPABILITIES // GRID: ACTIVE
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-gutter items-stretch w-full min-w-0">
                 <!-- Left Sidebar: Tabs Selector -->
-                <div class="lg:col-span-4 flex flex-col gap-3" id="services-tabs-container">
+                <div class="lg:col-span-4 flex flex-col gap-2.5 sm:gap-3 min-w-0" id="services-tabs-container">
                     <!-- Tabs rendered dynamically -->
                 </div>
                 
                 <!-- Right Console Pane: Details Dashboard -->
-                <div class="lg:col-span-8 glass-panel p-6 md:p-8 rounded-xl relative flex flex-col justify-between overflow-hidden tilt-card" id="services-console-pane">
+                <div class="lg:col-span-8 glass-panel p-4 sm:p-6 md:p-8 rounded-xl relative flex flex-col justify-between overflow-hidden tilt-card min-w-0" id="services-console-pane">
                     <!-- Top dynamic colored indicator strip -->
                     <div class="absolute top-0 left-0 w-full h-[3px] dynamic-primary-bg opacity-80"></div>
                     
@@ -350,7 +427,7 @@
                                 <span class="font-label-mono text-[10px] tracking-widest uppercase">CON_SYNC: 100%</span>
                             </div>
                         </div>
-                        <h3 class="font-headline-lg text-headline-md md:text-headline-lg text-white" id="console-protocol-title">Interactive Gamification</h3>
+                        <h3 class="font-headline-lg text-xl sm:text-headline-md md:text-headline-lg text-white break-words" id="console-protocol-title">Interactive Gamification</h3>
                         <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed border-l border-primary-fixed/30 pl-4 py-1" id="console-protocol-desc">
                             Building high-engagement interactive systems and custom canvas engines that convert user attention into immersive digital experiences.
                         </p>
@@ -394,37 +471,37 @@
         </section>
 
         <!-- Featured Project: Crypto Water War -->
-        <section class="py-stack-lg px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/95 border-t border-outline-variant/10">
-            <div class="max-w-container-max mx-auto">
-                <div class="mb-stack-lg text-center md:text-left">
+        <section class="py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/95 border-t border-outline-variant/10 overflow-x-hidden">
+            <div class="max-w-container-max mx-auto w-full min-w-0">
+                <div class="mb-6 sm:mb-stack-lg text-center md:text-left">
                     <span class="font-label-mono text-label-mono text-secondary tracking-[0.3em] uppercase block mb-2" data-t="deployment_label">Selected Deployment</span>
-                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Crypto Water War</h2>
+                    <h2 class="font-headline-lg text-[1.65rem] leading-tight sm:text-4xl md:text-headline-lg text-on-surface break-words">Crypto Water War</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-                    <div class="md:col-span-7 relative overflow-hidden group border border-outline-variant/20 rounded-xl tilt-card">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-gutter items-center">
+                    <div class="md:col-span-7 relative overflow-hidden group border border-outline-variant/20 rounded-xl tilt-card min-w-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60 z-10"></div>
-                        <img class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Crypto Water War UI card game" src="assets/crypto1.png"/>
-                        <div class="absolute bottom-8 left-8 z-20">
-                            <div class="flex gap-2">
+                        <img class="w-full h-[220px] sm:h-[360px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Crypto Water War UI card game" src="assets/crypto1.png"/>
+                        <div class="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 z-20">
+                            <div class="flex flex-wrap gap-2">
                                 <span class="bg-primary-container/20 text-primary-fixed border border-primary-fixed/30 px-3 py-1 font-label-mono text-[10px]">WEB3 ENGINE</span>
                                 <span class="bg-secondary/20 text-secondary border border-secondary/30 px-3 py-1 font-label-mono text-[10px]">3D INTERACTIVE</span>
                             </div>
                         </div>
                     </div>
-                    <div class="md:col-span-5 space-y-gutter px-4 md:px-stack-md">
+                    <div class="md:col-span-5 space-y-4 sm:space-y-gutter px-1 sm:px-4 md:px-stack-md min-w-0">
                         <div class="space-y-4">
                             <h4 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Case Study // 001</h4>
-                            <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed" data-t="case_study_desc">
+                            <p class="font-body-lg text-sm sm:text-base md:text-body-lg text-on-surface-variant leading-relaxed" data-t="case_study_desc">
                                 A decentralized resource management simulator where water is the primary asset. We built the entire interaction layer from the ground up, utilizing WebGL for real-time fluid dynamics and a custom blockchain bridge for instantaneous asset verification.
                             </p>
                         </div>
                         <div class="grid grid-cols-2 gap-stack-md border-y border-outline-variant/20 py-stack-md">
                             <div>
-                                <div class="font-headline-lg text-headline-lg text-primary-fixed">26</div>
+                                <div class="font-headline-lg text-3xl sm:text-headline-lg text-primary-fixed">26</div>
                                 <div class="font-label-mono text-label-mono text-outline" data-t="nodes_label">Deployments</div>
                             </div>
                             <div>
-                                <div class="font-headline-lg text-headline-lg text-secondary">0.03s</div>
+                                <div class="font-headline-lg text-3xl sm:text-headline-lg text-secondary">0.03s</div>
                                 <div class="font-label-mono text-label-mono text-outline" data-t="latency_label">Sync Latency</div>
                             </div>
                         </div>
@@ -438,8 +515,8 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+        <section id="about" class="py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10 overflow-x-hidden w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-gutter items-center min-w-0">
                 <div class="lg:col-span-5 relative flex justify-center py-4">
                     <div class="relative w-64 h-80 md:w-80 md:h-96 tilt-card group">
                         <div class="absolute inset-0 border border-primary-fixed/30 rounded-xl translate-x-4 translate-y-4 animate-pulse-glow"></div>
@@ -448,7 +525,7 @@
                 </div>
                 <div class="lg:col-span-7 space-y-6">
                     <span class="font-label-caps text-accent tracking-[0.2em] uppercase block" data-t="about_label">CREATIVE LEADERSHIP</span>
-                    <h2 class="font-headline-lg text-headline-lg text-white" data-t="about_title">Jesús Omar Martínez</h2>
+                    <h2 class="font-headline-lg text-[1.65rem] leading-tight sm:text-4xl md:text-headline-lg text-white break-words" data-t="about_title">Jesús Omar Martínez</h2>
                     <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed" data-t="about_desc">
                         Creative Director & Digital Developer behind JOM STUDIO. Fusing technical excellence (WebGL, Canvas, Chrome Extensions) with artistic direction and business strategy to craft complete, high-performance digital ecosystems.
                     </p>
@@ -467,14 +544,14 @@
         </section>
 
         <!-- Interactive Brief Section -->
-        <section id="brief" class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto border-t border-outline-variant/10">
-            <div class="glass-panel p-8 md:p-12 rounded-xl relative overflow-hidden glow-alexandrite">
+        <section id="brief" class="py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto border-t border-outline-variant/10 overflow-x-hidden w-full">
+            <div class="glass-panel p-5 sm:p-8 md:p-12 rounded-xl relative overflow-hidden glow-alexandrite">
                 <div class="absolute top-0 left-0 w-full h-1 dynamic-primary-bg opacity-80"></div>
                 <div class="space-y-6">
-                    <div class="text-center md:text-left">
+                    <div class="text-center md:text-left min-w-0">
                         <span class="font-label-caps text-accent tracking-[0.3em] uppercase block mb-2" data-t="brief_eyebrow">Interactive Brief</span>
-                        <h2 class="font-headline-lg text-headline-lg text-white" data-t="brief_title">Tell us what you want to build</h2>
-                        <p class="font-body-md text-on-surface-variant" data-t="brief_subtitle">Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.</p>
+                        <h2 class="font-headline-lg text-[1.5rem] leading-tight sm:text-4xl md:text-headline-lg text-white break-words" data-t="brief_title">Tell us what you want to build</h2>
+                        <p class="font-body-md text-sm sm:text-base text-on-surface-variant" data-t="brief_subtitle">Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.</p>
                     </div>
                     <form id="project-brief-form" class="space-y-6 pt-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
@@ -533,24 +610,24 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="py-24 sm:py-48 px-margin-mobile md:px-margin-desktop text-center relative overflow-hidden border-t border-outline-variant/10">
+        <section class="py-16 sm:py-24 md:py-48 px-4 sm:px-margin-mobile md:px-margin-desktop text-center relative overflow-x-hidden border-t border-outline-variant/10">
             <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-primary-fixed"></div>
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-full bg-primary-fixed"></div>
             </div>
-            <div class="relative z-10 max-w-3xl mx-auto space-y-stack-md">
-                <h2 class="font-display-lg text-3xl sm:text-headline-lg md:text-display-lg text-on-surface leading-tight" data-t="cta_title">Ready to evolve?</h2>
-                <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg" data-t="cta_subtitle">
+            <div class="relative z-10 max-w-3xl mx-auto space-y-6 sm:space-y-stack-md w-full min-w-0">
+                <h2 class="font-display-lg text-[1.75rem] sm:text-3xl md:text-headline-lg lg:text-display-lg text-on-surface leading-tight break-words px-1" data-t="cta_title">Ready to evolve?</h2>
+                <p class="font-body-lg text-sm sm:text-base md:text-body-lg text-on-surface-variant mb-6 sm:mb-stack-lg px-1" data-t="cta_subtitle">
                     We are currently accepting new strategic partnerships. Let's build the future of software together.
                 </p>
-                <div class="flex flex-col md:flex-row justify-center gap-gutter">
-                    <a href="order.html?product=launch" class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center">
+                <div class="flex flex-col md:flex-row justify-center gap-3 sm:gap-gutter w-full max-w-md md:max-w-none mx-auto">
+                    <a href="order.html?product=launch" class="w-full md:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-4 sm:px-10 py-4 sm:py-6 uppercase tracking-[0.12em] sm:tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center">
                         Buy Launch Kit · 300 USDT
                     </a>
-                    <button class="font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] font-bold border border-secondary/50 text-secondary transition-all duration-300 hover:bg-secondary/5" data-t="btn_initiate_cta">
+                    <button class="w-full md:w-auto font-label-mono text-[10px] sm:text-label-mono px-4 sm:px-10 py-4 sm:py-6 uppercase tracking-[0.12em] sm:tracking-[0.2em] font-bold border border-secondary/50 text-secondary transition-all duration-300 hover:bg-secondary/5" data-t="btn_initiate_cta">
                         Initiate Project
                     </button>
-                    <a href="services.html" class="font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] border border-outline-variant/40 text-on-surface-variant hover:text-primary-fixed transition-all text-center">
+                    <a href="services.html" class="w-full md:w-auto font-label-mono text-[10px] sm:text-label-mono px-4 sm:px-10 py-4 sm:py-6 uppercase tracking-[0.12em] sm:tracking-[0.2em] border border-outline-variant/40 text-on-surface-variant hover:text-primary-fixed transition-all text-center">
                         Pricing
                     </a>
                 </div>
@@ -562,7 +639,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter bg-surface-container-lowest border-t border-outline-variant/30">
+    <footer class="w-full py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-gutter bg-surface-container-lowest border-t border-outline-variant/30 overflow-x-hidden">
         <div class="md:col-span-4 flex flex-col justify-between">
             <div>
                 <div class="font-label-mono text-label-mono text-primary-fixed mb-2 uppercase">JOM STUDIO</div>
@@ -1027,15 +1104,15 @@
                     : 'border-outline-variant/30 text-on-surface-variant hover:border-primary-fixed hover:text-on-surface bg-surface-container-low/90';
                 
                 return `
-                    <button type="button" onclick="selectService(${idx})" class="w-full text-left p-4 rounded-xl border flex items-center justify-between transition-all duration-300 group ${activeClasses}">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-xl ${isActive ? 'text-primary-fixed animate-pulse' : 'text-on-surface-variant group-hover:text-primary-fixed'}">${service.icon}</span>
-                            <div class="flex flex-col">
+                    <button type="button" onclick="selectService(${idx})" class="w-full min-w-0 text-left p-3 sm:p-4 rounded-xl border flex items-center justify-between gap-2 transition-all duration-300 group ${activeClasses}">
+                        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                            <span class="material-symbols-outlined text-lg sm:text-xl shrink-0 ${isActive ? 'text-primary-fixed animate-pulse' : 'text-on-surface-variant group-hover:text-primary-fixed'}">${service.icon}</span>
+                            <div class="flex flex-col min-w-0">
                                 <span class="font-label-mono text-[9px] text-outline tracking-wider uppercase">${service.code}</span>
-                                <span class="font-headline-md text-sm tracking-tight text-white">${service.title[currentDisplayLang] || service.title['en']}</span>
+                                <span class="font-headline-md text-[13px] sm:text-sm tracking-tight text-white break-words leading-snug">${service.title[currentDisplayLang] || service.title['en']}</span>
                             </div>
                         </div>
-                        <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'opacity-100 text-primary-fixed' : 'text-on-surface-variant'}">arrow_forward_ios</span>
+                        <span class="material-symbols-outlined text-[14px] sm:text-[16px] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'opacity-100 text-primary-fixed' : 'text-on-surface-variant'}">arrow_forward_ios</span>
                     </button>
                 `;
             }).join('');

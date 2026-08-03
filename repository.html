@@ -18,6 +18,21 @@
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
+        h1, h2, h3 {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        @media (max-width: 767px) {
+            main {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                padding-bottom: 6.5rem !important; /* room for commerce strip */
+            }
+            .glass-card:hover {
+                transform: none; /* avoid horizontal shift on phone */
+            }
+        }
         .glass-card {
             backdrop-filter: blur(24px);
             background: rgba(10, 10, 10, 0.6);
@@ -295,18 +310,18 @@
     </header>
 
     <!-- Commerce strip -->
-    <div class="fixed bottom-0 inset-x-0 z-40 border-t border-cyan-500/20 bg-black/85 backdrop-blur-md px-4 py-3 flex flex-wrap items-center justify-center gap-3 text-center">
-        <span class="font-label-mono text-[10px] text-cyan-300 tracking-widest uppercase">Digital Alchemy Launch Kit · 300 USDT TRC20</span>
-        <a href="order.html?product=launch" class="font-label-mono text-[10px] uppercase tracking-widest px-4 py-2 bg-cyan-400 text-black font-bold border border-cyan-400 hover:bg-transparent hover:text-cyan-300 transition-all">Checkout</a>
-        <a href="services.html" class="font-label-mono text-[10px] uppercase tracking-widest px-4 py-2 border border-white/20 text-on-surface-variant hover:text-cyan-300">All packages</a>
+    <div class="fixed bottom-0 inset-x-0 z-40 border-t border-cyan-500/20 bg-black/85 backdrop-blur-md px-3 py-2.5 sm:px-4 sm:py-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
+        <span class="font-label-mono text-[9px] sm:text-[10px] text-cyan-300 tracking-widest uppercase leading-snug">Launch Kit · 300 USDT TRC20</span>
+        <a href="order.html?product=launch" class="font-label-mono text-[9px] sm:text-[10px] uppercase tracking-widest px-3 py-2 sm:px-4 bg-cyan-400 text-black font-bold border border-cyan-400 hover:bg-transparent hover:text-cyan-300 transition-all">Checkout</a>
+        <a href="services.html" class="font-label-mono text-[9px] sm:text-[10px] uppercase tracking-widest px-3 py-2 sm:px-4 border border-white/20 text-on-surface-variant hover:text-cyan-300">Packages</a>
     </div>
 
-    <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop relative" style="z-index:1">
+    <main class="pt-28 sm:pt-32 pb-28 sm:pb-24 px-4 sm:px-margin-mobile md:px-margin-desktop relative overflow-x-hidden" style="z-index:1">
         <!-- Header Section -->
-        <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-gutter">
-            <div class="max-w-2xl">
-                <span class="font-label-caps text-accent mb-4 block tracking-[0.2em] uppercase" data-en="Curated Work" data-es="Trabajo Curado" data-fr="Travail Choisi" data-pt="Trabalho Curado">Curated Work</span>
-                <h1 class="font-display-lg text-4xl sm:text-6xl md:text-display-lg text-white leading-none uppercase" data-en="OUR REPOSITORY" data-es="NUESTRO REPOSITORIO" data-fr="NOTRE DÉPÔT" data-pt="NOSSO REPOSITÓRIO">OUR REPOSITORY</h1>
+        <header class="mb-10 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-gutter min-w-0">
+            <div class="max-w-2xl min-w-0 w-full">
+                <span class="font-label-caps text-accent mb-3 sm:mb-4 block tracking-[0.2em] uppercase" data-en="Curated Work" data-es="Trabajo Curado" data-fr="Travail Choisi" data-pt="Trabalho Curado">Curated Work</span>
+                <h1 class="font-display-lg text-[1.75rem] leading-tight sm:text-4xl md:text-6xl lg:text-display-lg text-white uppercase break-words" data-en="OUR REPOSITORY" data-es="NUESTRO REPOSITORIO" data-fr="NOTRE DÉPÔT" data-pt="NOSSO REPOSITÓRIO">OUR REPOSITORY</h1>
             </div>
             <div class="hidden md:block">
                 <div class="p-4 border border-outline-variant/30 flex items-center gap-4 bg-surface-container-lowest">
