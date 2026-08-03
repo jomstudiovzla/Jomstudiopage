@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CHECKOUT USDT | JOM STUDIO</title>
+  <meta name="description" content="Checkout JOM STUDIO — pago USDT TRC20 Binance"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --c: #00F2FF; --g: #C4A35A; --bg: #050505; }
+    body { background: var(--bg); color: #e0e0e0; font-family: Sora, system-ui, sans-serif; }
+    .glass { background: rgba(10,10,10,0.94); border: 1px solid #4a4a4a; backdrop-filter: blur(24px); }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .btn {
+      background: var(--c); color: #050505; font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+      border: 1px solid var(--c); transition: 0.2s;
+    }
+    .btn:hover { background: transparent; color: var(--c); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .step { border-left: 2px solid rgba(0,242,255,0.35); }
+    input, textarea {
+      background: #0a0a0a; border: 1px solid #333; color: #eee;
+      border-radius: 8px; padding: 0.75rem 1rem; width: 100%;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--c); box-shadow: 0 0 0 1px var(--c); }
+    .addr { word-break: break-all; }
+  </style>
+  <script src="js/config.js"></script>
+  <script src="js/crm.js"></script>
+  <script src="js/tron.js"></script>
+  <script src="js/commerce.js"></script>
+</head>
+<body class="min-h-screen py-8 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-8">
+      <a href="services.html" class="mono text-xs text-cyan-300 hover:underline">← Paquetes</a>
+      <span class="mono text-[10px] tracking-widest text-gray-500 uppercase">Secure checkout · USDT TRC20</span>
+      <a href="index.html" class="mono text-xs text-gray-400 hover:text-white">Home</a>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-6">
+      <!-- Summary -->
+      <aside class="lg:col-span-2 glass rounded-xl p-6 space-y-4 h-fit sticky top-6">
+        <div class="mono text-[10px] text-cyan-300 tracking-widest">ORDER SUMMARY</div>
+        <h1 id="p-name" class="text-2xl font-bold uppercase tracking-tight">—</h1>
+        <p id="p-headline" class="text-sm text-gray-400"></p>
+        <div class="text-4xl font-bold mono text-cyan-300"><span id="p-price">0</span> <span class="text-base text-gray-400">USDT</span></div>
+        <p class="mono text-xs text-gray-500">Red: <span id="p-network">TRC20</span> · ETA: <span id="p-eta">—</span></p>
+        <ul id="p-deliverables" class="text-xs text-gray-300 space-y-1.5 border-t border-white/10 pt-4"></ul>
+        <div id="wallet-warn" class="hidden text-xs mono text-amber-300 border border-amber-500/40 rounded p-3"></div>
+      </aside>
+
+      <!-- Flow -->
+      <section class="lg:col-span-3 space-y-6">
+        <!-- Step 1 -->
+        <div class="glass rounded-xl p-6 step pl-6">
+          <h2 class="mono text-xs text-cyan-300 tracking-widest mb-4">01 · DATOS DEL CLIENTE</h2>
+          <form id="order-form" class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="mono text-[10px] text-gray-500 uppercase" for="name">Nombre / Empresa</label>
+                <input id="name" required placeholder="Acme Labs" autocomplete="name"/>
+              </div>
+              <div>
+                <label class="mono text-[10px] text-gray-500 uppercase" for="email">Email</label>
+                <input id="email" type="email" required placeholder="you@company.com" autocomplete="email"/>
+              </div>
+            </div>
+            <div>
+              <label class="mono text-[10px] text-gray-500 uppercase" for="phone">WhatsApp (opcional)</label>
+              <input id="phone" placeholder="+58 4XX ..." autocomplete="tel"/>
+            </div>
+            <div>
+              <label class="mono text-[10px] text-gray-500 uppercase" for="brief">Brief del proyecto</label>
+              <textarea id="brief" rows="3" maxlength="500" required placeholder="URL actual, estilo, deadline, referencias..."></textarea>
+            </div>
+            <button type="submit" class="btn w-full py-3 rounded" id="btn-create">Generar orden y ver pago →</button>
+          </form>
+        </div>
+
+        <!-- Step 2 (hidden until order) -->
+        <div id="pay-panel" class="hidden glass rounded-xl p-6 step pl-6 space-y-4">
+          <h2 class="mono text-xs text-cyan-300 tracking-widest">02 · PAGO USDT TRC20</h2>
+          <p class="text-sm text-gray-400">Orden <strong id="order-id" class="text-white mono"></strong> — envía exactamente <strong id="pay-amount" class="text-cyan-300"></strong> USDT por red <strong class="text-amber-300">TRC20</strong>.</p>
+
+          <div class="flex flex-col sm:flex-row gap-6 items-center">
+            <img id="qr-img" alt="QR USDT TRC20" class="w-48 h-48 rounded-lg border border-cyan-500/30 bg-black"/>
+            <div class="flex-1 w-full space-y-3">
+              <div>
+                <div class="mono text-[10px] text-gray-500 mb-1">WALLET TRC20</div>
+                <div class="flex gap-2">
+                  <code id="wallet-addr" class="addr flex-1 text-xs bg-black/60 border border-white/10 rounded p-3 mono text-cyan-200"></code>
+                  <button type="button" id="btn-copy" class="btn px-3 rounded text-[10px]">Copy</button>
+                </div>
+              </div>
+              <ol class="text-xs text-gray-400 space-y-1 list-decimal list-inside">
+                <li>Abre Binance → Withdraw → USDT → Network <b>TRC20 / TRON</b></li>
+                <li>Pega la wallet y el monto exacto del paquete</li>
+                <li>Confirma el retiro y copia el <b>TxID / Hash</b></li>
+                <li>Pégalo abajo y verifica</li>
+              </ol>
+            </div>
+          </div>
+
+          <div>
+            <label class="mono text-[10px] text-gray-500 uppercase" for="txHash">Transaction Hash (TxID)</label>
+            <input id="txHash" placeholder="64 caracteres hex del hash TRON..." class="mono text-sm"/>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button type="button" id="btn-verify" class="btn flex-1 py-3 rounded">Verificar pago on-chain</button>
+            <button type="button" id="btn-wa" class="flex-1 py-3 rounded border border-green-500/50 text-green-400 mono text-[11px] uppercase tracking-wider hover:bg-green-500/10">Enviar por WhatsApp</button>
+          </div>
+          <div id="verify-msg" class="hidden text-sm mono p-3 rounded border"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const productId = params.get("product") || JOM_CONFIG.defaultProductId || "launch";
+      const p = JOM_COMMERCE.product(productId);
+      if (!p || !p.priceUsdt) {
+        // custom → brief
+        if (productId === "custom" || (p && !p.priceUsdt)) {
+          location.href = "index.html#brief";
+          return;
+        }
+      }
+
+      document.getElementById("p-name").textContent = p.name;
+      document.getElementById("p-headline").textContent = p.headline;
+      document.getElementById("p-price").textContent = p.priceUsdt;
+      document.getElementById("p-network").textContent = p.network || "TRC20";
+      document.getElementById("p-eta").textContent = p.eta;
+      document.getElementById("p-deliverables").innerHTML = (p.deliverables || [])
+        .map((d) => `<li class="flex gap-2"><span class="text-cyan-400">✓</span>${d}</li>`)
+        .join("");
+
+      const wallet = JOM_CONFIG.crypto.address;
+      const warn = document.getElementById("wallet-warn");
+      if (!JOM_TRON.isWalletReady()) {
+        warn.classList.remove("hidden");
+        warn.textContent = "Wallet no configurada. Edita js/config.js → crypto.address con tu dirección Binance USDT TRC20 antes de aceptar pagos reales.";
+      }
+
+      let currentOrder = null;
+
+      // Resume order from URL
+      const existingId = params.get("order");
+      if (existingId) {
+        const o = JOM_CRM.getOrder(existingId);
+        if (o) {
+          currentOrder = o;
+          showPay(o);
+          document.getElementById("name").value = o.name || "";
+          document.getElementById("email").value = o.email || "";
+          document.getElementById("brief").value = o.brief || "";
+        }
+      }
+
+      document.getElementById("order-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btn-create");
+        btn.disabled = true;
+        btn.textContent = "Creando orden...";
+        try {
+          currentOrder = await JOM_COMMERCE.placeOrder({
+            productId: p.id,
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            brief: document.getElementById("brief").value.trim(),
+            source: "order.html",
+          });
+          history.replaceState({}, "", `order.html?product=${p.id}&order=${currentOrder.id}`);
+          showPay(currentOrder);
+        } catch (err) {
+          alert(err.message || "Error creando orden");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Generar orden y ver pago →";
+        }
+      });
+
+      function showPay(order) {
+        document.getElementById("pay-panel").classList.remove("hidden");
+        document.getElementById("order-id").textContent = order.id;
+        document.getElementById("pay-amount").textContent = order.amount;
+        document.getElementById("wallet-addr").textContent = wallet;
+        document.getElementById("qr-img").src = JOM_TRON.isWalletReady()
+          ? JOM_TRON.qrUrl(wallet, 280)
+          : "assets/commerce/qr_300usdt.png";
+        document.getElementById("pay-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      document.getElementById("btn-copy").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(wallet);
+          document.getElementById("btn-copy").textContent = "OK";
+          setTimeout(() => (document.getElementById("btn-copy").textContent = "Copy"), 1500);
+        } catch {
+          prompt("Copia la wallet:", wallet);
+        }
+      });
+
+      document.getElementById("btn-verify").addEventListener("click", async () => {
+        if (!currentOrder) return alert("Primero genera la orden (paso 01).");
+        const hash = document.getElementById("txHash").value.trim();
+        if (!hash) return alert("Pega el Tx Hash de Binance / Tronscan.");
+        const btn = document.getElementById("btn-verify");
+        const msg = document.getElementById("verify-msg");
+        btn.disabled = true;
+        btn.textContent = "Verificando en TronGrid...";
+        msg.classList.remove("hidden");
+        msg.className = "text-sm mono p-3 rounded border border-white/20 text-gray-300";
+        msg.textContent = "Consultando blockchain...";
+        try {
+          const { order, verify } = await JOM_COMMERCE.attachAndVerifyPayment(currentOrder.id, hash);
+          currentOrder = order;
+          if (verify.ok) {
+            msg.className = "text-sm mono p-3 rounded border border-green-500/40 text-green-300";
+            msg.innerHTML = `✓ ${verify.message} <a class="underline" target="_blank" href="${JOM_TRON.tronscanTxUrl(hash)}">Ver en Tronscan</a>`;
+            setTimeout(() => {
+              location.href = JOM_COMMERCE.successUrl(order.id);
+            }, 1200);
+          } else {
+            msg.className = "text-sm mono p-3 rounded border border-amber-500/40 text-amber-200";
+            msg.innerHTML = `⚠ ${verify.message}<br/><span class="text-gray-400">Hash guardado. Puedes notificar por WhatsApp y lo revisamos manualmente en Binance.</span>`;
+          }
+        } catch (err) {
+          msg.className = "text-sm mono p-3 rounded border border-red-500/40 text-red-300";
+          msg.textContent = err.message || "Error de verificación";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Verificar pago on-chain";
+        }
+      });
+
+      document.getElementById("btn-wa").addEventListener("click", () => {
+        if (!currentOrder) return alert("Primero genera la orden.");
+        const hash = document.getElementById("txHash").value.trim();
+        if (hash) {
+          JOM_CRM.updateOrder(currentOrder.id, { txHash: JOM_TRON.normalizeHash(hash), status: "paid_unverified" });
+          currentOrder = JOM_CRM.getOrder(currentOrder.id);
+        }
+        JOM_COMMERCE.openClientPaidWhatsApp(currentOrder);
+      });
+    })();
+  </script>
+</body>
+</html>

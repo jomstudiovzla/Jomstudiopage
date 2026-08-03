@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SERVICES & PRICING | JOM STUDIO</title>
+  <meta name="description" content="Paquetes JOM STUDIO — Launch Kit, Micro Alchemy, Interactive Engine. Pago en USDT TRC20 vía Binance."/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --theme-primary: #00F2FF;
+      --theme-gold: #C4A35A;
+      --color-bg: #050505;
+      --color-text: #E0E0E0;
+    }
+    body { background: var(--color-bg); color: var(--color-text); font-family: Sora, system-ui, sans-serif; }
+    .glass {
+      background: rgba(10,10,10,0.92);
+      border: 1px solid #4A4A4A;
+      backdrop-filter: blur(24px);
+    }
+    .badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .price { font-family: "JetBrains Mono", monospace; color: var(--theme-primary); }
+    .btn-primary {
+      background: var(--theme-primary);
+      color: #050505;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      border: 1px solid var(--theme-primary);
+      transition: 0.2s;
+    }
+    .btn-primary:hover { background: transparent; color: var(--theme-primary); }
+    .btn-ghost {
+      border: 1px solid rgba(196,163,90,0.5);
+      color: var(--theme-gold);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .btn-ghost:hover { background: rgba(196,163,90,0.08); }
+    .featured { border-color: var(--theme-primary); box-shadow: 0 0 40px rgba(0,242,255,0.12); }
+  </style>
+  <script src="js/config.js"></script>
+  <script src="js/crm.js"></script>
+  <script src="js/tron.js"></script>
+  <script src="js/commerce.js"></script>
+</head>
+<body class="min-h-screen">
+  <header class="fixed top-0 inset-x-0 z-50 flex justify-between items-center px-4 md:px-10 py-4 bg-black/80 backdrop-blur border-b border-white/10">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="assets/logo_jom_square.jpg" alt="JOM" class="w-8 h-8 object-cover"/>
+      <span class="font-mono text-xs tracking-widest text-cyan-300">JOM STUDIO // PRICING</span>
+    </a>
+    <nav class="flex items-center gap-4 text-xs font-mono uppercase tracking-wider">
+      <a href="index.html" class="text-gray-400 hover:text-cyan-300">Home</a>
+      <a href="repository.html" class="text-gray-400 hover:text-cyan-300">Dossier</a>
+      <a href="order.html?product=launch" class="btn-primary px-4 py-2">Buy Launch Kit</a>
+    </nav>
+  </header>
+
+  <main class="pt-28 pb-20 px-4 md:px-10 max-w-6xl mx-auto">
+    <div class="text-center mb-14 space-y-4">
+      <span class="badge inline-block border border-cyan-400/40 text-cyan-300 px-3 py-1">PROTOCOL // COMMERCE GRID</span>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight uppercase">Paquetes con cobro en USDT</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+        Precios fijos. Pago prioritario: <strong class="text-cyan-300">Binance → USDT TRC20</strong>.
+        Kickoff en menos de 24h tras verificación del hash.
+      </p>
+      <div id="wallet-banner" class="hidden max-w-xl mx-auto text-left glass p-4 rounded-lg border border-amber-500/40 text-amber-200 text-xs font-mono"></div>
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"></div>
+
+    <section class="mt-16 glass rounded-xl p-6 md:p-10">
+      <h2 class="text-xl font-bold uppercase tracking-wide mb-4 text-amber-400">Cómo funciona el cobro</h2>
+      <ol class="grid md:grid-cols-4 gap-4 text-sm text-gray-300 list-none">
+        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">01</span><br/>Elige paquete y completa brief</li>
+        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">02</span><br/>Envía USDT TRC20 a la wallet</li>
+        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">03</span><br/>Pega el Tx Hash (Binance / Tronscan)</li>
+        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">04</span><br/>WhatsApp de confirmación + kickoff 24h</li>
+      </ol>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a id="wa-direct" href="#" target="_blank" class="btn-ghost px-5 py-3 inline-flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">chat</span> WhatsApp comercial
+        </a>
+        <a href="order.html?product=spark" class="btn-primary px-5 py-3">Empezar por $200 USDT</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 text-center text-xs font-mono text-gray-500">
+    © 2026 JOM STUDIO · USDT TRC20 · <a href="admin-ops.html" class="hover:text-cyan-300">Ops</a>
+  </footer>
+
+  <script>
+    (function () {
+      const grid = document.getElementById("product-grid");
+      const products = JOM_COMMERCE.allProducts();
+      const featured = "launch";
+
+      products.forEach((p) => {
+        const isQuote = !p.priceUsdt;
+        const card = document.createElement("article");
+        card.className = "glass rounded-xl p-6 flex flex-col gap-4 " + (p.id === featured ? "featured" : "");
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <span class="badge text-cyan-300 border border-cyan-400/30 px-2 py-1">${p.badge || "PKG"}</span>
+            <span class="badge text-gray-500">${p.sku}</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold uppercase tracking-tight">${p.name}</h3>
+            <p class="text-sm text-gray-400 mt-2">${p.headline}</p>
+          </div>
+          <div class="price text-3xl font-bold">
+            ${isQuote ? "QUOTE" : p.priceUsdt + " <span class='text-base text-gray-400'>USDT</span>"}
+          </div>
+          <p class="text-xs text-gray-500 font-mono">ETA: ${p.eta} · ${p.network || "TRC20"}</p>
+          <ul class="text-xs text-gray-300 space-y-1.5 flex-1">
+            ${(p.deliverables || []).slice(0, 5).map((d) => `<li class="flex gap-2"><span class="text-cyan-400">✓</span><span>${d}</span></li>`).join("")}
+          </ul>
+          <a href="${isQuote ? "index.html#brief" : JOM_COMMERCE.orderUrl(p.id)}"
+             class="${isQuote ? "btn-ghost" : "btn-primary"} w-full text-center py-3 rounded">
+            ${isQuote ? "Enviar brief" : "Comprar · " + p.priceUsdt + " USDT"}
+          </a>
+        `;
+        grid.appendChild(card);
+      });
+
+      const wa = document.getElementById("wa-direct");
+      wa.href = JOM_COMMERCE.waLink(
+        "Hola JOM STUDIO — vi los paquetes en services.html y quiero cotizar / comprar."
+      );
+
+      const banner = document.getElementById("wallet-banner");
+      if (window.JOM_TRON && !JOM_TRON.isWalletReady()) {
+        banner.classList.remove("hidden");
+        banner.innerHTML = "⚠️ CONFIG: pega tu wallet USDT TRC20 en <code>js/config.js</code> → <code>crypto.address</code> antes de cobrar en vivo.";
+      }
+    })();
+  </script>
+</body>
+</html>

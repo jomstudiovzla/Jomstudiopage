@@ -262,6 +262,7 @@
             <nav class="hidden lg:flex gap-8 items-center mr-4">
                 <a class="font-label-mono text-label-mono text-accent border-b border-accent transition-all duration-300 uppercase" data-en="Projects" data-es="Proyectos" data-fr="Projets" data-pt="Projetos" href="#">Projects</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="Services" data-es="Servicios" data-fr="Services" data-pt="Serviços" href="index.html#services">Services</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" href="services.html">Pricing</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-accent transition-all duration-300 uppercase" data-en="About" data-es="Nosotros" data-fr="À propos" data-pt="Sobre nós" href="index.html#about">About</a>
             </nav>
             <!-- HUD Control Buttons -->
@@ -287,11 +288,18 @@
                     <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-accent">lock</span>
                 </button>
             </div>
-            <button class="bg-accent text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-3 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn" data-en="Let's Build" data-es="Construyamos" data-fr="Construisons" data-pt="Vamos Construir">
-                Let's Build
-            </button>
+            <a href="order.html?product=launch" class="bg-accent text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-3 py-1.5 sm:px-6 sm:py-2 uppercase tracking-widest hover:bg-transparent hover:text-accent border border-accent transition-all duration-300 active:scale-95" id="lets-build-btn">
+                Buy · 300 USDT
+            </a>
         </div>
     </header>
+
+    <!-- Commerce strip -->
+    <div class="fixed bottom-0 inset-x-0 z-40 border-t border-cyan-500/20 bg-black/85 backdrop-blur-md px-4 py-3 flex flex-wrap items-center justify-center gap-3 text-center">
+        <span class="font-label-mono text-[10px] text-cyan-300 tracking-widest uppercase">Digital Alchemy Launch Kit · 300 USDT TRC20</span>
+        <a href="order.html?product=launch" class="font-label-mono text-[10px] uppercase tracking-widest px-4 py-2 bg-cyan-400 text-black font-bold border border-cyan-400 hover:bg-transparent hover:text-cyan-300 transition-all">Checkout</a>
+        <a href="services.html" class="font-label-mono text-[10px] uppercase tracking-widest px-4 py-2 border border-white/20 text-on-surface-variant hover:text-cyan-300">All packages</a>
+    </div>
 
     <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop relative" style="z-index:1">
         <!-- Header Section -->
@@ -934,11 +942,11 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Connect "Let's Build" Button to email
+        // Connect "Let's Build" → commerce pricing / checkout
         const buildBtn = document.getElementById('lets-build-btn');
         if (buildBtn) {
             buildBtn.addEventListener('click', () => {
-                window.location.href = 'mailto:jomstudiovzla@gmail.com';
+                window.location.href = 'services.html';
             });
         }
 

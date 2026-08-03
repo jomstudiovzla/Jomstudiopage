@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ORDEN RECIBIDA | JOM STUDIO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body { background: #050505; color: #e0e0e0; font-family: Sora, system-ui, sans-serif; }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .glass { background: rgba(10,10,10,0.94); border: 1px solid #4a4a4a; }
+    .btn { background: #00F2FF; color: #050505; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; border: 1px solid #00F2FF; }
+    .btn:hover { background: transparent; color: #00F2FF; }
+  </style>
+  <script src="js/config.js"></script>
+  <script src="js/crm.js"></script>
+  <script src="js/tron.js"></script>
+  <script src="js/commerce.js"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass max-w-lg w-full rounded-xl p-8 space-y-6 text-center">
+    <div class="text-4xl">✓</div>
+    <h1 class="text-2xl font-bold uppercase tracking-tight">Orden registrada</h1>
+    <p class="text-sm text-gray-400">Kickoff en menos de 24h tras confirmar el USDT en Binance / wallet.</p>
+    <div class="text-left mono text-xs space-y-2 bg-black/50 border border-white/10 rounded p-4">
+      <div>Orden: <span id="oid" class="text-cyan-300">—</span></div>
+      <div>Producto: <span id="pname" class="text-white">—</span></div>
+      <div>Monto: <span id="amt" class="text-cyan-300">—</span> USDT TRC20</div>
+      <div>Estado: <span id="st" class="text-amber-300">—</span></div>
+      <div>Hash: <span id="hx" class="text-gray-400 break-all">—</span></div>
+    </div>
+    <div class="flex flex-col gap-3">
+      <button id="btn-wa" class="btn w-full py-3 rounded">Confirmar por WhatsApp</button>
+      <a href="services.html" class="mono text-xs text-gray-400 hover:text-cyan-300">← Volver a paquetes</a>
+      <a href="index.html" class="mono text-xs text-gray-500 hover:text-white">Home</a>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const id = new URLSearchParams(location.search).get("order");
+      const o = id && JOM_CRM.getOrder(id);
+      if (!o) {
+        document.getElementById("oid").textContent = "no encontrada";
+        return;
+      }
+      document.getElementById("oid").textContent = o.id;
+      document.getElementById("pname").textContent = o.productName;
+      document.getElementById("amt").textContent = o.amount;
+      document.getElementById("st").textContent = o.status;
+      document.getElementById("hx").textContent = o.txHash || "—";
+      document.getElementById("btn-wa").onclick = () => JOM_COMMERCE.openClientPaidWhatsApp(o);
+    })();
+  </script>
+</body>
+</html>

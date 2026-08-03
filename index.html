@@ -247,6 +247,7 @@
             <nav class="hidden lg:flex gap-8 items-center mr-4">
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_projects" href="repository.html">Projects</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_services" href="#services">Services</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" href="services.html">Pricing</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_about" href="#about">About</a>
             </nav>
             <!-- HUD Control Buttons -->
@@ -293,13 +294,21 @@
                     Where Technical Architecture Meets Artistic Direction.
                 </p>
                 <div class="pt-6 sm:pt-stack-md flex flex-col sm:flex-row gap-4 sm:gap-gutter justify-center items-center">
-                    <button class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-xs sm:text-label-mono px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate">
+                    <a href="order.html?product=launch" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-xs sm:text-label-mono px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center" data-t="btn_buy_launch" id="btn-buy-launch">
+                        Launch Kit · 300 USDT
+                    </a>
+                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-secondary px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_initiate">
                         Initiate Project
                     </button>
-                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-secondary px-6 py-4 sm:px-12 sm:py-5 uppercase tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_dossier">
+                    <button class="w-full sm:w-auto font-label-mono text-xs sm:text-label-mono text-on-surface-variant px-6 py-4 sm:px-8 sm:py-5 uppercase tracking-[0.2em] border border-outline-variant/40 bg-transparent hover:border-primary-fixed/50 transition-all duration-300" data-t="btn_dossier">
                         View Dossier
                     </button>
                 </div>
+                <p class="font-label-mono text-[10px] text-on-surface-variant/70 pt-2">
+                    <a href="services.html" class="text-primary-fixed hover:underline">Ver todos los paquetes</a>
+                    · Pago USDT TRC20 (Binance)
+                    · <a href="order.html?product=spark" class="text-secondary hover:underline">Spark 200 USDT</a>
+                </p>
             </div>
             <!-- Scroll Indicator -->
             <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
@@ -535,9 +544,15 @@
                     We are currently accepting new strategic partnerships. Let's build the future of software together.
                 </p>
                 <div class="flex flex-col md:flex-row justify-center gap-gutter">
-                    <button class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-16 py-6 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary" data-t="btn_initiate_cta">
+                    <a href="order.html?product=launch" class="animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center">
+                        Buy Launch Kit · 300 USDT
+                    </a>
+                    <button class="font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] font-bold border border-secondary/50 text-secondary transition-all duration-300 hover:bg-secondary/5" data-t="btn_initiate_cta">
                         Initiate Project
                     </button>
+                    <a href="services.html" class="font-label-mono text-label-mono px-10 py-6 uppercase tracking-[0.2em] border border-outline-variant/40 text-on-surface-variant hover:text-primary-fixed transition-all text-center">
+                        Pricing
+                    </a>
                 </div>
                 <div class="mt-stack-lg font-label-mono text-label-mono text-outline opacity-40">
                     CONNECTION SECURE: AES-256 ENCRYPTED
@@ -570,8 +585,10 @@
             <div class="space-y-4">
                 <h5 class="font-label-mono text-label-mono text-secondary mb-4" data-t="studio_label">STUDIO</h5>
                 <ul class="space-y-2">
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" href="services.html">Pricing / Buy</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" href="order.html?product=launch">Launch Kit 300 USDT</a></li>
                     <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" data-t="contact" href="mailto:jomstudiovzla@gmail.com">Contact</a></li>
-                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" data-t="terms" href="#">Terms</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" href="admin-ops.html">Ops</a></li>
                 </ul>
             </div>
         </div>
@@ -585,6 +602,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Commerce stack: config → CRM → Tron verify → order engine -->
+    <script src="js/config.js"></script>
+    <script src="js/crm.js"></script>
+    <script src="js/tron.js"></script>
+    <script src="js/commerce.js"></script>
 
     <script>
         // State Management
@@ -1185,7 +1208,7 @@
         if (dossierBtn) {
             dossierBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.open('assets/cv.pdf', '_blank');
+                window.location.href = 'repository.html';
             });
         }
 
@@ -1214,36 +1237,37 @@
         // Initialize dynamic services view
         renderServices();
 
-        // Interactive Brief Submission
+        // Interactive Brief Submission → CRM + WhatsApp/Email + optional Formspree
         const briefForm = document.getElementById('project-brief-form');
         if (briefForm) {
-            briefForm.addEventListener('submit', (e) => {
+            briefForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('client-name').value.trim();
                 const email = document.getElementById('client-email').value.trim();
                 const briefText = document.getElementById('client-brief').value.trim();
                 const channel = document.querySelector('input[name="comm-channel"]:checked').value;
+                const submitBtn = document.getElementById('submit-brief-btn');
+                if (submitBtn) submitBtn.disabled = true;
 
-                // Log brief submission locally for Admin Command Center
-                const briefsLog = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
-                briefsLog.push({
-                    name,
-                    email,
-                    briefText,
-                    channel,
-                    timestamp: new Date().toLocaleString()
-                });
-                localStorage.setItem('jom_contact_briefs', JSON.stringify(briefsLog));
-
-                if (channel === 'wa') {
-                    // WhatsApp message format
-                    const message = `¡Hola JOM STUDIO! 🚀%0A%0AMe gustaría cotizar un proyecto:%0A%0A*Nombre/Empresa:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Brief:* ${encodeURIComponent(briefText)}`;
-                    window.open(`https://wa.me/584165159067?text=${message}`, '_blank');
-                } else {
-                    // Email message format
-                    const subject = encodeURIComponent(`Nuevo Proyecto JOM STUDIO - ${name}`);
-                    const body = encodeURIComponent(`Hola JOM STUDIO,\n\nMe gustaría cotizar un proyecto:\n\nNombre/Empresa: ${name}\nEmail: ${email}\n\nBrief del Proyecto:\n${briefText}`);
-                    window.open(`mailto:jomstudiovzla@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                try {
+                    if (window.JOM_COMMERCE && typeof JOM_COMMERCE.submitBrief === 'function') {
+                        await JOM_COMMERCE.submitBrief({ name, email, briefText, channel });
+                    } else {
+                        // Fallback legacy path
+                        const briefsLog = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
+                        briefsLog.push({ name, email, briefText, channel, timestamp: new Date().toLocaleString() });
+                        localStorage.setItem('jom_contact_briefs', JSON.stringify(briefsLog));
+                        if (channel === 'wa') {
+                            const message = `¡Hola JOM STUDIO! 🚀%0A%0AMe gustaría cotizar un proyecto:%0A%0A*Nombre/Empresa:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Brief:* ${encodeURIComponent(briefText)}`;
+                            window.open(`https://wa.me/584165159067?text=${message}`, '_blank');
+                        } else {
+                            const subject = encodeURIComponent(`Nuevo Proyecto JOM STUDIO - ${name}`);
+                            const body = encodeURIComponent(`Hola JOM STUDIO,\n\nMe gustaría cotizar un proyecto:\n\nNombre/Empresa: ${name}\nEmail: ${email}\n\nBrief del Proyecto:\n${briefText}`);
+                            window.open(`mailto:jomstudiovzla@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                        }
+                    }
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
                 }
             });
         }
@@ -1451,6 +1475,27 @@
                     briefsList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-12">No client briefs logged.</div>';
                 }
             }
+
+            // Render commerce orders (from JOM_CRM)
+            const ordersList = document.getElementById('analytics-orders-list');
+            if (ordersList) {
+                const orders = (window.JOM_CRM && JOM_CRM.listOrders) ? JOM_CRM.listOrders() : JSON.parse(localStorage.getItem('jom_orders_v1') || '[]');
+                if (orders.length > 0) {
+                    ordersList.innerHTML = orders.slice(0, 12).map((o) => `
+                        <div class="border border-outline-variant/20 p-3 rounded-lg bg-surface-container">
+                            <div class="flex justify-between gap-2 font-label-mono text-[10px]">
+                                <span class="text-primary-fixed">${o.id}</span>
+                                <span class="text-secondary uppercase">${o.status}</span>
+                            </div>
+                            <div class="text-sm text-white mt-1">${o.productName} · <span class="text-primary-fixed">${o.amount} USDT</span></div>
+                            <div class="text-xs text-on-surface-variant">${o.name} · ${o.email}</div>
+                            ${o.txHash ? `<div class="text-[10px] font-label-mono text-outline truncate mt-1">tx: ${o.txHash}</div>` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    ordersList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-6">No orders yet — open admin-ops.html</div>';
+                }
+            }
         }
 
         function openAdminDashboard() {
@@ -1548,9 +1593,14 @@
                 <div class="md:col-span-8 p-6 border border-outline-variant/20 bg-surface-container-lowest/80 rounded-xl flex flex-col justify-between min-h-[400px]">
                     <div>
                         <span class="font-label-mono text-[10px] text-outline uppercase mb-4 block">Transmitted Client Briefs</span>
-                        <div class="space-y-4 max-h-[450px] overflow-y-auto pr-2" id="analytics-briefs-list">
+                        <div class="space-y-4 max-h-[220px] overflow-y-auto pr-2" id="analytics-briefs-list">
                             <div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-12">No client briefs logged.</div>
                         </div>
+                        <span class="font-label-mono text-[10px] text-outline uppercase mb-3 mt-6 block">Commerce Orders (USDT)</span>
+                        <div class="space-y-3 max-h-[220px] overflow-y-auto pr-2" id="analytics-orders-list">
+                            <div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-6">No orders yet — open admin-ops.html</div>
+                        </div>
+                        <a href="admin-ops.html" class="inline-block mt-4 font-label-mono text-[10px] text-primary-fixed uppercase tracking-widest hover:underline">Open full Ops Command →</a>
                     </div>
                 </div>
             </div>
