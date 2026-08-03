@@ -1,152 +1,313 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html class="dark" lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SERVICES & PRICING | JOM STUDIO</title>
-  <meta name="description" content="Paquetes JOM STUDIO — Launch Kit, Micro Alchemy, Interactive Engine. Pago en USDT TRC20 vía Binance."/>
+  <title>PRICING | JOM STUDIO</title>
+  <meta name="description" content="JOM STUDIO packages — categories, bundles, USDT TRC20."/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --theme-primary: #00F2FF;
-      --theme-gold: #C4A35A;
-      --color-bg: #050505;
-      --color-text: #E0E0E0;
+    :root { --c:#00F2FF; --g:#C4A35A; --bg:#050505; }
+    body { background:var(--bg); color:#e0e0e0; font-family:Sora,system-ui,sans-serif; overflow-x:hidden; }
+    .mono { font-family:"JetBrains Mono",monospace; }
+    .glass { background:rgba(10,10,10,.94); border:1px solid #4a4a4a; backdrop-filter:blur(20px); }
+    .btn-p { background:var(--c); color:#050505; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; border:1px solid var(--c); }
+    .btn-p:hover { background:transparent; color:var(--c); }
+    .btn-g { border:1px solid rgba(196,163,90,.5); color:var(--g); font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+    .featured { border-color:var(--c); box-shadow:0 0 36px rgba(0,242,255,.12); }
+    .tab-active { border-color:var(--c); color:var(--c); background:rgba(0,242,255,.08); }
+    h1,h2,h3 { overflow-wrap:anywhere; word-break:break-word; }
+    @media(max-width:767px){
+      .pad-x { padding-left:16px; padding-right:16px; }
     }
-    body { background: var(--color-bg); color: var(--color-text); font-family: Sora, system-ui, sans-serif; }
-    .glass {
-      background: rgba(10,10,10,0.92);
-      border: 1px solid #4A4A4A;
-      backdrop-filter: blur(24px);
-    }
-    .badge {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .price { font-family: "JetBrains Mono", monospace; color: var(--theme-primary); }
-    .btn-primary {
-      background: var(--theme-primary);
-      color: #050505;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 700;
-      border: 1px solid var(--theme-primary);
-      transition: 0.2s;
-    }
-    .btn-primary:hover { background: transparent; color: var(--theme-primary); }
-    .btn-ghost {
-      border: 1px solid rgba(196,163,90,0.5);
-      color: var(--theme-gold);
-      font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .btn-ghost:hover { background: rgba(196,163,90,0.08); }
-    .featured { border-color: var(--theme-primary); box-shadow: 0 0 40px rgba(0,242,255,0.12); }
   </style>
   <script src="js/config.js"></script>
+  <script src="js/i18n-commerce.js"></script>
   <script src="js/crm.js"></script>
   <script src="js/tron.js"></script>
   <script src="js/commerce.js"></script>
 </head>
 <body class="min-h-screen">
-  <header class="fixed top-0 inset-x-0 z-50 flex justify-between items-center px-4 md:px-10 py-4 bg-black/80 backdrop-blur border-b border-white/10">
-    <a href="index.html" class="flex items-center gap-3">
-      <img src="assets/logo_jom_square.jpg" alt="JOM" class="w-8 h-8 object-cover"/>
-      <span class="font-mono text-xs tracking-widest text-cyan-300">JOM STUDIO // PRICING</span>
+  <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 md:px-10 py-3 bg-black/85 backdrop-blur border-b border-white/10">
+    <a href="index.html" class="flex items-center gap-2 min-w-0">
+      <img src="assets/logo_jom_square.jpg" alt="JOM" class="w-7 h-7 object-cover shrink-0"/>
+      <span class="mono text-[10px] sm:text-xs tracking-widest text-cyan-300 truncate">JOM STUDIO // <span data-i18n="nav_pricing">PRICING</span></span>
     </a>
-    <nav class="flex items-center gap-4 text-xs font-mono uppercase tracking-wider">
-      <a href="index.html" class="text-gray-400 hover:text-cyan-300">Home</a>
-      <a href="repository.html" class="text-gray-400 hover:text-cyan-300">Dossier</a>
-      <a href="order.html?product=launch" class="btn-primary px-4 py-2">Buy Launch Kit</a>
-    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="index.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_home">Home</a>
+      <a href="repository.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase hidden sm:inline" data-i18n="nav_dossier">Dossier</a>
+      <!-- Language (syncs with home via jom_lang) -->
+      <div class="relative group">
+        <button type="button" id="lang-toggle" class="mono text-[10px] border border-white/20 px-2 py-1 flex items-center gap-1 hover:border-cyan-400">
+          <span id="lang-label">EN</span>
+          <span class="material-symbols-outlined text-[14px]">language</span>
+        </button>
+        <div class="absolute right-0 top-full mt-1 w-32 bg-black border border-white/20 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible z-50 flex flex-col">
+          <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300" data-lang="en">🇺🇸 EN</button>
+          <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300" data-lang="es">🇪🇸 ES</button>
+          <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300" data-lang="fr">🇫🇷 FR</button>
+          <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300" data-lang="pt">🇧🇷 PT</button>
+          <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300 border-t border-white/10" data-lang="auto">🌐 AUTO</button>
+        </div>
+      </div>
+      <a href="order.html?product=launch" class="btn-p px-3 py-1.5 rounded" data-i18n="nav_buy">Buy</a>
+    </div>
   </header>
 
-  <main class="pt-28 pb-20 px-4 md:px-10 max-w-6xl mx-auto">
-    <div class="text-center mb-14 space-y-4">
-      <span class="badge inline-block border border-cyan-400/40 text-cyan-300 px-3 py-1">PROTOCOL // COMMERCE GRID</span>
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight uppercase">Paquetes con cobro en USDT</h1>
-      <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
-        Precios fijos. Pago prioritario: <strong class="text-cyan-300">Binance → USDT TRC20</strong>.
-        Kickoff en menos de 24h tras verificación del hash.
-      </p>
-      <div id="wallet-banner" class="hidden max-w-xl mx-auto text-left glass p-4 rounded-lg border border-amber-500/40 text-amber-200 text-xs font-mono"></div>
+  <main class="pt-24 sm:pt-28 pb-20 px-4 sm:px-6 md:px-10 max-w-6xl mx-auto pad-x">
+    <div class="text-center mb-10 sm:mb-14 space-y-3">
+      <span class="mono text-[10px] inline-block border border-cyan-400/40 text-cyan-300 px-3 py-1 tracking-widest" data-i18n="eyebrow">PROTOCOL // COMMERCE GRID</span>
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase" data-i18n="hero_title">Packages priced in USDT</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base" data-i18n="hero_sub"></p>
+      <div id="wallet-banner" class="hidden max-w-xl mx-auto text-left glass p-3 rounded-lg border border-amber-500/40 text-amber-200 text-xs mono"></div>
     </div>
 
-    <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"></div>
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2 justify-center mb-8" id="filter-tabs" role="tablist"></div>
 
-    <section class="mt-16 glass rounded-xl p-6 md:p-10">
-      <h2 class="text-xl font-bold uppercase tracking-wide mb-4 text-amber-400">Cómo funciona el cobro</h2>
-      <ol class="grid md:grid-cols-4 gap-4 text-sm text-gray-300 list-none">
-        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">01</span><br/>Elige paquete y completa brief</li>
-        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">02</span><br/>Envía USDT TRC20 a la wallet</li>
-        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">03</span><br/>Pega el Tx Hash (Binance / Tronscan)</li>
-        <li class="border border-white/10 rounded-lg p-4"><span class="text-cyan-300 font-mono text-xs">04</span><br/>WhatsApp de confirmación + kickoff 24h</li>
+    <div id="catalog-root" class="space-y-14"></div>
+
+    <section class="mt-16 glass rounded-xl p-5 sm:p-8">
+      <h2 class="text-lg font-bold uppercase tracking-wide mb-4 text-amber-400" data-i18n="how_title">How payment works</h2>
+      <ol class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 text-sm text-gray-300 list-none">
+        <li class="border border-white/10 rounded-lg p-3"><span class="text-cyan-300 mono text-xs">01</span><br/><span data-i18n="how_1"></span></li>
+        <li class="border border-white/10 rounded-lg p-3"><span class="text-cyan-300 mono text-xs">02</span><br/><span data-i18n="how_2"></span></li>
+        <li class="border border-white/10 rounded-lg p-3"><span class="text-cyan-300 mono text-xs">03</span><br/><span data-i18n="how_3"></span></li>
+        <li class="border border-white/10 rounded-lg p-3"><span class="text-cyan-300 mono text-xs">04</span><br/><span data-i18n="how_4"></span></li>
       </ol>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a id="wa-direct" href="#" target="_blank" class="btn-ghost px-5 py-3 inline-flex items-center gap-2">
-          <span class="material-symbols-outlined text-sm">chat</span> WhatsApp comercial
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a id="wa-direct" href="#" target="_blank" class="btn-g px-4 py-2.5 inline-flex items-center gap-2 rounded">
+          <span class="material-symbols-outlined text-sm">chat</span> <span data-i18n="wa_commercial">WhatsApp</span>
         </a>
-        <a href="order.html?product=spark" class="btn-primary px-5 py-3">Empezar por $200 USDT</a>
+        <a href="order.html?product=spark" class="btn-p px-4 py-2.5 rounded" data-i18n="start_200">Start at $200 USDT</a>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-white/10 py-8 text-center text-xs font-mono text-gray-500">
+  <footer class="border-t border-white/10 py-8 text-center text-xs mono text-gray-500">
     © 2026 JOM STUDIO · USDT TRC20 · <a href="admin-ops.html" class="hover:text-cyan-300">Ops</a>
   </footer>
 
   <script>
     (function () {
-      const grid = document.getElementById("product-grid");
-      const products = JOM_COMMERCE.allProducts();
-      const featured = "launch";
+      let view = "all"; // all | solo | bundles | compare
+      let langMode = JOM_I18N.getStoredLangMode();
 
-      products.forEach((p) => {
+      function L() { return JOM_I18N.resolveLang(langMode); }
+
+      function applyStaticI18n() {
+        const lang = L();
+        document.documentElement.lang = lang;
+        document.title = JOM_I18N.t("page_title", lang);
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          el.textContent = JOM_I18N.t(key, lang);
+        });
+        const label = document.getElementById("lang-label");
+        label.textContent = langMode === "auto" ? "AUTO" : lang.toUpperCase();
+        const wa = document.getElementById("wa-direct");
+        wa.href = JOM_COMMERCE.waLink(
+          lang === "es"
+            ? "Hola JOM STUDIO — vi los paquetes en services.html y quiero cotizar / comprar."
+            : lang === "fr"
+            ? "Bonjour JOM STUDIO — j'ai vu les packs sur services.html et je souhaite un devis / achat."
+            : lang === "pt"
+            ? "Olá JOM STUDIO — vi os pacotes em services.html e quero orçar / comprar."
+            : "Hi JOM STUDIO — I saw packages on services.html and want a quote / purchase."
+        );
+        const banner = document.getElementById("wallet-banner");
+        if (window.JOM_TRON && !JOM_TRON.isWalletReady()) {
+          banner.classList.remove("hidden");
+          banner.textContent = JOM_I18N.t("wallet_warn", lang);
+        } else {
+          banner.classList.add("hidden");
+        }
+      }
+
+      function renderTabs() {
+        const tabs = [
+          { id: "all", key: "tab_all" },
+          { id: "solo", key: "tab_solo" },
+          { id: "bundles", key: "tab_bundles" },
+          { id: "compare", key: "tab_compare" },
+        ];
+        const host = document.getElementById("filter-tabs");
+        host.innerHTML = tabs
+          .map(
+            (t) =>
+              `<button type="button" data-view="${t.id}" class="mono text-[10px] uppercase tracking-wider px-3 py-2 border border-white/15 rounded ${
+                view === t.id ? "tab-active" : "text-gray-400 hover:border-cyan-400/50"
+              }">${JOM_I18N.t(t.key, L())}</button>`
+          )
+          .join("");
+        host.querySelectorAll("button").forEach((btn) => {
+          btn.onclick = () => {
+            view = btn.dataset.view;
+            renderTabs();
+            renderCatalog();
+          };
+        });
+      }
+
+      function cardHTML(p) {
+        const lang = L();
         const isQuote = !p.priceUsdt;
-        const card = document.createElement("article");
-        card.className = "glass rounded-xl p-6 flex flex-col gap-4 " + (p.id === featured ? "featured" : "");
-        card.innerHTML = `
-          <div class="flex justify-between items-start">
-            <span class="badge text-cyan-300 border border-cyan-400/30 px-2 py-1">${p.badge || "PKG"}</span>
-            <span class="badge text-gray-500">${p.sku}</span>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold uppercase tracking-tight">${p.name}</h3>
-            <p class="text-sm text-gray-400 mt-2">${p.headline}</p>
-          </div>
-          <div class="price text-3xl font-bold">
-            ${isQuote ? "QUOTE" : p.priceUsdt + " <span class='text-base text-gray-400'>USDT</span>"}
-          </div>
-          <p class="text-xs text-gray-500 font-mono">ETA: ${p.eta} · ${p.network || "TRC20"}</p>
-          <ul class="text-xs text-gray-300 space-y-1.5 flex-1">
-            ${(p.deliverables || []).slice(0, 5).map((d) => `<li class="flex gap-2"><span class="text-cyan-400">✓</span><span>${d}</span></li>`).join("")}
-          </ul>
-          <a href="${isQuote ? "index.html#brief" : JOM_COMMERCE.orderUrl(p.id)}"
-             class="${isQuote ? "btn-ghost" : "btn-primary"} w-full text-center py-3 rounded">
-            ${isQuote ? "Enviar brief" : "Comprar · " + p.priceUsdt + " USDT"}
-          </a>
+        const isBundle = p.type === "bundle";
+        const sep = isBundle ? JOM_COMMERCE.separateSum(p) : 0;
+        const save = isBundle ? JOM_COMMERCE.savings(p) : 0;
+        const dels = (p.deliverables || []).slice(0, 5);
+        const combines = (p.combinesLabel || []).length
+          ? p.combinesLabel
+          : (p.combines || []).map((id) => {
+              const part = JOM_COMMERCE.product(id);
+              return part ? part.name : id;
+            });
+
+        return `
+          <article class="glass rounded-xl p-5 flex flex-col gap-3 min-w-0 ${p.featured ? "featured" : ""}" id="pkg-${p.id}">
+            <div class="flex justify-between items-start gap-2">
+              <span class="mono text-[9px] tracking-widest text-cyan-300 border border-cyan-400/30 px-2 py-0.5">${p.badge || ""}</span>
+              <span class="mono text-[9px] text-gray-500">${p.sku || ""}</span>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-base sm:text-lg font-bold uppercase tracking-tight leading-snug">${p.name}</h3>
+              <p class="text-sm text-gray-400 mt-1">${p.headline}</p>
+            </div>
+            <div class="mono text-2xl sm:text-3xl font-bold text-cyan-300">
+              ${isQuote ? JOM_I18N.t("badge_quote", lang) : p.priceUsdt + ' <span class="text-sm text-gray-400">USDT</span>'}
+            </div>
+            ${
+              isBundle && sep > 0
+                ? `<div class="text-xs text-gray-500 mono">
+                    <span class="line-through">${sep} USDT</span>
+                    ${save > 0 ? ` · <span class="text-amber-300">${JOM_I18N.t("compare_save", lang)} ${save} USDT</span>` : ""}
+                  </div>`
+                : ""
+            }
+            <p class="mono text-[10px] text-gray-500">${JOM_I18N.t("eta_label", lang)}: ${p.eta} · ${p.network || "TRC20"}</p>
+            ${
+              isBundle && combines.length
+                ? `<p class="text-[11px] text-gray-400"><span class="text-amber-300 mono">${JOM_I18N.t("from_categories", lang)}:</span> ${combines.join(" + ")}</p>`
+                : ""
+            }
+            <ul class="text-xs text-gray-300 space-y-1 flex-1">
+              ${dels.map((d) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${d}</span></li>`).join("")}
+            </ul>
+            <a href="${isQuote ? "index.html#brief" : JOM_COMMERCE.orderUrl(p.id)}"
+               class="${isQuote ? "btn-g" : "btn-p"} w-full text-center py-2.5 rounded">
+              ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + p.priceUsdt + " USDT"}
+            </a>
+          </article>
         `;
-        grid.appendChild(card);
+      }
+
+      function section(title, products) {
+        if (!products.length) return "";
+        return `
+          <section class="min-w-0">
+            <h2 class="text-lg sm:text-xl font-bold uppercase tracking-wide mb-4 text-secondary border-b border-white/10 pb-2">${title}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              ${products.map(cardHTML).join("")}
+            </div>
+          </section>
+        `;
+      }
+
+      function renderCompare() {
+        const lang = L();
+        const bundles = JOM_COMMERCE.bundleProducts();
+        if (!bundles.length) return `<p class="text-gray-500">${JOM_I18N.t("empty", lang)}</p>`;
+        return `
+          <section>
+            <h2 class="text-lg sm:text-xl font-bold uppercase tracking-wide mb-4 text-amber-400">${JOM_I18N.t("section_compare", lang)}</h2>
+            <div class="overflow-x-auto glass rounded-xl">
+              <table class="w-full text-left text-sm min-w-[520px]">
+                <thead>
+                  <tr class="mono text-[10px] text-cyan-300 uppercase tracking-wider border-b border-white/10">
+                    <th class="p-3">${JOM_I18N.t("tab_bundles", lang)}</th>
+                    <th class="p-3">${JOM_I18N.t("compare_solo_sum", lang)}</th>
+                    <th class="p-3">${JOM_I18N.t("compare_bundle", lang)}</th>
+                    <th class="p-3">${JOM_I18N.t("compare_save", lang)}</th>
+                    <th class="p-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${bundles
+                    .map((b) => {
+                      const sep = JOM_COMMERCE.separateSum(b);
+                      const save = JOM_COMMERCE.savings(b);
+                      return `<tr class="border-b border-white/5 hover:bg-white/[0.02]">
+                        <td class="p-3 font-semibold">${b.name}<div class="text-xs text-gray-500 font-normal">${b.headline}</div></td>
+                        <td class="p-3 mono text-gray-400 line-through">${sep} USDT</td>
+                        <td class="p-3 mono text-cyan-300 font-bold">${b.priceUsdt} USDT</td>
+                        <td class="p-3 mono text-amber-300">${save > 0 ? "−" + save + " USDT" : "—"}</td>
+                        <td class="p-3"><a class="btn-p px-3 py-1.5 rounded inline-block" href="${JOM_COMMERCE.orderUrl(b.id)}">${JOM_I18N.t("buy", lang)}</a></td>
+                      </tr>`;
+                    })
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderCatalog() {
+        const lang = L();
+        const root = document.getElementById("catalog-root");
+        const order = JOM_CONFIG.categoryOrder || ["web", "gamification", "branding", "ai", "photo", "ugc", "automation"];
+
+        if (view === "compare") {
+          root.innerHTML = renderCompare();
+          return;
+        }
+
+        let html = "";
+        if (view === "all" || view === "solo") {
+          html += `<h2 class="text-lg sm:text-xl font-bold uppercase tracking-wide text-white">${JOM_I18N.t("section_solo", lang)}</h2>`;
+          order.forEach((cat) => {
+            const list = JOM_COMMERCE.productsByCategory(cat).filter((p) => p.type !== "bundle");
+            if (list.length) html += section(JOM_I18N.categoryLabel(cat, lang), list);
+          });
+        }
+        if (view === "all" || view === "bundles") {
+          const bundles = JOM_COMMERCE.bundleProducts();
+          html += section(JOM_I18N.t("section_bundles", lang), bundles);
+        }
+        if (view === "all") {
+          html += renderCompare();
+        }
+        root.innerHTML = html || `<p class="text-gray-500">${JOM_I18N.t("empty", lang)}</p>`;
+      }
+
+      function fullRender() {
+        applyStaticI18n();
+        renderTabs();
+        renderCatalog();
+      }
+
+      document.querySelectorAll(".lang-opt").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          langMode = btn.dataset.lang;
+          JOM_I18N.setStoredLangMode(langMode);
+          fullRender();
+        });
       });
 
-      const wa = document.getElementById("wa-direct");
-      wa.href = JOM_COMMERCE.waLink(
-        "Hola JOM STUDIO — vi los paquetes en services.html y quiero cotizar / comprar."
-      );
+      window.addEventListener("jom:lang", () => {
+        langMode = JOM_I18N.getStoredLangMode();
+        fullRender();
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === "jom_lang") {
+          langMode = e.newValue || "auto";
+          fullRender();
+        }
+      });
 
-      const banner = document.getElementById("wallet-banner");
-      if (window.JOM_TRON && !JOM_TRON.isWalletReady()) {
-        banner.classList.remove("hidden");
-        banner.innerHTML = "⚠️ CONFIG: pega tu wallet USDT TRC20 en <code>js/config.js</code> → <code>crypto.address</code> antes de cobrar en vivo.";
-      }
+      fullRender();
     })();
   </script>
 </body>

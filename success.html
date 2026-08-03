@@ -1,51 +1,60 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html class="dark" lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ORDEN RECIBIDA | JOM STUDIO</title>
+  <title>ORDER | JOM STUDIO</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    body { background: #050505; color: #e0e0e0; font-family: Sora, system-ui, sans-serif; }
-    .mono { font-family: "JetBrains Mono", monospace; }
-    .glass { background: rgba(10,10,10,0.94); border: 1px solid #4a4a4a; }
-    .btn { background: #00F2FF; color: #050505; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; border: 1px solid #00F2FF; }
-    .btn:hover { background: transparent; color: #00F2FF; }
+    body { background:#050505; color:#e0e0e0; font-family:Sora,system-ui,sans-serif; }
+    .mono { font-family:"JetBrains Mono",monospace; }
+    .glass { background:rgba(10,10,10,.94); border:1px solid #4a4a4a; }
+    .btn { background:#00F2FF; color:#050505; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; border:1px solid #00F2FF; }
+    .btn:hover { background:transparent; color:#00F2FF; }
   </style>
   <script src="js/config.js"></script>
+  <script src="js/i18n-commerce.js"></script>
   <script src="js/crm.js"></script>
   <script src="js/tron.js"></script>
   <script src="js/commerce.js"></script>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
-  <div class="glass max-w-lg w-full rounded-xl p-8 space-y-6 text-center">
+  <div class="glass max-w-lg w-full rounded-xl p-6 sm:p-8 space-y-5 text-center">
     <div class="text-4xl">✓</div>
-    <h1 class="text-2xl font-bold uppercase tracking-tight">Orden registrada</h1>
-    <p class="text-sm text-gray-400">Kickoff en menos de 24h tras confirmar el USDT en Binance / wallet.</p>
+    <h1 class="text-xl sm:text-2xl font-bold uppercase tracking-tight" data-i18n="success_title">Order registered</h1>
+    <p class="text-sm text-gray-400" data-i18n="success_sub"></p>
     <div class="text-left mono text-xs space-y-2 bg-black/50 border border-white/10 rounded p-4">
-      <div>Orden: <span id="oid" class="text-cyan-300">—</span></div>
-      <div>Producto: <span id="pname" class="text-white">—</span></div>
-      <div>Monto: <span id="amt" class="text-cyan-300">—</span> USDT TRC20</div>
-      <div>Estado: <span id="st" class="text-amber-300">—</span></div>
-      <div>Hash: <span id="hx" class="text-gray-400 break-all">—</span></div>
+      <div>ID: <span id="oid" class="text-cyan-300">—</span></div>
+      <div><span id="pname" class="text-white">—</span></div>
+      <div><span id="amt" class="text-cyan-300">—</span> USDT TRC20</div>
+      <div>Status: <span id="st" class="text-amber-300">—</span></div>
+      <div class="break-all">Hash: <span id="hx" class="text-gray-400">—</span></div>
     </div>
     <div class="flex flex-col gap-3">
-      <button id="btn-wa" class="btn w-full py-3 rounded">Confirmar por WhatsApp</button>
-      <a href="services.html" class="mono text-xs text-gray-400 hover:text-cyan-300">← Volver a paquetes</a>
-      <a href="index.html" class="mono text-xs text-gray-500 hover:text-white">Home</a>
+      <button id="btn-wa" class="btn w-full py-3 rounded" data-i18n="success_wa">WhatsApp</button>
+      <a href="services.html" class="mono text-xs text-gray-400 hover:text-cyan-300" data-i18n="back_packages">← Packages</a>
+      <a href="index.html" class="mono text-xs text-gray-500 hover:text-white" data-i18n="nav_home">Home</a>
     </div>
   </div>
   <script>
     (function () {
+      const langMode = JOM_I18N.getStoredLangMode();
+      const lang = JOM_I18N.resolveLang(langMode);
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = JOM_I18N.t(el.getAttribute("data-i18n"), lang);
+      });
       const id = new URLSearchParams(location.search).get("order");
       const o = id && JOM_CRM.getOrder(id);
       if (!o) {
-        document.getElementById("oid").textContent = "no encontrada";
+        document.getElementById("oid").textContent = "—";
         return;
       }
       document.getElementById("oid").textContent = o.id;
-      document.getElementById("pname").textContent = o.productName;
+      // Re-localize product name if possible
+      const p = o.productId ? JOM_COMMERCE.product(o.productId) : null;
+      document.getElementById("pname").textContent = (p && p.name) || o.productName;
       document.getElementById("amt").textContent = o.amount;
       document.getElementById("st").textContent = o.status;
       document.getElementById("hx").textContent = o.txHash || "—";

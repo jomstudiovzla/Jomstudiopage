@@ -322,7 +322,7 @@
             <nav class="hidden lg:flex gap-8 items-center mr-4">
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_projects" href="repository.html">Projects</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_services" href="#services">Services</a>
-                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" href="services.html">Pricing</a>
+                <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_pricing" href="services.html">Pricing</a>
                 <a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary-fixed transition-all duration-300" data-t="nav_about" href="#about">About</a>
             </nav>
             <!-- HUD Control Buttons -->
@@ -369,9 +369,7 @@
                     Where Technical Architecture Meets Artistic Direction.
                 </p>
                 <div class="pt-4 sm:pt-stack-md flex flex-col sm:flex-row gap-3 sm:gap-gutter justify-center items-stretch sm:items-center w-full max-w-md sm:max-w-none mx-auto">
-                    <a href="order.html?product=launch" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-4 py-3.5 sm:px-12 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center" data-t="btn_buy_launch" id="btn-buy-launch">
-                        Launch Kit · 300 USDT
-                    </a>
+                    <a href="order.html?product=launch" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-[10px] sm:text-label-mono px-4 py-3.5 sm:px-12 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary text-center" data-t="btn_buy_launch" id="btn-buy-launch">Launch Kit · 300 USDT</a>
                     <button class="w-full sm:w-auto font-label-mono text-[10px] sm:text-label-mono text-secondary px-4 py-3.5 sm:px-12 sm:py-5 uppercase tracking-[0.12em] sm:tracking-[0.2em] border border-secondary/40 bg-transparent hover:bg-secondary/5 transition-all duration-300" data-t="btn_initiate">
                         Initiate Project
                     </button>
@@ -380,11 +378,11 @@
                     </button>
                 </div>
                 <p class="font-label-mono text-[9px] sm:text-[10px] text-on-surface-variant/70 pt-1 leading-relaxed px-1">
-                    <a href="services.html" class="text-primary-fixed hover:underline">Ver todos los paquetes</a>
+                    <a href="services.html" class="text-primary-fixed hover:underline" data-t="btn_pricing">View all packages</a>
                     <span class="hidden sm:inline"> · </span><br class="sm:hidden"/>
-                    Pago USDT TRC20 (Binance)
+                    USDT TRC20 (Binance)
                     <span class="hidden sm:inline"> · </span><br class="sm:hidden"/>
-                    <a href="order.html?product=spark" class="text-secondary hover:underline">Spark 200 USDT</a>
+                    <a href="order.html?product=spark" class="text-secondary hover:underline" data-t="btn_buy_spark">Spark 200 USDT</a>
                 </p>
             </div>
             <!-- Scroll Indicator (desktop / tall screens) -->
@@ -460,11 +458,16 @@
                                 <!-- Rendered dynamically -->
                             </div>
                         </div>
-                        <!-- Command Activation -->
-                        <button type="button" class="w-full md:w-auto bg-primary-fixed text-on-primary-container font-label-mono text-[10px] tracking-widest uppercase px-6 py-3 border border-primary-fixed hover:bg-transparent hover:text-primary-fixed transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 font-bold" id="console-select-btn">
-                            <span data-t="service_btn_select">Activate Protocol</span>
-                            <span class="material-symbols-outlined text-[14px]">arrow_right_alt</span>
-                        </button>
+                        <!-- Command Activation + pricing -->
+                        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <button type="button" class="w-full md:w-auto bg-primary-fixed text-on-primary-container font-label-mono text-[10px] tracking-widest uppercase px-6 py-3 border border-primary-fixed hover:bg-transparent hover:text-primary-fixed transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 font-bold" id="console-select-btn">
+                                <span data-t="service_btn_select">Activate Protocol</span>
+                                <span class="material-symbols-outlined text-[14px]">arrow_right_alt</span>
+                            </button>
+                            <a id="console-pricing-link" href="services.html" class="w-full md:w-auto font-label-mono text-[10px] tracking-widest uppercase px-6 py-3 border border-secondary/40 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-all duration-300 flex items-center justify-center gap-2 text-center">
+                                <span id="console-price-label" data-t="service_view_pricing">See packages</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -680,8 +683,9 @@
         </div>
     </footer>
 
-    <!-- Commerce stack: config → CRM → Tron verify → order engine -->
+    <!-- Commerce stack: config → i18n → CRM → Tron → order engine -->
     <script src="js/config.js"></script>
+    <script src="js/i18n-commerce.js"></script>
     <script src="js/crm.js"></script>
     <script src="js/tron.js"></script>
     <script src="js/commerce.js"></script>
@@ -704,8 +708,14 @@
                 hero_subtitle: "Where Technical Architecture Meets Artistic Direction.",
                 btn_initiate: "Initiate Project",
                 btn_dossier: "View Dossier",
+                btn_buy_launch: "Launch Kit · 300 USDT",
+                btn_pricing: "View all packages",
+                btn_buy_spark: "Spark 200 USDT",
+                nav_pricing: "Pricing",
                 scroll_decrypt: "Scroll to Decrypt",
                 services_title: "Operations & Services",
+                service_from_price: "From",
+                service_view_pricing: "See packages",
                 services_subtitle: "A unified system of digital capabilities structured through proven deployment cases.",
                 service_deliverables_head: "Deliverables & Scope",
                 service_tech_head: "Technology Stack",
@@ -749,8 +759,14 @@
                 hero_subtitle: "Donde la arquitectura técnica se encuentra con la dirección artística.",
                 btn_initiate: "Iniciar Proyecto",
                 btn_dossier: "Ver Dossier",
+                btn_buy_launch: "Launch Kit · 300 USDT",
+                btn_pricing: "Ver todos los paquetes",
+                btn_buy_spark: "Spark 200 USDT",
+                nav_pricing: "Precios",
                 scroll_decrypt: "Desplazar para Desencriptar",
                 services_title: "Operaciones y Servicios",
+                service_from_price: "Desde",
+                service_view_pricing: "Ver paquetes",
                 services_subtitle: "Un sistema unificado de capacidades digitales estructurado a través de casos de despliegue reales.",
                 service_deliverables_head: "Entregables y Alcance",
                 service_tech_head: "Stack Tecnológico",
@@ -794,8 +810,14 @@
                 hero_subtitle: "Où l'architecture technique rencontre la direction artistique.",
                 btn_initiate: "Initier le Projet",
                 btn_dossier: "Voir le Dossier",
+                btn_buy_launch: "Launch Kit · 300 USDT",
+                btn_pricing: "Voir tous les packs",
+                btn_buy_spark: "Spark 200 USDT",
+                nav_pricing: "Tarifs",
                 scroll_decrypt: "Faire défiler",
                 services_title: "Opérations & Services",
+                service_from_price: "À partir de",
+                service_view_pricing: "Voir les packs",
                 services_subtitle: "Un système unifié de capacités numériques structuré à travers des cas de déploiement éprouvés.",
                 service_deliverables_head: "Livrables & Portée",
                 service_tech_head: "Pile Technologique",
@@ -839,8 +861,14 @@
                 hero_subtitle: "Onde a Arquitetura Técnica Encontra a Direção Artística.",
                 btn_initiate: "Iniciar Projeto",
                 btn_dossier: "Ver Dossiê",
+                btn_buy_launch: "Launch Kit · 300 USDT",
+                btn_pricing: "Ver todos os pacotes",
+                btn_buy_spark: "Spark 200 USDT",
+                nav_pricing: "Preços",
                 scroll_decrypt: "Role para baixo",
                 services_title: "Operações & Serviços",
+                service_from_price: "A partir de",
+                service_view_pricing: "Ver pacotes",
                 services_subtitle: "Um sistema unificado de capacidades digitais estruturado através de casos de implantação comprovados.",
                 service_deliverables_head: "Entregáveis & Escopo",
                 service_tech_head: "Stack Tecnológico",
@@ -1087,6 +1115,17 @@
 
         let activeServiceIdx = 0;
 
+        // Map home protocols → commerce category + entry product
+        const servicePricingMap = {
+            gamification: { category: 'gamification', productId: 'engine', from: 600 },
+            webdev: { category: 'web', productId: 'spark', from: 200 },
+            ai: { category: 'ai', productId: 'ai_visual', from: 200 },
+            automation: { category: 'automation', productId: 'chrome_ext', from: 350 },
+            ugc: { category: 'ugc', productId: 'ugc_pack', from: 280 },
+            branding: { category: 'branding', productId: 'brand_identity', from: 250 },
+            consulting: { category: 'web', productId: 'custom', from: 0 }
+        };
+
         function renderServices() {
             let currentDisplayLang = state.lang === 'auto' ? detectDeviceLang() : state.lang;
             const tabsContainer = document.getElementById('services-tabs-container');
@@ -1143,6 +1182,27 @@
                     <span>CASE_${c.num}: ${c.name}</span>
                 </a>
             `).join('');
+
+            // Pricing chip for active protocol
+            const priceLink = document.getElementById('console-pricing-link');
+            const priceLabel = document.getElementById('console-price-label');
+            const map = servicePricingMap[current.id];
+            if (priceLink && priceLabel && map) {
+                let from = map.from;
+                let buyId = map.productId;
+                if (window.JOM_COMMERCE) {
+                    const list = JOM_COMMERCE.productsByCategory(map.category).filter(p => p.priceUsdt > 0);
+                    if (list.length) {
+                        list.sort((a, b) => a.priceUsdt - b.priceUsdt);
+                        from = list[0].priceUsdt;
+                        buyId = list[0].id;
+                    }
+                }
+                const fromWord = (translations[currentDisplayLang] && translations[currentDisplayLang].service_from_price) || 'From';
+                priceLabel.textContent = `${fromWord} ${from} USDT`;
+                priceLink.href = `services.html#pkg-${buyId}`;
+                priceLink.classList.remove('hidden');
+            }
         }
 
         window.selectService = function(index) {

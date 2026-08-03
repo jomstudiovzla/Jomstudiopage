@@ -1,19 +1,71 @@
 /**
  * JOM STUDIO — Commerce engine: products, orders, notify, WA, Formspree
+ * Depends on: config.js, crm.js, i18n-commerce.js (optional but recommended), tron.js (for checkout)
  */
 (function (global) {
   function config() {
     return global.JOM_CONFIG || {};
   }
 
-  function product(id) {
-    const products = (config().products) || {};
-    return products[id] || products[config().defaultProductId] || null;
+  function lang() {
+    if (global.JOM_I18N && typeof global.JOM_I18N.resolveLang === "function") {
+      return global.JOM_I18N.resolveLang();
+    }
+    try {
+      const m = localStorage.getItem("jom_lang") || "auto";
+      if (m !== "auto") return m;
+    } catch (_) {}
+    const code = (typeof navigator !== "undefined" && (navigator.language || "").slice(0, 2)) || "en";
+    return ["en", "es", "fr", "pt"].includes(code) ? code : "en";
   }
 
-  function allProducts() {
+  function localize(raw, L) {
+    if (global.JOM_I18N && typeof global.JOM_I18N.localizeProduct === "function") {
+      return global.JOM_I18N.localizeProduct(raw, L || lang());
+    }
+    return raw;
+  }
+
+  function product(id, L) {
+    const products = config().products || {};
+    const raw = products[id] || products[config().defaultProductId] || null;
+    return localize(raw, L);
+  }
+
+  function allProducts(L) {
     const p = config().products || {};
-    return Object.keys(p).map((k) => p[k]);
+    return Object.keys(p)
+      .map((k) => localize(p[k], L))
+      .filter(Boolean);
+  }
+
+  function productsByCategory(category, L) {
+    return allProducts(L).filter((p) => p.category === category && p.id !== "custom");
+  }
+
+  function soloProducts(L) {
+    return allProducts(L).filter((p) => p.type !== "bundle" && p.id !== "custom");
+  }
+
+  function bundleProducts(L) {
+    return allProducts(L).filter((p) => p.type === "bundle");
+  }
+
+  function separateSum(productOrId, L) {
+    const p = typeof productOrId === "string" ? product(productOrId, L) : productOrId;
+    if (!p || !Array.isArray(p.combines) || !p.combines.length) return p ? p.priceUsdt || 0 : 0;
+    const catalog = config().products || {};
+    return p.combines.reduce((sum, id) => {
+      const part = catalog[id];
+      return sum + (part && part.priceUsdt ? Number(part.priceUsdt) : 0);
+    }, 0);
+  }
+
+  function savings(productOrId, L) {
+    const p = typeof productOrId === "string" ? product(productOrId, L) : productOrId;
+    if (!p || p.type !== "bundle") return 0;
+    const sep = separateSum(p, L);
+    return Math.max(0, sep - (Number(p.priceUsdt) || 0));
   }
 
   function waLink(textEncodedOrPlain, alreadyEncoded) {
@@ -68,9 +120,6 @@
     return { formspree: fs, webhook: wh };
   }
 
-  /**
-   * Start order → CRM + optional remote notify
-   */
   async function placeOrder(form) {
     const p = product(form.productId);
     if (!p) throw new Error("Producto inválido");
@@ -116,11 +165,7 @@
       verify = await global.JOM_TRON.verifyTxHash(hash, order.amount);
     }
 
-    const status = verify.ok
-      ? "verified"
-      : verify.status === "manual_review" || verify.status === "verified_amount_only"
-        ? "paid_unverified"
-        : "paid_unverified";
+    const status = verify.ok ? "verified" : "paid_unverified";
 
     const updated = global.JOM_CRM.updateOrder(orderId, {
       txHash: hash,
@@ -162,9 +207,6 @@
     return `success.html?order=${encodeURIComponent(orderId)}`;
   }
 
-  /**
-   * Enhanced brief submit used by index.html
-   */
   async function submitBrief({ name, email, briefText, channel, productId }) {
     const entry = global.JOM_CRM.saveBrief({ name, email, briefText, channel, productId });
     await notifyAll("brief", { name, email, brief: briefText, channel, productId });
@@ -192,8 +234,15 @@
   }
 
   global.JOM_COMMERCE = {
+    lang,
+    localize,
     product,
     allProducts,
+    productsByCategory,
+    soloProducts,
+    bundleProducts,
+    separateSum,
+    savings,
     placeOrder,
     attachAndVerifyPayment,
     openOrderWhatsApp,
