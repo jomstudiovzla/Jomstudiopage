@@ -1,0 +1,31 @@
+# ═══════════════════════════════════════════════════════════════
+# JOM STUDIO — HTTP Security Headers
+# Auditoría JOM SENTINEL run 20260907T013019Z-edf2aa
+# 
+# Este archivo funciona en Cloudflare Pages y Netlify.
+# GitHub Pages NO soporta _headers — usa Cloudflare como proxy
+# o migra a Cloudflare Pages para activar estas cabeceras.
+# ═══════════════════════════════════════════════════════════════
+
+/*
+  # CF-03: HSTS — Fuerza HTTPS en todas las visitas futuras (1 año)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # CF-06: Previene MIME type sniffing
+  X-Content-Type-Options: nosniff
+
+  # CL-02: Previene clickjacking — no permitir en iframes
+  X-Frame-Options: DENY
+
+  # CF-06: Controla información del referrer enviada a terceros
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # CF-06: Desactiva APIs del navegador que no se usan (cámara, mic, geo, pagos)
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+
+  # CL-03: Content Security Policy — sin unsafe-inline para scripts
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://ipapi.co https://api.trongrid.io https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+  # Aislamiento de origen cruzado (COOP/COEP)
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
