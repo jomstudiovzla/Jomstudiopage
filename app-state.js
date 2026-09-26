@@ -1009,4 +1009,3 @@ window.submitAdminLogin = submitAdminLogin;
 window.clearAnalyticsData = clearAnalyticsData;
 window.adminLogout = adminLogout;
 window.openAdminDashboard = openAdminDashboard;
-window.setLang = setLang;
