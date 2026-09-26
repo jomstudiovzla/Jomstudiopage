@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin-ops.html
+Sitemap: https://jomstudio.site/sitemap.xml

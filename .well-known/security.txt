@@ -1,0 +1,5 @@
+Contact: mailto:hello@jomstudio.com
+Preferred-Languages: es, en
+Canonical: https://jomstudio.site/.well-known/security.txt
+Policy: https://jomstudio.site/policies.html
+# JOM Studio — reporta vulnerabilidades de forma responsable. Gracias.

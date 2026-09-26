@@ -20,7 +20,7 @@
     brand: {
       name: "JOM STUDIO",
       tagline: "DIGITAL ALCHEMY",
-      siteUrl: "https://jomstudiovzla.github.io/Jomstudiopage",
+      siteUrl: "https://jomstudio.site",
       timezone: "America/Caracas",
     },
 

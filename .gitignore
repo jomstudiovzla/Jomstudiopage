@@ -15,3 +15,7 @@ desktop.ini
 .cache/
 node_modules/
 *.tmp
+
+# Cloudflare Wrangler (artefactos locales, no se suben)
+.wrangler/
+wrangler.toml.bak
