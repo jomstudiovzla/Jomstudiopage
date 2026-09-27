@@ -74,9 +74,10 @@ export async function onRequestPost(context) {
     const html =
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;margin:0;padding:26px 12px"><tr><td align="center">` +
       `<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#0e0e0e;border:1px solid #242424;border-radius:16px;overflow:hidden">` +
-      `<tr><td align="center" style="background:#080808;padding:40px 24px 34px">` +
-        `<img src="https://jomstudio.site/assets/email-logo.png" alt="JOM STUDIO" width="180" style="display:block;margin:0 auto;width:180px;max-width:180px;height:auto"/>` +
-        `<div style="height:1px;width:50px;background:#C4A35A;margin:22px auto 0;font-size:0;line-height:1px">&nbsp;</div>` +
+      `<tr><td align="center" style="background:#080808;padding:44px 24px 36px">` +
+        `<div style="font-family:Arial,Helvetica,sans-serif;color:#ffffff;font-size:30px;font-weight:800;letter-spacing:2px">JOM</div>` +
+        `<div style="font-family:Arial,Helvetica,sans-serif;color:#ffffff;font-size:13px;font-weight:400;letter-spacing:9px;margin-top:2px">STUDIO</div>` +
+        `<div style="height:1px;width:50px;background:#C4A35A;margin:20px auto 0;font-size:0;line-height:1px">&nbsp;</div>` +
         `<div style="font-family:'Courier New',Courier,monospace;color:#2EC4B6;font-size:10px;letter-spacing:3px;margin-top:14px">ALQUIMIA DIGITAL</div>` +
       `</td></tr>` +
       `<tr><td style="padding:34px 38px 6px">` +
