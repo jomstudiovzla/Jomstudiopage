@@ -64,6 +64,27 @@ export async function onRequestPost(context) {
       `Fecha: ${at}\n` +
       `País/IP: ${meta.country} / ${meta.ip}\n\n` +
       `Brief:\n${brief}\n`;
+    const logo = "https://jomstudio.site/assets/apple-touch-icon.png";
+    const html = `<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;border:1px solid #eaeaea;border-radius:12px;overflow:hidden">
+        <div style="background:#080808;padding:22px;text-align:center">
+          <img src="${logo}" alt="JOM Studio" width="52" height="52" style="border-radius:10px;display:inline-block"/>
+          <div style="color:#2EC4B6;font-family:monospace;letter-spacing:3px;font-size:12px;margin-top:8px">JOM STUDIO</div>
+        </div>
+        <div style="padding:24px;color:#222">
+          <h2 style="margin:0 0 2px;font-size:18px">Nuevo ${kind === "order" ? "PEDIDO" : "lead"} 🎉</h2>
+          <p style="color:#888;margin:0 0 18px;font-size:12px">desde jomstudio.site</p>
+          <table style="width:100%;border-collapse:collapse;font-size:14px">
+            <tr><td style="padding:6px 0;color:#999;width:110px">Nombre</td><td style="padding:6px 0"><strong>${esc(name)}</strong></td></tr>
+            <tr><td style="padding:6px 0;color:#999">Email</td><td style="padding:6px 0"><a href="mailto:${esc(email)}" style="color:#0aa">${esc(email)}</a></td></tr>
+            ${productId ? `<tr><td style="padding:6px 0;color:#999">Paquete</td><td style="padding:6px 0">${esc(productId)}</td></tr>` : ""}
+            <tr><td style="padding:6px 0;color:#999;vertical-align:top">Mensaje</td><td style="padding:6px 0;white-space:pre-wrap">${esc(brief)}</td></tr>
+            <tr><td style="padding:6px 0;color:#999">Canal</td><td style="padding:6px 0">${esc(channel)}</td></tr>
+            <tr><td style="padding:6px 0;color:#999">Fecha</td><td style="padding:6px 0">${at}</td></tr>
+          </table>
+          <div style="margin-top:22px"><a href="mailto:${esc(email)}" style="background:#2EC4B6;color:#04332f;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;font-size:13px;display:inline-block">Responder al cliente</a></div>
+        </div>
+        <div style="background:#f7f7f7;padding:12px;text-align:center;color:#aaa;font-size:11px">JOM Studio · jomstudio.site</div>
+      </div>`;
     try {
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -74,7 +95,7 @@ export async function onRequestPost(context) {
           reply_to: email,
           subject,
           text,
-          html: `<pre style="font:14px/1.5 ui-monospace,monospace">${esc(text)}</pre>`,
+          html,
         }),
       });
       if (r.ok) {
