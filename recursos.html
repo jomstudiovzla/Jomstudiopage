@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checklist: 7 cosas antes de publicar tu web | JOM STUDIO</title>
+  <link rel="canonical" href="https://jomstudio.site/recursos" />
+  <meta name="theme-color" content="#080808" />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <meta name="description" content="Checklist gratis: las 7 cosas que reviso antes de publicar una web (velocidad, móvil, seguridad, formularios que sí llegan, SEO). Por JOM Studio." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="JOM STUDIO" />
+  <meta property="og:title" content="Checklist: 7 cosas antes de publicar tu web" />
+  <meta property="og:description" content="Las 7 cosas que reviso antes de publicar una web. Gratis, por JOM Studio." />
+  <meta property="og:url" content="https://jomstudio.site/recursos" />
+  <meta property="og:image" content="https://jomstudio.site/assets/og-image.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Checklist: 7 cosas antes de publicar tu web" />
+  <meta name="twitter:image" content="https://jomstudio.site/assets/og-image.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --c:#00F2FF; --g:#C4A35A; --bg:#050505; }
+    body { background:var(--bg); color:#e0e0e0; font-family:Sora,system-ui,sans-serif; overflow-x:hidden; }
+    .mono { font-family:"JetBrains Mono",monospace; }
+    .glass { background:rgba(10,10,10,.94); border:1px solid #333; }
+    .btn-p { background:var(--c); color:#050505; font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; border:1px solid var(--c); transition:all .25s; }
+    .btn-p:hover { background:transparent; color:var(--c); }
+    .btn-p:disabled { opacity:.5; cursor:not-allowed; }
+    h1,h2 { overflow-wrap:anywhere; word-break:break-word; }
+    .step { border-left:2px solid rgba(0,242,255,.4); }
+    .num { color:var(--c); font-family:"JetBrains Mono",monospace; font-weight:700; }
+    .field { background:rgba(0,0,0,.55); border:1px solid #3a3a3a; color:#eee; }
+    .field:focus { border-color:var(--c); outline:none; box-shadow:0 0 0 1px var(--c); }
+    /* honeypot oculto */
+    .hp { position:absolute; left:-9999px; top:-9999px; height:0; width:0; overflow:hidden; }
+  </style>
+  <script src="js/recursos.js?v=1" defer></script>
+</head>
+<body class="min-h-screen">
+  <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 py-3 bg-black/85 backdrop-blur border-b border-white/10">
+    <a href="index.html" class="flex items-center gap-2 min-w-0">
+      <img src="assets/logo_jom_square.jpg" alt="JOM" class="w-7 h-7 object-cover"/>
+      <span class="mono text-[10px] sm:text-xs tracking-widest text-cyan-300">JOM STUDIO // RECURSOS</span>
+    </a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="services.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase">Servicios</a>
+      <a href="#revisar" class="btn-p px-3 py-1.5 rounded">Revisa mi web</a>
+    </div>
+  </header>
+
+  <main class="pt-24 sm:pt-28 pb-20 px-4 sm:px-6 max-w-3xl mx-auto">
+    <!-- HERO -->
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3">Recurso gratis · JOM Studio</p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
+      7 cosas que reviso <span style="color:var(--c)">antes de publicar</span> una web
+    </h1>
+    <p class="text-gray-400 text-base leading-relaxed mb-2">
+      Una web bonita no basta: tiene que abrir rápido, dar confianza y <strong class="text-gray-200">capturar al cliente
+      que sí está interesado</strong>. Esta es la lista real que uso yo — la misma con la que publiqué este sitio.
+    </p>
+    <p class="mono text-[11px] text-gray-500 mb-10">Sin humo. Guárdala para tu próximo lanzamiento.</p>
+
+    <!-- CHECKLIST -->
+    <div class="flex flex-col gap-6">
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">01.</span> Velocidad</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">Que abra en 1-2 segundos. Imágenes ligeras, nada de scripts pesados que bloqueen la carga. Si tarda, la gente se va antes de verla.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">02.</span> Móvil primero</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">La mayoría te ve desde el teléfono. Revisa que todo se lea y funcione perfecto en pantalla pequeña, no solo en la computadora.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">03.</span> Una sola acción clara</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">Un botón principal arriba (comprar, agendar, contactar). No cinco botones compitiendo. Si el visitante duda qué hacer, no hace nada.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">04.</span> Formularios que SÍ llegan</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">El error más caro: que alguien te escriba y nunca te enteres. Envía una prueba y confirma que te llega por correo o CRM. Un lead perdido es una venta perdida.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">05.</span> Seguridad y confianza</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">Candado (HTTPS), cabeceras de seguridad y políticas visibles. La gente compra donde se siente segura.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">06.</span> SEO básico</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">Título y descripción claros, vista previa al compartir (Open Graph) y sitemap. Que Google y WhatsApp muestren tu web como se debe.</p>
+      </div>
+      <div class="step pl-4 py-1">
+        <h2 class="text-lg font-semibold text-white mb-1"><span class="num">07.</span> Enlaces y respaldo</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">Nada roto (sin 404) y una copia de seguridad. Si algo falla, vuelves atrás en un clic.</p>
+      </div>
+    </div>
+
+    <!-- LEAD CAPTURE -->
+    <div id="revisar" class="glass rounded-xl p-6 sm:p-8 mt-14">
+      <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">Auditoría express · Gratis</p>
+      <h2 class="text-2xl font-bold text-white mb-2">¿Quieres que revise TU web gratis?</h2>
+      <p class="text-gray-400 text-sm mb-6">Déjame tu correo y (si tienes) el link de tu web. Te mando una revisión rápida con lo que mejoraría — sin compromiso.</p>
+
+      <form id="lead-form" class="flex flex-col gap-4" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label for="company_website">Company Website</label>
+          <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off"/>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1">
+            <label for="lead-name" class="mono text-[10px] text-gray-500 uppercase">Tu nombre</label>
+            <input type="text" id="lead-name" required class="field p-3 rounded-lg text-sm" placeholder="Ej. María / Mi Negocio"/>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label for="lead-email" class="mono text-[10px] text-gray-500 uppercase">Tu correo</label>
+            <input type="email" id="lead-email" required class="field p-3 rounded-lg text-sm" placeholder="tucorreo@ejemplo.com"/>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="lead-url" class="mono text-[10px] text-gray-500 uppercase">Tu web (opcional)</label>
+          <input type="text" id="lead-url" class="field p-3 rounded-lg text-sm" placeholder="tuweb.com — o déjalo en blanco si aún no tienes"/>
+        </div>
+        <button type="submit" id="lead-submit" class="btn-p px-6 py-3 rounded-lg mt-1">Quiero mi revisión gratis</button>
+        <p id="lead-msg" class="text-sm mono hidden" aria-live="polite"></p>
+        <p class="mono text-[10px] text-gray-600">Tu correo solo se usa para enviarte la revisión. Sin spam.</p>
+      </form>
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="services.html" class="mono text-[11px] text-gray-500 hover:text-cyan-300 uppercase tracking-widest">Ver servicios y paquetes →</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 text-center text-xs mono text-gray-500 px-4">
+    © 2026 JOM STUDIO · <a href="index.html" class="hover:text-cyan-300">Inicio</a> · <a href="services.html" class="hover:text-cyan-300">Servicios</a> · <a href="policies.html" class="hover:text-cyan-300">Políticas</a>
+  </footer>
+</body>
+</html>
