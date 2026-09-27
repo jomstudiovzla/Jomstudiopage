@@ -77,9 +77,14 @@ export async function onRequestPost(context) {
           html: `<pre style="font:14px/1.5 ui-monospace,monospace">${esc(text)}</pre>`,
         }),
       });
-      email_result = { ok: r.ok, status: r.status };
+      if (r.ok) {
+        email_result = { ok: true, status: r.status };
+      } else {
+        const detail = await r.text().catch(() => "");
+        email_result = { ok: false, status: r.status, detail: detail.slice(0, 400) };
+      }
     } catch (e) {
-      email_result = { ok: false, error: String(e && e.message || e) };
+      email_result = { ok: false, error: String((e && e.message) || e) };
     }
   }
 
@@ -100,7 +105,9 @@ export async function onRequestPost(context) {
   const anyConfigured = !email_result.skipped || !webhook_result.skipped;
   const anyOk = email_result.ok || webhook_result.ok;
   const ok = anyConfigured ? !!anyOk : true;
-  return json({ ok, email: email_result, webhook: webhook_result }, ok ? 200 : 502);
+  // No devolver 5xx: Cloudflare intercepta los 5xx y reemplaza el cuerpo por su página de error.
+  // El formulario usa la bandera `ok` del cuerpo, no el status HTTP.
+  return json({ ok, email: email_result, webhook: webhook_result }, 200);
 }
 
 // Método no permitido para GET u otros
