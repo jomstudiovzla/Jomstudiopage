@@ -77,12 +77,12 @@ export async function onRequestPost(context) {
       `<tr><td align="center" style="background:#080808;padding:44px 24px 36px">` +
         `<div style="font-family:Arial,Helvetica,sans-serif;color:#ffffff;font-size:30px;font-weight:800;letter-spacing:2px">JOM</div>` +
         `<div style="font-family:Arial,Helvetica,sans-serif;color:#ffffff;font-size:13px;font-weight:400;letter-spacing:9px;margin-top:2px">STUDIO</div>` +
-        `<div style="height:1px;width:50px;background:#C4A35A;margin:20px auto 0;font-size:0;line-height:1px">&nbsp;</div>` +
-        `<div style="font-family:'Courier New',Courier,monospace;color:#2EC4B6;font-size:10px;letter-spacing:3px;margin-top:14px">ALQUIMIA DIGITAL</div>` +
+        `<div style="height:2px;width:44px;background:#C4A35A;margin:20px auto 0;font-size:0;line-height:2px;border-radius:2px">&nbsp;</div>` +
+        `<div style="font-family:Arial,Helvetica,sans-serif;color:#C9A96A;font-size:11px;font-weight:700;letter-spacing:5px;margin-top:16px">ALQUIMIA&nbsp;DIGITAL</div>` +
       `</td></tr>` +
-      `<tr><td style="padding:34px 38px 6px">` +
-        `<div style="font-family:Georgia,'Times New Roman',serif;color:#ffffff;font-size:24px">Nuevo ${kind === "order" ? "pedido" : "lead"}</div>` +
-        `<div style="font-family:Arial,Helvetica,sans-serif;color:#7a7a7a;font-size:12px;letter-spacing:.5px;margin-top:6px">Recibido desde jomstudio.site</div>` +
+      `<tr><td style="padding:36px 38px 4px">` +
+        `<div style="font-family:Georgia,'Times New Roman',serif;color:#ffffff;font-size:25px;font-weight:400">Nuevo ${kind === "order" ? "pedido" : "lead"}</div>` +
+        `<div style="font-family:Arial,Helvetica,sans-serif;color:#8a8a8a;font-size:12px;letter-spacing:.4px;margin-top:7px">Recibido desde <a href="https://jomstudio.site" style="color:#2EC4B6;text-decoration:none">jomstudio.site</a></div>` +
       `</td></tr>` +
       `<tr><td style="padding:16px 38px 8px">` +
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">` +
