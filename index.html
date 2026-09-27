@@ -521,6 +521,11 @@
                         <p class="font-body-md text-sm sm:text-base text-on-surface-variant" data-t="brief_subtitle">Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.</p>
                     </div>
                     <form id="project-brief-form" class="space-y-6 pt-4">
+                        <!-- Honeypot anti-spam: oculto para humanos; los bots tienden a rellenarlo -->
+                        <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden">
+                            <label for="company_website">Company Website</label>
+                            <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off"/>
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
                             <div class="flex flex-col gap-2">
                                 <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_name" for="client-name">Your Name / Company</label>

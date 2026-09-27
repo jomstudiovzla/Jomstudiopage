@@ -19,3 +19,6 @@ node_modules/
 # Cloudflare Wrangler (artefactos locales, no se suben)
 .wrangler/
 wrangler.toml.bak
+
+# Wrangler local secrets
+.dev.vars

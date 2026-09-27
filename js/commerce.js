@@ -131,6 +131,28 @@
     }
   }
 
+  async function postSubmitApi(payload) {
+    const endpoint = (config().contact && config().contact.submitEndpoint) || "/api/submit";
+    if (!endpoint) return { skipped: true };
+    // Honeypot anti-spam: campo oculto del formulario. Si un bot lo rellena, el backend lo descarta.
+    let hp = "";
+    try {
+      const el = typeof document !== "undefined" && document.getElementById("company_website");
+      if (el) hp = el.value || "";
+    } catch (_) {}
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, company_website: hp }),
+      });
+      // 404 = la Pages Function aún no desplegada (p. ej. server local) → se ignora; hay fallback WA/mailto.
+      return { ok: res.ok, status: res.status };
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
+  }
+
   async function notifyAll(kind, data) {
     const payload = {
       kind,
@@ -138,8 +160,12 @@
       ...data,
       at: new Date().toISOString(),
     };
-    const [fs, wh] = await Promise.all([postFormspree(payload), postNotifyWebhook(payload)]);
-    return { formspree: fs, webhook: wh };
+    const [api, fs, wh] = await Promise.all([
+      postSubmitApi(payload),
+      postFormspree(payload),
+      postNotifyWebhook(payload),
+    ]);
+    return { api, formspree: fs, webhook: wh };
   }
 
   async function placeOrder(form) {

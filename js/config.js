@@ -27,6 +27,7 @@
     contact: {
       whatsapp: "584165159067",
       email: "jomstudiovzla@gmail.com",
+      submitEndpoint: "/api/submit",
       formspreeEndpoint: "",
       notifyWebhook: "",
     },
