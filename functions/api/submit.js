@@ -105,7 +105,7 @@ export async function onRequestPost(context) {
         method: "POST",
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          from: env.RESEND_FROM || "JOM Studio <onboarding@resend.dev>",
+          from: env.RESEND_FROM || "JOM Studio <hola@jomstudio.site>",
           to: [env.LEAD_TO || "jomstudiovzla@gmail.com"],
           reply_to: email,
           subject,
