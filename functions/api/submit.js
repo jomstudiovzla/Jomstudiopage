@@ -64,27 +64,42 @@ export async function onRequestPost(context) {
       `Fecha: ${at}\n` +
       `País/IP: ${meta.country} / ${meta.ip}\n\n` +
       `Brief:\n${brief}\n`;
-    const logo = "https://jomstudio.site/assets/apple-touch-icon.png";
-    const html = `<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;border:1px solid #eaeaea;border-radius:12px;overflow:hidden">
-        <div style="background:#080808;padding:22px;text-align:center">
-          <img src="${logo}" alt="JOM Studio" width="52" height="52" style="border-radius:10px;display:inline-block"/>
-          <div style="color:#2EC4B6;font-family:monospace;letter-spacing:3px;font-size:12px;margin-top:8px">JOM STUDIO</div>
-        </div>
-        <div style="padding:24px;color:#222">
-          <h2 style="margin:0 0 2px;font-size:18px">Nuevo ${kind === "order" ? "PEDIDO" : "lead"} 🎉</h2>
-          <p style="color:#888;margin:0 0 18px;font-size:12px">desde jomstudio.site</p>
-          <table style="width:100%;border-collapse:collapse;font-size:14px">
-            <tr><td style="padding:6px 0;color:#999;width:110px">Nombre</td><td style="padding:6px 0"><strong>${esc(name)}</strong></td></tr>
-            <tr><td style="padding:6px 0;color:#999">Email</td><td style="padding:6px 0"><a href="mailto:${esc(email)}" style="color:#0aa">${esc(email)}</a></td></tr>
-            ${productId ? `<tr><td style="padding:6px 0;color:#999">Paquete</td><td style="padding:6px 0">${esc(productId)}</td></tr>` : ""}
-            <tr><td style="padding:6px 0;color:#999;vertical-align:top">Mensaje</td><td style="padding:6px 0;white-space:pre-wrap">${esc(brief)}</td></tr>
-            <tr><td style="padding:6px 0;color:#999">Canal</td><td style="padding:6px 0">${esc(channel)}</td></tr>
-            <tr><td style="padding:6px 0;color:#999">Fecha</td><td style="padding:6px 0">${at}</td></tr>
-          </table>
-          <div style="margin-top:22px"><a href="mailto:${esc(email)}" style="background:#2EC4B6;color:#04332f;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:bold;font-size:13px;display:inline-block">Responder al cliente</a></div>
-        </div>
-        <div style="background:#f7f7f7;padding:12px;text-align:center;color:#aaa;font-size:11px">JOM Studio · jomstudio.site</div>
-      </div>`;
+    let fechaLocal = at;
+    try {
+      fechaLocal = new Date(at).toLocaleString("es-VE", { timeZone: "America/Caracas", dateStyle: "long", timeStyle: "short" });
+    } catch (_) {}
+    const row = (label, value) =>
+      `<tr><td style="padding:15px 0;border-bottom:1px solid #1c1c1c;color:#7a7a7a;font-family:Arial,Helvetica,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;vertical-align:top;width:32%">${label}</td>` +
+      `<td style="padding:15px 0;border-bottom:1px solid #1c1c1c;color:#f0f0f0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;vertical-align:top">${value}</td></tr>`;
+    const html =
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;margin:0;padding:26px 12px"><tr><td align="center">` +
+      `<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#0e0e0e;border:1px solid #242424;border-radius:16px;overflow:hidden">` +
+      `<tr><td align="center" style="background:#080808;padding:42px 24px 34px">` +
+        `<div style="font-family:'Courier New',Courier,monospace;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:8px">JOM&nbsp;STUDIO</div>` +
+        `<div style="height:1px;width:50px;background:#C4A35A;margin:18px auto 0;font-size:0;line-height:1px">&nbsp;</div>` +
+        `<div style="font-family:'Courier New',Courier,monospace;color:#2EC4B6;font-size:10px;letter-spacing:3px;margin-top:14px">ALQUIMIA DIGITAL</div>` +
+      `</td></tr>` +
+      `<tr><td style="padding:34px 38px 6px">` +
+        `<div style="font-family:Georgia,'Times New Roman',serif;color:#ffffff;font-size:24px">Nuevo ${kind === "order" ? "pedido" : "lead"}</div>` +
+        `<div style="font-family:Arial,Helvetica,sans-serif;color:#7a7a7a;font-size:12px;letter-spacing:.5px;margin-top:6px">Recibido desde jomstudio.site</div>` +
+      `</td></tr>` +
+      `<tr><td style="padding:16px 38px 8px">` +
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">` +
+          row("Nombre", `<strong style="color:#ffffff">${esc(name)}</strong>`) +
+          row("Email", `<a href="mailto:${esc(email)}" style="color:#2EC4B6;text-decoration:none">${esc(email)}</a>`) +
+          (productId ? row("Paquete", esc(productId)) : "") +
+          row("Mensaje", `<span style="white-space:pre-wrap">${esc(brief)}</span>`) +
+          row("Canal", esc(channel)) +
+          row("Fecha", esc(fechaLocal)) +
+        `</table>` +
+      `</td></tr>` +
+      `<tr><td align="center" style="padding:32px 38px 40px">` +
+        `<a href="mailto:${esc(email)}" style="display:inline-block;background:#C4A35A;color:#0a0a0a;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.5px;text-decoration:none;padding:15px 40px;border-radius:9px">RESPONDER AL CLIENTE</a>` +
+      `</td></tr>` +
+      `<tr><td align="center" style="background:#080808;padding:22px;border-top:1px solid #1c1c1c">` +
+        `<div style="font-family:'Courier New',Courier,monospace;color:#555555;font-size:10px;letter-spacing:2px">JOM&nbsp;STUDIO&nbsp;&nbsp;·&nbsp;&nbsp;JOMSTUDIO.SITE</div>` +
+      `</td></tr>` +
+      `</table></td></tr></table>`;
     try {
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST",
