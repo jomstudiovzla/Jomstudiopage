@@ -35,7 +35,7 @@
     <div class="text-left mono text-xs space-y-2 bg-black/50 border border-white/10 rounded p-4">
       <div>ID: <span id="oid" class="text-cyan-300">—</span></div>
       <div><span id="pname" class="text-white">—</span></div>
-      <div><span id="amt" class="text-cyan-300">—</span> USDT TRC20</div>
+      <div><span id="amt" class="text-cyan-300">—</span> <span id="amt-unit">USDT TRC20</span></div>
       <div>Status: <span id="st" class="text-amber-300">—</span></div>
       <div class="break-all">Hash: <span id="hx" class="text-gray-400">—</span></div>
     </div>
@@ -46,29 +46,7 @@
       <a href="/" class="mono text-xs text-gray-500 hover:text-white" data-i18n="nav_home">Home</a>
     </div>
   </div>
-  <script>
-    (function () {
-      const langMode = JOM_I18N.getStoredLangMode();
-      const lang = JOM_I18N.resolveLang(langMode);
-      document.documentElement.lang = lang;
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        el.textContent = JOM_I18N.t(el.getAttribute("data-i18n"), lang);
-      });
-      const id = new URLSearchParams(location.search).get("order");
-      const o = id && JOM_CRM.getOrder(id);
-      if (!o) {
-        document.getElementById("oid").textContent = "—";
-        return;
-      }
-      document.getElementById("oid").textContent = o.id;
-      // Re-localize product name if possible
-      const p = o.productId ? JOM_COMMERCE.product(o.productId) : null;
-      document.getElementById("pname").textContent = (p && p.name) || o.productName;
-      document.getElementById("amt").textContent = o.amount;
-      document.getElementById("st").textContent = o.status;
-      document.getElementById("hx").textContent = o.txHash || "—";
-      document.getElementById("btn-wa").onclick = () => JOM_COMMERCE.openClientPaidWhatsApp(o);
-    })();
-  </script>
+  <script src="js/success-page.js?v=1"></script>
+
 </body>
 </html>

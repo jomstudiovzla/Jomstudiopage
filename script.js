@@ -562,15 +562,18 @@ window.addEventListener('scroll', () => {
 // Unified smooth scroll handler for all internal anchor links (menu & clicks)
 document.addEventListener('click', (e) => {
     const anchor = e.target.closest('a[href^="#"]');
-    if (anchor) {
-        e.preventDefault();
-        const targetId = anchor.getAttribute('href');
-        if (targetId === '#') return;
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-            targetEl.scrollIntoView({ behavior: 'smooth' });
-        }
+    if (!anchor) return;
+    const targetId = anchor.getAttribute('href');
+    if (!targetId || targetId === '#') return;
+    let targetEl = null;
+    try {
+        targetEl = document.querySelector(targetId);
+    } catch (_) {
+        return;
     }
+    if (!targetEl) return;
+    e.preventDefault();
+    targetEl.scrollIntoView({ behavior: 'smooth' });
 });
 
 // Resize handler

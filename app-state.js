@@ -32,6 +32,7 @@ if (window.top !== window.self) {
                 services_title: "Operations & Services",
                 service_from_price: "From",
                 service_view_pricing: "See packages",
+                service_quote: "Quote",
                 services_subtitle: "A unified system of digital capabilities structured through proven deployment cases.",
                 service_deliverables_head: "Deliverables & Scope",
                 service_tech_head: "Technology Stack",
@@ -105,6 +106,7 @@ if (window.top !== window.self) {
                 services_title: "Operaciones y Servicios",
                 service_from_price: "Desde",
                 service_view_pricing: "Ver paquetes",
+                service_quote: "Cotizar",
                 services_subtitle: "Un sistema unificado de capacidades digitales estructurado a través de casos de despliegue reales.",
                 service_deliverables_head: "Entregables y Alcance",
                 service_tech_head: "Stack Tecnológico",
@@ -178,6 +180,7 @@ if (window.top !== window.self) {
                 services_title: "Opérations & Services",
                 service_from_price: "À partir de",
                 service_view_pricing: "Voir les packs",
+                service_quote: "Devis",
                 services_subtitle: "Un système unifié de capacités numériques structuré à travers des cas de déploiement éprouvés.",
                 service_deliverables_head: "Livrables & Portée",
                 service_tech_head: "Pile Technologique",
@@ -251,6 +254,7 @@ if (window.top !== window.self) {
                 services_title: "Operações & Serviços",
                 service_from_price: "A partir de",
                 service_view_pricing: "Ver pacotes",
+                service_quote: "Orçamento",
                 services_subtitle: "Um sistema unificado de capacidades digitais estruturado através de casos de implantação comprovados.",
                 service_deliverables_head: "Entregáveis & Escopo",
                 service_tech_head: "Stack Tecnológico",
@@ -547,7 +551,7 @@ if (window.top !== window.self) {
                     : 'border-outline-variant/30 text-on-surface-variant hover:border-primary-fixed hover:text-on-surface bg-surface-container-low/90';
                 
                 return `
-                    <button type="button" onclick="selectService(${idx})" class="w-full min-w-0 text-left p-3 sm:p-4 rounded-xl border flex items-center justify-between gap-2 transition-all duration-300 group ${activeClasses}">
+                    <button type="button" data-action="select-service" data-index="${idx}" class="w-full min-w-0 text-left p-3 sm:p-4 rounded-xl border flex items-center justify-between gap-2 transition-all duration-300 group ${activeClasses}">
                         <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                             <span class="material-symbols-outlined text-lg sm:text-xl shrink-0 ${isActive ? 'text-primary-fixed animate-pulse' : 'text-on-surface-variant group-hover:text-primary-fixed'}">${service.icon}</span>
                             <div class="flex flex-col min-w-0">
@@ -581,7 +585,7 @@ if (window.top !== window.self) {
 
             // Render Nodes
             nodesList.innerHTML = current.cases.map(c => `
-                <a href="${c.link}" class="font-label-mono text-[10px] text-primary-fixed border border-primary-fixed/20 hover:border-primary-fixed hover:bg-primary-fixed/5 px-2.5 py-1 transition-all flex items-center gap-1.5 bg-primary-fixed/5">
+                <a href="/repository#case-${c.num}" class="font-label-mono text-[10px] text-primary-fixed border border-primary-fixed/20 hover:border-primary-fixed hover:bg-primary-fixed/5 px-2.5 py-1 transition-all flex items-center gap-1.5 bg-primary-fixed/5">
                     <span class="w-1 h-1 bg-primary-fixed rounded-full animate-pulse"></span>
                     <span>CASE_${c.num}: ${c.name}</span>
                 </a>
@@ -594,7 +598,7 @@ if (window.top !== window.self) {
             if (priceLink && priceLabel && map) {
                 let from = map.from;
                 let buyId = map.productId;
-                if (window.JOM_COMMERCE) {
+                if (map.productId !== 'custom' && window.JOM_COMMERCE) {
                     const list = JOM_COMMERCE.productsByCategory(map.category).filter(p => p.priceUsdt > 0);
                     if (list.length) {
                         list.sort((a, b) => a.priceUsdt - b.priceUsdt);
@@ -602,9 +606,15 @@ if (window.top !== window.self) {
                         buyId = list[0].id;
                     }
                 }
-                const fromWord = (translations[currentDisplayLang] && translations[currentDisplayLang].service_from_price) || 'From';
-                priceLabel.textContent = `${fromWord} ${from} USDT`;
-                priceLink.href = `/services#pkg-${buyId}`;
+                const langPack = translations[currentDisplayLang] || translations.en || {};
+                if (map.productId === 'custom' || !(from > 0)) {
+                    priceLabel.textContent = langPack.service_quote || 'Quote';
+                    priceLink.href = '/services#pkg-custom';
+                } else {
+                    const fromWord = langPack.service_from_price || 'From';
+                    priceLabel.textContent = `${fromWord} ${from} USDT`;
+                    priceLink.href = `/services#pkg-${buyId}`;
+                }
                 priceLink.classList.remove('hidden');
             }
         }
@@ -1095,7 +1105,7 @@ if (window.top !== window.self) {
                 if (briefs.length > 0) {
                     briefsList.innerHTML = briefs.map((brief, idx) => `
                         <div class="border border-outline-variant/20 p-4 rounded-xl bg-surface-container relative group transition-all hover:border-primary-fixed/50">
-                            <button onclick="deleteBrief(${idx})" class="absolute top-4 right-4 text-red-500 hover:text-red-400 font-label-mono text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
+                            <button type="button" data-action="delete-brief" data-index="${idx}" class="absolute top-4 right-4 text-red-500 hover:text-red-400 font-label-mono text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
                             <div class="flex justify-between items-center mb-2">
                                 <span class="font-headline-md text-sm text-white font-bold">${brief.name}</span>
                                 <span class="font-label-mono text-[9px] text-outline uppercase">${brief.timestamp}</span>
@@ -1166,10 +1176,10 @@ document.addEventListener('click', (e) => {
     const action = target.getAttribute('data-action');
     if (action === 'select-service') {
         const idx = parseInt(target.getAttribute('data-index'), 10);
-        if (!isNaN(idx) && typeof selectService === 'function') selectService(idx);
+        if (!isNaN(idx) && typeof window.selectService === 'function') window.selectService(idx);
     } else if (action === 'delete-brief') {
         const idx = parseInt(target.getAttribute('data-index'), 10);
-        if (!isNaN(idx) && typeof deleteBrief === 'function') deleteBrief(idx);
+        if (!isNaN(idx) && typeof window.deleteBrief === 'function') window.deleteBrief(idx);
     } else if (action === 'close-modal') {
         const modalId = target.getAttribute('data-modal');
         if (modalId && typeof closeAdminModal === 'function') closeAdminModal(modalId);
