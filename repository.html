@@ -6,19 +6,16 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <!-- ═══ SECURITY HEADERS — JOM SENTINEL ═══ -->
     <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- ═══ FIN SECURITY HEADERS ═══ -->
     <title>OUR REPOSITORY | JOM STUDIO</title>
-    <link rel="canonical" href="https://jomstudio.site/repository" />
-    <meta name="theme-color" content="#080808" />
-    <link rel="icon" type="image/png" href="/assets/favicon.png" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <meta name="description" content="JOM STUDIO Repository — Technical specs, code repositories, and structural case studies of gamification, AI systems, and web architecture." />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <style>
@@ -74,35 +71,38 @@
             0% { top: 0; }
             100% { top: 100%; }
         }
-        .glass-card .tech-reveal {
+        /* tech-reveal — grid-rows approach (no max-height hack) */
+        .tech-reveal {
             display: grid;
             grid-template-rows: 0fr;
-            grid-auto-rows: 0fr;
             overflow: hidden;
             opacity: 0;
-            padding-top: 0;
-            margin-top: 0;
-            border-top-width: 0;
-            transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), grid-auto-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.3s ease,
+                        margin-top 0.3s ease;
         }
-        .glass-card .tech-reveal > * {
-            min-height: 0;
-            overflow: hidden;
-        }
+        .tech-reveal > * { min-height: 0; }
         .glass-card:hover .tech-reveal {
             grid-template-rows: 1fr;
-            grid-auto-rows: 1fr;
             opacity: 1;
-            padding-top: 1rem;
             margin-top: 16px;
-            border-top-width: 1px;
         }
+        /* jom-float — gentle levitation for icons */
         @keyframes jom-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-8px); }
         }
         .jom-float {
-            animation: jom-float 2.4s ease-in-out infinite;
+            animation: jom-float 3s ease-in-out infinite;
+        }
+        /* Reduced-motion overrides */
+        @media (prefers-reduced-motion: reduce) {
+            .jom-float { animation: none; }
+            .tech-reveal {
+                transition: opacity 0.1s ease;
+            }
+            .glass-card:hover .scanline { animation: none; }
+            .glitch-hover:hover { animation: none; }
         }
         .glitch-hover:hover {
             animation: glitch 0.2s infinite;
@@ -166,7 +166,7 @@
             transition: filter 0.5s ease, mix-blend-mode 0.5s ease;
         }
 
-        header img[src*="logo-icon.png"] {
+        header img[src*="logo_jom_square.jpg"] {
             /* No filters needed as it is already a clean dark square icon */
         }
 
@@ -217,18 +217,6 @@
             background-color: var(--theme-primary-alpha);
             border-color: var(--theme-primary);
         }
-        @media (prefers-reduced-motion: reduce) {
-            .jom-float,
-            .scanline,
-            .glitch-hover:hover {
-                animation: none;
-            }
-            .glass-card .tech-reveal,
-            #custom-cursor-dot,
-            #custom-cursor-circle {
-                transition: none;
-            }
-        }
     </style>
     <script src="repo-tailwind-config.js"></script>
 </head>
@@ -241,13 +229,13 @@
 
     <!-- Background Watermark Logo -->
     <div class="fixed inset-0 pointer-events-none z-[-1] flex items-center justify-center select-none" id="body-watermark-container">
-        <img src="assets/logo-icon.png" alt="" class="w-[85%] sm:w-[70%] md:w-[60%] lg:w-[50%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
+        <img src="assets/logo_jom_square.jpg" alt="" class="w-[85%] sm:w-[70%] md:w-[60%] lg:w-[50%] max-w-none h-auto object-contain filter grayscale select-none pointer-events-none" />
     </div>
 
     <!-- Header Navigation -->
     <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-3 sm:px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
         <a href="index.html" class="flex items-center gap-1.5 sm:gap-3 group">
-            <img src="assets/logo-icon.png" alt="JOM STUDIO" class="h-6 w-6 sm:h-8 sm:w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
+            <img src="assets/logo_jom_square.jpg" alt="JOM STUDIO" class="h-6 w-6 sm:h-8 sm:w-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"/>
             <span class="font-headline-md text-sm sm:text-base md:text-headline-md font-bold tracking-tighter text-on-surface">JOM STUDIO</span>
         </a>
         <div class="flex items-center gap-2 sm:gap-6">
@@ -812,14 +800,14 @@
         <div class="md:col-span-2">
             <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Social" data-es="Redes Sociales" data-fr="Réseaux Sociaux" data-pt="Social">Social</div>
             <ul class="space-y-2">
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" rel="noopener noreferrer" href="https://wa.me/584165159067">WhatsApp</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://wa.me/584165159067">WhatsApp</a></li>
             </ul>
         </div>
         <div class="md:col-span-2">
             <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Legal" data-es="Legal" data-fr="Légal" data-pt="Jurídico">Legal</div>
             <ul class="space-y-2">
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Terms" data-es="Términos" data-fr="Conditions" data-pt="Termos" href="policies.html">Terms</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Terms" data-es="Términos" data-fr="Conditions" data-pt="Termos" href="#">Terms</a></li>
                 <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Contact" data-es="Contacto" data-fr="Contact" data-pt="Contato" href="mailto:jomstudiovzla@gmail.com">Contact</a></li>
             </ul>
         </div>
@@ -834,7 +822,6 @@
             </div>
         </div>
     </footer>
-    <script src="js/events.js?v=1"></script>
     <script src="repo-app.js"></script>
 </body>
 </html>
