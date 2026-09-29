@@ -1,6 +1,5 @@
-# www → apex, y el prefijo de GitHub Pages → raíz.
-# No reescribir /services → /services.html (ni el resto de HTML).
-# Pages ya sirve la ruta sin extensión y responde 308 en la forma .html.
-# Una reescritura 200 junto a ese 308 es un bucle sobre sí misma.
-https://www.jomstudio.site/*  https://jomstudio.site/:splat  301
+# Pages compara estas reglas por ruta, no por host.
+# www → apex está en functions/_middleware.js (301).
+# No reescribir /services → /services.html: Pages ya sirve la ruta
+# sin extensión y responde 308 en la forma .html. Juntas hacen bucle.
 /Jomstudiopage/*              /:splat                         301
