@@ -105,14 +105,6 @@ if (window.top !== window.self) {
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Connect "Let's Build" → commerce pricing / checkout
-        const buildBtn = document.getElementById('lets-build-btn');
-        if (buildBtn) {
-            buildBtn.addEventListener('click', () => {
-                window.location.href = 'services.html';
-            });
-        }
-
         // Slideshow Logic for Entre Páginas
         let currentSlide = 0;
         const totalSlides = 6;
@@ -187,7 +179,7 @@ if (window.top !== window.self) {
         const adminTrigger = document.getElementById('admin-trigger');
         if (adminTrigger) {
             adminTrigger.addEventListener('click', () => {
-                window.location.href = 'index.html?admin=true';
+                window.location.href = '/?admin=true';
             });
         }
 

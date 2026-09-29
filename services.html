@@ -22,6 +22,8 @@
   <meta name="twitter:description" content="JOM STUDIO packages — categories, bundles, USDT TRC20." />
   <meta name="twitter:image" content="https://jomstudio.site/assets/og-image.png" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <style>
@@ -49,14 +51,14 @@
 </head>
 <body class="min-h-screen">
   <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 md:px-10 py-3 bg-black/85 backdrop-blur border-b border-white/10">
-    <a href="index.html" class="flex items-center gap-2 min-w-0">
+    <a href="/" class="flex items-center gap-2 min-w-0">
       <img src="assets/logo-icon.png" alt="JOM" class="w-7 h-7 object-cover shrink-0"/>
       <span class="mono text-[10px] sm:text-xs tracking-widest text-cyan-300 truncate">JOM STUDIO // <span data-i18n="nav_pricing">PRICING</span></span>
     </a>
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="index.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_home">Home</a>
-      <a href="policies.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_policies">Policies</a>
-      <a href="repository.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase hidden sm:inline" data-i18n="nav_dossier">Dossier</a>
+      <a href="/" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_home">Home</a>
+      <a href="/policies" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" data-i18n="nav_policies">Policies</a>
+      <a href="/repository" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase hidden sm:inline" data-i18n="nav_dossier">Dossier</a>
       <!-- Language (syncs with home via jom_lang) -->
       <div class="relative group">
         <button type="button" id="lang-toggle" class="mono text-[10px] border border-white/20 px-2 py-1 flex items-center gap-1 hover:border-cyan-400">
@@ -71,7 +73,7 @@
           <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300 border-t border-white/10" data-lang="auto">🌐 AUTO</button>
         </div>
       </div>
-      <a href="order.html?product=launch" class="btn-p px-3 py-1.5 rounded" data-i18n="nav_buy">Buy</a>
+      <a href="/order?product=launch" class="btn-p px-3 py-1.5 rounded" data-i18n="nav_buy">Buy</a>
     </div>
   </header>
 
@@ -100,8 +102,8 @@
         <a id="wa-direct" href="https://wa.me/584165159067?text=Hi%20JOM%20STUDIO%20%E2%80%94%20I%20saw%20packages%20on%20services%20and%20want%20a%20quote%20%2F%20purchase." target="_blank" rel="noopener noreferrer" class="btn-g px-4 py-2.5 inline-flex items-center gap-2 rounded">
           <span class="material-symbols-outlined text-sm">chat</span> <span data-i18n="wa_commercial">WhatsApp</span>
         </a>
-        <a href="order.html?product=spark" class="btn-p px-4 py-2.5 rounded" data-i18n="start_200">Start at $200 USDT</a>
-        <a href="policies.html" class="mono text-[11px] text-gray-400 hover:text-cyan-300 underline self-center" data-i18n="policies_link">Policies</a>
+        <a href="/order?product=spark" class="btn-p px-4 py-2.5 rounded" data-i18n="start_200">Start at $200 USDT</a>
+        <a href="/policies" class="mono text-[11px] text-gray-400 hover:text-cyan-300 underline self-center" data-i18n="policies_link">Policies</a>
       </div>
     </section>
 
@@ -110,13 +112,13 @@
       <h2 class="mono text-xs text-amber-300 tracking-widest uppercase mb-3" data-i18n="policies_box_title">Work rules</h2>
       <ul class="space-y-2 text-sm text-gray-300" id="policies-summary-list"></ul>
       <p class="mt-4 text-xs text-gray-500" data-i18n="policies_accept"></p>
-      <a href="policies.html" class="inline-block mt-3 mono text-[11px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
+      <a href="/policies" class="inline-block mt-3 mono text-[11px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
     </section>
   </main>
 
   <footer class="border-t border-white/10 py-8 text-center text-xs mono text-gray-500">
     © 2026 JOM STUDIO · USDT TRC20 ·
-    <a href="policies.html" class="hover:text-cyan-300" data-i18n="nav_policies">Policies</a>
+    <a href="/policies" class="hover:text-cyan-300" data-i18n="nav_policies">Policies</a>
   </footer>
 
   <script>
@@ -139,12 +141,12 @@
         const wa = document.getElementById("wa-direct");
         wa.href = JOM_COMMERCE.waLink(
           lang === "es"
-            ? "Hola JOM STUDIO — vi los paquetes en services.html y quiero cotizar / comprar."
+            ? "Hola JOM STUDIO — vi los paquetes en jomstudio.site/services y quiero cotizar / comprar."
             : lang === "fr"
-            ? "Bonjour JOM STUDIO — j'ai vu les packs sur services.html et je souhaite un devis / achat."
+            ? "Bonjour JOM STUDIO — j'ai vu les packs sur jomstudio.site/services et je souhaite un devis / achat."
             : lang === "pt"
-            ? "Olá JOM STUDIO — vi os pacotes em services.html e quero orçar / comprar."
-            : "Hi JOM STUDIO — I saw packages on services.html and want a quote / purchase."
+            ? "Olá JOM STUDIO — vi os pacotes em jomstudio.site/services e quero orçar / comprar."
+            : "Hi JOM STUDIO — I saw packages on jomstudio.site/services and want a quote / purchase."
         );
         const banner = document.getElementById("wallet-banner");
         if (window.JOM_TRON && !JOM_TRON.isWalletReady()) {
@@ -236,7 +238,7 @@
             <ul class="text-xs text-gray-300 space-y-1 flex-1">
               ${dels.map((d) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${safe(d, "")}</span></li>`).join("")}
             </ul>
-            <a href="${isQuote ? "index.html#brief" : JOM_COMMERCE.orderUrl(p.id)}"
+            <a href="${isQuote ? "/#brief" : JOM_COMMERCE.orderUrl(p.id)}"
                class="${isQuote ? "btn-g" : "btn-p"} w-full text-center py-2.5 rounded">
               ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + safe(p.priceUsdt, "0") + " USDT"}
             </a>

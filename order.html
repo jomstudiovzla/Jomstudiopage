@@ -21,6 +21,8 @@
   <meta name="twitter:title" content="CHECKOUT USDT | JOM STUDIO" />
   <meta name="twitter:image" content="https://jomstudio.site/assets/og-image.png" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <style>
@@ -48,7 +50,7 @@
 <body class="min-h-screen py-6 sm:py-8 px-4">
   <div class="max-w-5xl mx-auto">
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
-      <a href="services.html" class="mono text-xs text-cyan-300 hover:underline" data-i18n="back_packages">← Packages</a>
+      <a href="/services" class="mono text-xs text-cyan-300 hover:underline" data-i18n="back_packages">← Packages</a>
       <div class="relative group">
         <button type="button" class="mono text-[10px] border border-white/20 px-2 py-1 flex items-center gap-1">
           <span id="lang-label">EN</span>
@@ -62,7 +64,7 @@
           <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300 border-t border-white/10" data-lang="auto">🌐 AUTO</button>
         </div>
       </div>
-      <a href="index.html" class="mono text-xs text-gray-400 hover:text-white" data-i18n="nav_home">Home</a>
+      <a href="/" class="mono text-xs text-gray-400 hover:text-white" data-i18n="nav_home">Home</a>
     </div>
 
     <div class="grid lg:grid-cols-5 gap-5 sm:gap-6">
@@ -83,7 +85,7 @@
             <input type="checkbox" id="accept-policies" required class="mt-0.5 accent-cyan-400"/>
             <span data-i18n="policies_accept">Accept policies</span>
           </label>
-          <a href="policies.html" target="_blank" rel="noopener noreferrer" class="mono text-[10px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
+          <a href="/policies" target="_blank" rel="noopener noreferrer" class="mono text-[10px] text-cyan-300 hover:underline" data-i18n="policies_link">Full policies</a>
         </div>
       </aside>
 
@@ -172,7 +174,7 @@
       function fillProduct() {
         p = JOM_COMMERCE.product(productId);
         if (!p || !p.priceUsdt) {
-          location.href = "index.html#brief";
+          location.href = "/#brief";
           return;
         }
         const name = p.name && p.name !== "undefined" ? p.name : productId;
@@ -288,7 +290,7 @@
             brief: document.getElementById("brief").value.trim(),
             source: "order.html",
           });
-          history.replaceState({}, "", `order.html?product=${p.id}&order=${currentOrder.id}`);
+          history.replaceState({}, "", `/order?product=${p.id}&order=${currentOrder.id}`);
           showPay(currentOrder);
         } catch (err) {
           alert(err.message || "Error");

@@ -255,11 +255,11 @@
 
   function orderUrl(productId) {
     const id = productId || config().defaultProductId || "launch";
-    return `order.html?product=${encodeURIComponent(id)}`;
+    return `/order?product=${encodeURIComponent(id)}`;
   }
 
   function successUrl(orderId) {
-    return `success.html?order=${encodeURIComponent(orderId)}`;
+    return `/success?order=${encodeURIComponent(orderId)}`;
   }
 
   function briefWhatsAppText({ name, email, briefText, productId }) {

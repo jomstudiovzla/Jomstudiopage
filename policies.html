@@ -21,6 +21,8 @@
   <meta name="twitter:title" content="POLICIES | JOM STUDIO" />
   <meta name="twitter:image" content="https://jomstudio.site/assets/og-image.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     :root { --c:#00F2FF; --g:#C4A35A; --bg:#050505; }
@@ -41,12 +43,12 @@
 </head>
 <body class="min-h-screen">
   <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 py-3 bg-black/85 backdrop-blur border-b border-white/10">
-    <a href="index.html" class="flex items-center gap-2 min-w-0">
+    <a href="/" class="flex items-center gap-2 min-w-0">
       <img src="assets/logo-icon.png" alt="JOM" class="w-7 h-7 object-cover"/>
       <span class="mono text-[10px] sm:text-xs tracking-widest text-cyan-300">JOM STUDIO // <span id="nav-pol">POLICIES</span></span>
     </a>
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="services.html" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" id="nav-pricing">Pricing</a>
+      <a href="/services" class="mono text-[10px] text-gray-400 hover:text-cyan-300 uppercase" id="nav-pricing">Pricing</a>
       <div class="relative group">
         <button type="button" class="mono text-[10px] border border-white/20 px-2 py-1 flex items-center gap-1">
           <span id="lang-label">ES</span>
@@ -60,7 +62,7 @@
           <button type="button" class="lang-opt text-left px-3 py-2 mono text-[10px] text-gray-400 hover:text-cyan-300 border-t border-white/10" data-lang="auto">🌐 AUTO</button>
         </div>
       </div>
-      <a href="services.html" class="btn-p px-3 py-1.5 rounded" id="cta-buy">Packages</a>
+      <a href="/services" class="btn-p px-3 py-1.5 rounded" id="cta-buy">Packages</a>
     </div>
   </header>
 
@@ -81,8 +83,8 @@
     <p class="mt-10 text-xs text-gray-500 mono leading-relaxed" id="accept-note"></p>
 
     <div class="mt-8 flex flex-wrap gap-3">
-      <a href="services.html" class="btn-p px-4 py-2.5 rounded" id="back-pricing"></a>
-      <a href="order.html?product=launch" class="mono text-[11px] uppercase tracking-wider px-4 py-2.5 border border-white/20 rounded hover:border-cyan-400 text-gray-300">Launch Kit 300 USDT</a>
+      <a href="/services" class="btn-p px-4 py-2.5 rounded" id="back-pricing"></a>
+      <a href="/order?product=launch" class="mono text-[11px] uppercase tracking-wider px-4 py-2.5 border border-white/20 rounded hover:border-cyan-400 text-gray-300">Launch Kit 300 USDT</a>
     </div>
   </main>
 

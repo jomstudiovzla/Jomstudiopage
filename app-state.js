@@ -333,11 +333,11 @@ if (window.top !== window.self) {
                 },
                 tech: ["Vanilla JS", "WebGL", "Three.js", "Phaser", "Canvas 2D"],
                 cases: [
-                    { num: "018", name: "JOM Cemetery Engine", link: "repository.html" },
-                    { num: "001", name: "Crypto Water War", link: "repository.html" },
-                    { num: "004", name: "Futstreet", link: "repository.html" },
-                    { num: "006", name: "Western Poker", link: "repository.html" },
-                    { num: "012", name: "EduKids Galactic", link: "repository.html" }
+                    { num: "018", name: "JOM Cemetery Engine", link: "/repository" },
+                    { num: "001", name: "Crypto Water War", link: "/repository" },
+                    { num: "004", name: "Futstreet", link: "/repository" },
+                    { num: "006", name: "Western Poker", link: "/repository" },
+                    { num: "012", name: "EduKids Galactic", link: "/repository" }
                 ]
             },
             {
@@ -364,11 +364,11 @@ if (window.top !== window.self) {
                 },
                 tech: ["Next.js", "React", "Node.js", "PostgreSQL", "Firebase"],
                 cases: [
-                    { num: "019", name: "Supermarket E-commerce RPA", link: "repository.html" },
-                    { num: "008", name: "Pino Espace Verts", link: "repository.html" },
-                    { num: "009", name: "Oliveros Estudio", link: "repository.html" },
-                    { num: "013", name: "ACACENTRO", link: "repository.html" },
-                    { num: "015", name: "Inmobiliaria Premium", link: "repository.html" }
+                    { num: "019", name: "Supermarket E-commerce RPA", link: "/repository" },
+                    { num: "008", name: "Pino Espace Verts", link: "/repository" },
+                    { num: "009", name: "Oliveros Estudio", link: "/repository" },
+                    { num: "013", name: "ACACENTRO", link: "/repository" },
+                    { num: "015", name: "Inmobiliaria Premium", link: "/repository" }
                 ]
             },
             {
@@ -395,8 +395,8 @@ if (window.top !== window.self) {
                 },
                 tech: ["Midjourney", "Kling AI", "Stable Diffusion", "Prompt Engineering"],
                 cases: [
-                    { num: "002", name: "Bon Dia", link: "repository.html" },
-                    { num: "016", name: "Entre Páginas", link: "repository.html" }
+                    { num: "002", name: "Bon Dia", link: "/repository" },
+                    { num: "016", name: "Entre Páginas", link: "/repository" }
                 ]
             },
             {
@@ -423,10 +423,10 @@ if (window.top !== window.self) {
                 },
                 tech: ["Chrome APIs", "Python PIL", "Node.js", "Shell Scripting"],
                 cases: [
-                    { num: "017", name: "Chrome Extensions Suite", link: "repository.html" },
-                    { num: "019", name: "Supermarket RPA Pipeline", link: "repository.html" },
-                    { num: "003", name: "Polar Campaign", link: "repository.html" },
-                    { num: "007", name: "Jabones con Historia", link: "repository.html" }
+                    { num: "017", name: "Chrome Extensions Suite", link: "/repository" },
+                    { num: "019", name: "Supermarket RPA Pipeline", link: "/repository" },
+                    { num: "003", name: "Polar Campaign", link: "/repository" },
+                    { num: "007", name: "Jabones con Historia", link: "/repository" }
                 ]
             },
             {
@@ -453,8 +453,8 @@ if (window.top !== window.self) {
                 },
                 tech: ["CapCut Pro", "UGC Video Loops", "Audio APIs", "Engagement Analytics"],
                 cases: [
-                    { num: "014", name: "BEATREGS", link: "repository.html" },
-                    { num: "016", name: "Entre Páginas", link: "repository.html" }
+                    { num: "014", name: "BEATREGS", link: "/repository" },
+                    { num: "016", name: "Entre Páginas", link: "/repository" }
                 ]
             },
             {
@@ -481,9 +481,9 @@ if (window.top !== window.self) {
                 },
                 tech: ["Figma", "Adobe Illustrator", "InDesign", "Vector Engineering"],
                 cases: [
-                    { num: "005", name: "Pocket AI App", link: "repository.html" },
-                    { num: "010", name: "Alivia", link: "repository.html" },
-                    { num: "011", name: "Dawn Dielines", link: "repository.html" }
+                    { num: "005", name: "Pocket AI App", link: "/repository" },
+                    { num: "010", name: "Alivia", link: "/repository" },
+                    { num: "011", name: "Dawn Dielines", link: "/repository" }
                 ]
             },
             {
@@ -510,9 +510,9 @@ if (window.top !== window.self) {
                 },
                 tech: ["Figma", "GA4 Analytics", "Engagement Audits", "Tech Stacks Planning"],
                 cases: [
-                    { num: "001", name: "Crypto Water War", link: "repository.html" },
-                    { num: "005", name: "Pocket AI App", link: "repository.html" },
-                    { num: "014", name: "BEATREGS", link: "repository.html" }
+                    { num: "001", name: "Crypto Water War", link: "/repository" },
+                    { num: "005", name: "Pocket AI App", link: "/repository" },
+                    { num: "014", name: "BEATREGS", link: "/repository" }
                 ]
             }
         ];
@@ -604,7 +604,7 @@ if (window.top !== window.self) {
                 }
                 const fromWord = (translations[currentDisplayLang] && translations[currentDisplayLang].service_from_price) || 'From';
                 priceLabel.textContent = `${fromWord} ${from} USDT`;
-                priceLink.href = `services.html#pkg-${buyId}`;
+                priceLink.href = `/services#pkg-${buyId}`;
                 priceLink.classList.remove('hidden');
             }
         }
@@ -760,7 +760,7 @@ if (window.top !== window.self) {
         if (dossierBtn) {
             dossierBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = 'repository.html';
+                window.location.href = '/repository';
             });
         }
 
@@ -1126,7 +1126,7 @@ if (window.top !== window.self) {
                         </div>
                     `).join('');
                 } else {
-                    ordersList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-6">No orders yet — open admin-ops.html</div>';
+                    ordersList.innerHTML = '<div class="text-on-surface-variant text-sm font-label-mono uppercase text-center py-6">No orders yet — open /admin-ops</div>';
                 }
             }
         }
