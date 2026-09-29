@@ -23,7 +23,7 @@
   <script src="js/config.js"></script>
   <script src="js/crm.js"></script>
   <script src="js/tron.js"></script>
-  <script src="js/commerce.js"></script>
+  <script src="js/commerce.js?v=5"></script>
 </head>
 <body class="min-h-screen p-4 md:p-8">
   <div id="gate" class="max-w-sm mx-auto mt-24 glass p-6 rounded-xl space-y-4">
@@ -133,7 +133,7 @@
         tbody.innerHTML = orders.length
           ? orders
               .map((o) => {
-                const tron = o.txHash ? `<a class="text-cyan-400 underline" target="_blank" href="${JOM_TRON.tronscanTxUrl(o.txHash)}">${(o.txHash || "").slice(0, 10)}…</a>` : "—";
+                const tron = o.txHash ? `<a class="text-cyan-400 underline" target="_blank" rel="noopener noreferrer" href="${JOM_TRON.tronscanTxUrl(o.txHash)}">${(o.txHash || "").slice(0, 10)}…</a>` : "—";
                 return `<tr>
                   <td class="mono text-[10px]">${o.id}</td>
                   <td>${o.productName}<div class="text-gray-500 text-[10px]">${o.createdAt}</div></td>

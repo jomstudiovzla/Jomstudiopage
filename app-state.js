@@ -38,23 +38,45 @@ if (window.top !== window.self) {
                 service_nodes_head: "Associated Repository Nodes",
                 service_btn_select: "Activate Protocol",
                 deployment_label: "Selected Deployment",
-                case_study_desc: "A decentralized resource management simulator where water is the primary asset. We built the entire interaction layer from the ground up, utilizing WebGL for real-time fluid dynamics and a custom blockchain bridge for instantaneous asset verification.",
-                nodes_label: "Active Nodes",
-                latency_label: "Sync Latency",
+                case_study_desc: "A playable card prototype where water is the asset. The interaction layer is built with WebGL and Canvas. The public case shows the interface and the cards, not an unverified performance score.",
+                case_stack_value: "WebGL",
+                case_deliverable_value: "Playable",
+                nodes_label: "Interaction layer",
+                latency_label: "Card prototype",
+                case_similar: "I want something similar",
                 specs_link: "Explore Technical Specs",
                 about_label: "CREATIVE LEADERSHIP",
                 about_title: "Jesús Omar Martínez",
                 about_desc: "Creative Director & Digital Developer behind JOM STUDIO. Fusing technical excellence (WebGL, Canvas, Chrome Extensions) with artistic direction and business strategy to craft complete, high-performance digital ecosystems.",
                 brief_eyebrow: "Interactive Brief",
                 brief_title: "Tell us what you want to build",
-                brief_subtitle: "Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.",
+                brief_subtitle: "The brief is registered before WhatsApp opens. If you choose email, we write back to that address.",
                 label_name: "Your Name / Company",
                 label_email: "Email Address",
                 label_brief: "What do you want to build?",
                 label_channel: "Preferred Transmission Protocol",
-                channel_wa_desc: "Send instantly as a structured message.",
-                channel_mail_desc: "Send via default mail handler.",
+                channel_wa_desc: "Opens after the brief is registered.",
+                channel_mail_desc: "We reply to your email. No mail app needed.",
                 btn_transmit: "Transmit Brief",
+                form_status_name: "Enter a valid name or company.",
+                form_status_email: "Enter a valid email.",
+                form_status_brief: "Describe the project in 10 to 3000 characters.",
+                form_status_loading: "Transmitting brief…",
+                form_status_ok_wa: "Brief received. WhatsApp opens with the message. If it does not, use the link below.",
+                form_status_ok_mail: "Brief received. We will reply to your email.",
+                form_status_error: "We could not transmit the brief. Try again or write us on WhatsApp.",
+                form_wa_fallback: "Write on WhatsApp",
+                secure_line: "SECURE CONNECTION · HTTPS ENABLED",
+                process_label: "HOW WE WORK",
+                process_title: "Four steps, one delivery",
+                process_1: "Diagnosis",
+                process_1b: "We read the brief and confirm scope.",
+                process_2: "Proposal",
+                process_2b: "Package, deliverables, revisions and payment.",
+                process_3: "Production",
+                process_3b: "Build, visual direction and review rounds.",
+                process_4: "Delivery",
+                process_4b: "Handoff and the support defined in the package.",
                 cta_title: "Ready to evolve?",
                 cta_subtitle: "We are currently accepting new strategic partnerships. Let's build the future of software together.",
                 btn_initiate_cta: "Initiate Project",
@@ -89,23 +111,45 @@ if (window.top !== window.self) {
                 service_nodes_head: "Nodos del Repositorio Asociados",
                 service_btn_select: "Activar Protocolo",
                 deployment_label: "Despliegue Seleccionado",
-                case_study_desc: "Simulador descentralizado de recursos donde el agua es el activo principal. Construimos toda la interacción desde cero usando WebGL para dinámicas de fluidos en tiempo real y una verificación instantánea.",
-                nodes_label: "Nodos Activos",
-                latency_label: "Latencia de Sinc",
+                case_study_desc: "Prototipo jugable de cartas donde el agua es el activo. La capa de interacción está hecha con WebGL y Canvas. El caso público muestra la interfaz y las cartas, no una cifra de rendimiento sin medición.",
+                case_stack_value: "WebGL",
+                case_deliverable_value: "Jugable",
+                nodes_label: "Capa de interacción",
+                latency_label: "Prototipo de cartas",
+                case_similar: "Quiero algo similar",
                 specs_link: "Explorar Especificaciones",
                 about_label: "LIDERAZGO CREATIVO",
                 about_title: "Jesús Omar Martínez",
                 about_desc: "Director Creativo y Desarrollador Digital detrás de JOM STUDIO. Fusionando la excelencia técnica (WebGL, Canvas, extensiones de Chrome) con la dirección artística y la estrategia de negocios para crear ecosistemas digitales completos y de alto rendimiento.",
                 brief_eyebrow: "Brief Interactivo",
                 brief_title: "Cuéntanos qué quieres construir",
-                brief_subtitle: "Completa los campos a continuación. Tu mensaje será estructurado y enviado directamente según el canal de tu preferencia.",
+                brief_subtitle: "El brief queda registrado antes de abrir WhatsApp. Si eliges correo, te escribimos a esa dirección.",
                 label_name: "Tu Nombre / Empresa",
                 label_email: "Correo de Contacto",
                 label_brief: "¿Qué deseas construir?",
                 label_channel: "Protocolo de Transmisión Preferido",
-                channel_wa_desc: "Enviar al instante como mensaje estructurado.",
-                channel_mail_desc: "Enviar vía tu manejador de correo.",
+                channel_wa_desc: "Se abre después de registrar el brief.",
+                channel_mail_desc: "Te respondemos a tu correo. No hace falta abrir una app de email.",
                 btn_transmit: "Transmitir Brief",
+                form_status_name: "Introduce un nombre o empresa válido.",
+                form_status_email: "Introduce un correo válido.",
+                form_status_brief: "Describe tu proyecto con entre 10 y 3000 caracteres.",
+                form_status_loading: "Transmitiendo brief…",
+                form_status_ok_wa: "Brief recibido. Se abre WhatsApp con el mensaje. Si no se abre, usa el enlace de abajo.",
+                form_status_ok_mail: "Brief recibido. Te escribimos a tu correo.",
+                form_status_error: "No pudimos transmitir el brief. Intenta de nuevo o escríbenos por WhatsApp.",
+                form_wa_fallback: "Escribir por WhatsApp",
+                secure_line: "CONEXIÓN SEGURA MEDIANTE HTTPS",
+                process_label: "CÓMO TRABAJAMOS",
+                process_title: "Cuatro pasos, una entrega",
+                process_1: "Diagnóstico",
+                process_1b: "Leemos el brief y confirmamos el alcance.",
+                process_2: "Propuesta",
+                process_2b: "Paquete, entregables, revisiones y pago.",
+                process_3: "Producción",
+                process_3b: "Construcción, dirección visual y rondas de revisión.",
+                process_4: "Entrega",
+                process_4b: "Handoff y el soporte definido en el paquete.",
                 cta_title: "¿Listo para evolucionar?",
                 cta_subtitle: "Aceptamos nuevas asociaciones estratégicas. Construyamos el futuro del software juntos.",
                 btn_initiate_cta: "Iniciar Proyecto",
@@ -141,22 +185,44 @@ if (window.top !== window.self) {
                 service_btn_select: "Activer le Protocole",
                 deployment_label: "Déploiement Sélectionné",
                 case_study_desc: "Un simulateur de gestion de ressources décentralisé où l'eau est le principal actif. Nous avons construit la couche d'interaction de A à Z en utilisant WebGL pour la dynamique des fluides en temps réel et un pont blockchain personnalisé pour une vérification instantanée des actifs.",
-                nodes_label: "Nœuds Actifs",
-                latency_label: "Latence de Sync",
+                case_stack_value: "WebGL",
+                case_deliverable_value: "Jouable",
+                nodes_label: "Couche d'interaction",
+                latency_label: "Prototype de cartes",
+                case_similar: "Je veux quelque chose de similaire",
                 specs_link: "Spécifications",
                 about_label: "LEADERSHIP CRÉATIF",
                 about_title: "Jesús Omar Martínez",
                 about_desc: "Directeur Créatif & Développeur Digital derrière JOM STUDIO. Fusionner l'excellence technique (WebGL, Canvas, Extensions Chrome) avec la direction artistique et la stratégie commerciale pour créer des écosystèmes numériques complets et performants.",
                 brief_eyebrow: "Brief Interactif",
                 brief_title: "Dites-nous ce que vous voulez",
-                brief_subtitle: "Remplissez les conditions ci-dessous. Votre message sera formaté et envoyé directement via votre canal préféré.",
+                brief_subtitle: "Le brief est enregistré avant d'ouvrir WhatsApp. Par e-mail, nous répondons à cette adresse.",
                 label_name: "Votre Nom / Entreprise",
                 label_email: "Adresse Email",
                 label_brief: "Que voulez-vous construire ?",
                 label_channel: "Protocole de Transmission",
-                channel_wa_desc: "Message instantané.",
-                channel_mail_desc: "Envoyer par e-mail.",
+                channel_wa_desc: "S'ouvre après l'enregistrement du brief.",
+                channel_mail_desc: "Nous répondons à votre e-mail.",
                 btn_transmit: "Transmettre le Brief",
+                form_status_name: "Indiquez un nom ou une entreprise valide.",
+                form_status_email: "Indiquez un e-mail valide.",
+                form_status_brief: "Décrivez le projet en 10 à 3000 caractères.",
+                form_status_loading: "Transmission du brief…",
+                form_status_ok_wa: "Brief reçu. WhatsApp s'ouvre avec le message.",
+                form_status_ok_mail: "Brief reçu. Nous répondons à votre e-mail.",
+                form_status_error: "Envoi impossible. Réessayez ou écrivez-nous sur WhatsApp.",
+                form_wa_fallback: "Écrire sur WhatsApp",
+                secure_line: "CONNEXION SÉCURISÉE · HTTPS",
+                process_label: "COMMENT NOUS TRAVAILLONS",
+                process_title: "Quatre étapes, une livraison",
+                process_1: "Diagnostic",
+                process_1b: "Nous lisons le brief et confirmons le périmètre.",
+                process_2: "Proposition",
+                process_2b: "Pack, livrables, révisions et paiement.",
+                process_3: "Production",
+                process_3b: "Construction, direction visuelle et révisions.",
+                process_4: "Livraison",
+                process_4b: "Remise et le support défini dans le pack.",
                 cta_title: "Prêt à évoluer ?",
                 cta_subtitle: "Nous acceptons actuellement de nouveaux partenariats stratégiques. Construisons ensemble l'avenir du logiciel.",
                 btn_initiate_cta: "Initier le Projet",
@@ -192,22 +258,44 @@ if (window.top !== window.self) {
                 service_btn_select: "Ativar Protocolo",
                 deployment_label: "Implantação Selecionada",
                 case_study_desc: "Um simulador de gerenciamento de recursos descentralizado onde a água é o principal ativo. Construímos toda a camada de interação do zero, utilizando WebGL para dinâmica de fluidos em tempo real e uma ponte blockchain customizada.",
-                nodes_label: "Nós Ativos",
-                latency_label: "Latência de Sinc",
+                case_stack_value: "WebGL",
+                case_deliverable_value: "Jogável",
+                nodes_label: "Camada de interação",
+                latency_label: "Protótipo de cartas",
+                case_similar: "Quero algo parecido",
                 specs_link: "Especificações",
                 about_label: "LIDERANÇA CRIATIVA",
                 about_title: "Jesús Omar Martínez",
                 about_desc: "Diretor Criativo e Desenvolvedor Digital por trás do JOM STUDIO. Unindo a excelência técnica (WebGL, Canvas, Extensões Chrome) com direção artística e estratégia de negócios para criar ecossistemas digitais completos de alto desempenho.",
                 brief_eyebrow: "Brief Interativo",
                 brief_title: "O que você deseja construir",
-                brief_subtitle: "Preencha os requisitos abaixo. Sua mensagem será formatada e enviada diretamente a nós pelo seu canal preferido.",
+                brief_subtitle: "O brief fica registrado antes de abrir o WhatsApp. No e-mail, respondemos nesse endereço.",
                 label_name: "Seu Nome / Empresa",
                 label_email: "Endereço de Email",
                 label_brief: "O que construir?",
                 label_channel: "Canal de Transmissão",
-                channel_wa_desc: "Mensagem instantânea.",
-                channel_mail_desc: "Enviar por e-mail.",
+                channel_wa_desc: "Abre depois que o brief é registrado.",
+                channel_mail_desc: "Respondemos no seu e-mail.",
                 btn_transmit: "Transmitir Brief",
+                form_status_name: "Informe um nome ou empresa válido.",
+                form_status_email: "Informe um e-mail válido.",
+                form_status_brief: "Descreva o projeto com 10 a 3000 caracteres.",
+                form_status_loading: "Transmitindo brief…",
+                form_status_ok_wa: "Brief recebido. O WhatsApp abre com a mensagem.",
+                form_status_ok_mail: "Brief recebido. Respondemos no seu e-mail.",
+                form_status_error: "Não foi possível enviar. Tente de novo ou escreva no WhatsApp.",
+                form_wa_fallback: "Escrever no WhatsApp",
+                secure_line: "CONEXÃO SEGURA · HTTPS",
+                process_label: "COMO TRABALHAMOS",
+                process_title: "Quatro passos, uma entrega",
+                process_1: "Diagnóstico",
+                process_1b: "Lemos o brief e confirmamos o escopo.",
+                process_2: "Proposta",
+                process_2b: "Pacote, entregáveis, revisões e pagamento.",
+                process_3: "Produção",
+                process_3b: "Construção, direção visual e rodadas de revisão.",
+                process_4: "Entrega",
+                process_4b: "Handoff e o suporte definido no pacote.",
                 cta_title: "Pronto para evoluir?",
                 cta_subtitle: "Atualmente estamos aceitando novas parcerias estratégicas. Vamos construir o futuro do software juntos.",
                 btn_initiate_cta: "Iniciar Projeto",
@@ -541,8 +629,19 @@ if (window.top !== window.self) {
             return translations[code] ? code : 'en';
         }
 
+        function currentLang() {
+            const actual = state.lang === 'auto' ? detectDeviceLang() : state.lang;
+            return translations[actual] ? actual : 'en';
+        }
+
+        function t(key) {
+            const pack = translations[currentLang()] || translations.en;
+            return pack[key] || translations.en[key] || '';
+        }
+
         function updateLanguage() {
-            let actualLang = state.lang === 'auto' ? detectDeviceLang() : state.lang;
+            let actualLang = currentLang();
+            document.documentElement.lang = actualLang;
             if (state.lang === 'auto') {
                 langLabel.textContent = "AUTO";
             } else {
@@ -687,10 +786,61 @@ if (window.top !== window.self) {
             });
         }
 
+        function prefillService(serviceId, force) {
+            const svc = servicesData.find((item) => item.id === serviceId);
+            if (!svc) return;
+            activeServiceIdx = servicesData.indexOf(svc);
+            renderServices();
+            const formBrief = document.getElementById('client-brief');
+            if (!formBrief || (formBrief.value.trim() && !force)) return;
+            const lang = currentLang();
+            const title = (svc.title && (svc.title[lang] || svc.title.es || svc.title.en)) || serviceId;
+            const templates = {
+                es: `¡Hola JOM STUDIO! Quiero algo similar al protocolo "${title}" (${svc.code}).`,
+                en: `Hello JOM STUDIO! I want something similar to the "${title}" (${svc.code}) protocol.`,
+                fr: `Bonjour JOM STUDIO ! Je veux quelque chose de similaire au protocole « ${title} » (${svc.code}).`,
+                pt: `Olá, JOM STUDIO! Quero algo parecido com o protocolo "${title}" (${svc.code}).`
+            };
+            formBrief.value = templates[lang] || templates.en;
+        }
+
         // Initialize dynamic services view
         renderServices();
 
-        // Interactive Brief Submission → CRM + WhatsApp/Email + optional Formspree
+        const serviceQuery = new URLSearchParams(window.location.search).get('service');
+        if (serviceQuery) {
+            prefillService(serviceQuery, false);
+            const briefTarget = document.getElementById('brief');
+            if (briefTarget) {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                briefTarget.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+            }
+        }
+
+        document.querySelectorAll('[data-similar]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                prefillService(link.getAttribute('data-similar'), true);
+                if (window.JOM_EVENTS) JOM_EVENTS.track('click_similar');
+                const briefTarget = document.getElementById('brief');
+                if (briefTarget) {
+                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    briefTarget.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+                }
+                const clientName = document.getElementById('client-name');
+                if (clientName) clientName.focus();
+            });
+        });
+
+        function setFormStatus(message, type) {
+            const statusMessage = document.getElementById('form-status');
+            if (!statusMessage) return;
+            statusMessage.textContent = message;
+            statusMessage.dataset.status = type || 'info';
+            statusMessage.hidden = false;
+        }
+
+        // El brief se registra en /api/submit antes de abrir WhatsApp. El canal email no abre mailto.
         const briefForm = document.getElementById('project-brief-form');
         if (briefForm) {
             briefForm.addEventListener('submit', async (e) => {
@@ -700,34 +850,64 @@ if (window.top !== window.self) {
                 const briefText = document.getElementById('client-brief').value.trim();
                 const channel = document.querySelector('input[name="comm-channel"]:checked').value;
                 const submitBtn = document.getElementById('submit-brief-btn');
+                const fallback = document.getElementById('form-wa-fallback');
+                const fallbackLink = document.getElementById('form-wa-fallback-link');
+                if (fallback) fallback.hidden = true;
                 if (submitBtn) submitBtn.disabled = true;
+                setFormStatus(t('form_status_loading'), 'loading');
 
                 try {
-                    if (window.JOM_COMMERCE && typeof JOM_COMMERCE.submitBrief === 'function') {
-                        await JOM_COMMERCE.submitBrief({ name, email, briefText, channel });
-                    } else {
-                        // Fallback legacy path
-                        const briefsLog = JSON.parse(localStorage.getItem('jom_contact_briefs') || '[]');
-                        briefsLog.push({ name, email, briefText, channel, timestamp: new Date().toLocaleString() });
-                        localStorage.setItem('jom_contact_briefs', JSON.stringify(briefsLog));
-                        if (channel === 'wa') {
-                            const message = `¡Hola JOM STUDIO! 🚀%0A%0AMe gustaría cotizar un proyecto:%0A%0A*Nombre/Empresa:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Brief:* ${encodeURIComponent(briefText)}`;
-                            window.open(`https://wa.me/584165159067?text=${message}`, '_blank');
-                        } else {
-                            const subject = encodeURIComponent(`Nuevo Proyecto JOM STUDIO - ${name}`);
-                            const body = encodeURIComponent(`Hola JOM STUDIO,\n\nMe gustaría cotizar un proyecto:\n\nNombre/Empresa: ${name}\nEmail: ${email}\n\nBrief del Proyecto:\n${briefText}`);
-                            window.open(`mailto:jomstudiovzla@gmail.com?subject=${subject}&body=${body}`, '_blank');
-                        }
+                    if (!(window.JOM_COMMERCE && typeof JOM_COMMERCE.submitBrief === 'function')) {
+                        setFormStatus(t('form_status_error'), 'error');
+                        if (window.JOM_EVENTS) JOM_EVENTS.track('form_submit_error');
+                        return;
                     }
+                    const result = await JOM_COMMERCE.submitBrief({
+                        name,
+                        email,
+                        briefText,
+                        channel,
+                        page: window.location.href
+                    });
+                    if (!result || !result.ok) {
+                        const key = result && result.error && t('form_status_' + result.error);
+                        setFormStatus(key || t('form_status_error'), 'error');
+                        if (result && result.fallbackWa && fallbackLink && result.error === 'delivery') {
+                            fallbackLink.href = result.fallbackWa;
+                            if (fallback) fallback.hidden = false;
+                        }
+                        if (window.JOM_EVENTS) {
+                            JOM_EVENTS.track(result && result.error === 'turnstile' ? 'turnstile_failed' : 'form_submit_error');
+                        }
+                        return;
+                    }
+                    if (result.spam) {
+                        setFormStatus(t('form_status_ok_mail'), 'success');
+                        briefForm.reset();
+                        return;
+                    }
+                    setFormStatus(t(result.channel === 'wa' ? 'form_status_ok_wa' : 'form_status_ok_mail'), 'success');
+                    briefForm.reset();
+                    const waRadio = document.getElementById('channel-wa');
+                    if (waRadio) waRadio.checked = true;
+                    if (window.JOM_EVENTS) JOM_EVENTS.track('form_submit_success');
+                } catch (_) {
+                    setFormStatus(t('form_status_error'), 'error');
+                    if (window.JOM_EVENTS) JOM_EVENTS.track('form_submit_error');
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
             });
         }
 
-        // Custom Cursor Logic
+        // Custom Cursor Logic — se apaga si el sistema pide menos movimiento
         const cursorDot = document.getElementById('custom-cursor-dot');
         const cursorCircle = document.getElementById('custom-cursor-circle');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) {
+            if (cursorDot) cursorDot.style.display = 'none';
+            if (cursorCircle) cursorCircle.style.display = 'none';
+        }
         
         let mouseX = 0;
         let mouseY = 0;
@@ -769,7 +949,7 @@ if (window.top !== window.self) {
 
             requestAnimationFrame(animateCircle);
         }
-        requestAnimationFrame(animateCircle);
+        if (!reduceMotion) requestAnimationFrame(animateCircle);
 
         // Hover Effect on Interactive Elements
         const hoverables = 'a, button, input, textarea, [onclick], .glass-card, #services-tabs-container button';

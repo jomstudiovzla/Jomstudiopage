@@ -1,2 +1,8 @@
 https://www.jomstudio.site/*  https://jomstudio.site/:splat  301
 /Jomstudiopage/*              /:splat                         301
+/services                     /services.html                  200
+/recursos                     /recursos.html                  200
+/order                        /order.html                     200
+/policies                     /policies.html                  200
+/repository                   /repository.html                200
+/success                      /success.html                   200

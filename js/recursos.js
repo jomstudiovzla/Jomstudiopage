@@ -24,8 +24,8 @@
     var url = (document.getElementById("lead-url").value || "").trim();
     var hp = (document.getElementById("company_website").value || "").trim();
 
-    if (!name || !email) { show("Completa tu nombre y correo, por favor.", false); return; }
-    if (!isEmail(email)) { show("Ese correo no parece válido. Revísalo.", false); return; }
+    if (name.length < 2 || name.length > 100) { show("Introduce un nombre o empresa válido.", false); return; }
+    if (!email || email.length > 254 || !isEmail(email)) { show("Ese correo no parece válido. Revísalo.", false); return; }
 
     var brief = "Solicita auditoría express gratis (recurso: checklist 7 puntos)."
       + (url ? " Web: " + url : " (aún sin web)");
@@ -44,18 +44,29 @@
         channel: "recurso-checklist",
         productId: "auditoria-express",
         company_website: hp,
+        page: window.location.href,
       }),
     })
       .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
       .then(function (data) {
+        var track = window.JOM_EVENTS && window.JOM_EVENTS.track;
+        if (data && data.spam) {
+          form.reset();
+          show("¡Listo! Recibí tus datos. Te escribo con tu revisión pronto.", true);
+          if (btn) btn.textContent = "Enviado ✓";
+          return;
+        }
         if (data && data.ok) {
           form.reset();
-          show("¡Listo! Recibí tus datos. Te escribo con tu revisión pronto. 🚀", true);
+          show("¡Listo! Recibí tus datos. Te escribo con tu revisión pronto.", true);
           if (btn) btn.textContent = "Enviado ✓";
-        } else {
-          if (btn) { btn.disabled = false; btn.textContent = "Quiero mi revisión gratis"; }
-          show("No se pudo enviar. Escríbeme directo por WhatsApp o inténtalo de nuevo.", false);
+          if (track) track("form_submit_success");
+          return;
         }
+        if (btn) { btn.disabled = false; btn.textContent = "Quiero mi revisión gratis"; }
+        show("No se pudo enviar. Escríbeme directo por WhatsApp o inténtalo de nuevo.", false);
+        if (track && data && data.error === "turnstile") track("turnstile_failed");
+        else if (track) track("form_submit_error");
       })
       .catch(function () {
         if (btn) { btn.disabled = false; btn.textContent = "Quiero mi revisión gratis"; }

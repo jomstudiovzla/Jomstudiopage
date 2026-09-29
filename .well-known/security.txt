@@ -1,4 +1,5 @@
-Contact: mailto:hello@jomstudio.com
+Contact: mailto:jomstudiovzla@gmail.com
+Expires: 2027-09-26T23:59:59.000Z
 Preferred-Languages: es, en
 Canonical: https://jomstudio.site/.well-known/security.txt
 Policy: https://jomstudio.site/policies.html

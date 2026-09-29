@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <!-- ═══ SECURITY HEADERS — JOM SENTINEL ═══ -->
     <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- ═══ FIN SECURITY HEADERS ═══ -->
@@ -781,14 +781,14 @@
         <div class="md:col-span-2">
             <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Social" data-es="Redes Sociales" data-fr="Réseaux Sociaux" data-pt="Social">Social</div>
             <ul class="space-y-2">
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" href="https://wa.me/584165159067">WhatsApp</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" target="_blank" rel="noopener noreferrer" href="https://wa.me/584165159067">WhatsApp</a></li>
             </ul>
         </div>
         <div class="md:col-span-2">
             <div class="font-label-code text-[10px] text-on-surface-variant/40 mb-4 uppercase" data-en="Legal" data-es="Legal" data-fr="Légal" data-pt="Jurídico">Legal</div>
             <ul class="space-y-2">
-                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Terms" data-es="Términos" data-fr="Conditions" data-pt="Termos" href="#">Terms</a></li>
+                <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Terms" data-es="Términos" data-fr="Conditions" data-pt="Termos" href="policies.html">Terms</a></li>
                 <li><a class="font-label-code text-on-surface-variant/60 hover:text-accent transition-colors glitch-hover" data-en="Contact" data-es="Contacto" data-fr="Contact" data-pt="Contato" href="mailto:jomstudiovzla@gmail.com">Contact</a></li>
             </ul>
         </div>
@@ -803,6 +803,7 @@
             </div>
         </div>
     </footer>
+    <script src="js/events.js?v=1"></script>
     <script src="repo-app.js"></script>
 </body>
 </html>

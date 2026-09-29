@@ -146,8 +146,15 @@
         headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload, company_website: hp }),
       });
-      // 404 = la Pages Function aún no desplegada (p. ej. server local) → se ignora; hay fallback WA/mailto.
-      return { ok: res.ok, status: res.status };
+      let body = {};
+      try { body = await res.json(); } catch (_) { body = {}; }
+      if (res.status === 404) return { ok: false, status: 404, deployed: false };
+      return {
+        ok: res.ok && body.ok !== false,
+        status: res.status,
+        spam: !!body.spam,
+        error: body.error || "",
+      };
     } catch (e) {
       return { ok: false, error: e.message };
     }
@@ -236,14 +243,14 @@
     const tpl =
       (config().messages && config().messages.orderWaTemplate && config().messages.orderWaTemplate(order)) ||
       encodeURIComponent(`Pedido ${order.id} — ${order.productName} — ${order.amount} USDT`);
-    window.open(waLink(tpl, true), "_blank");
+    window.open(waLink(tpl, true), "_blank", "noopener,noreferrer");
   }
 
   function openClientPaidWhatsApp(order) {
     const tpl =
       (config().messages && config().messages.clientPaidWa && config().messages.clientPaidWa(order)) ||
       encodeURIComponent(`Pagué ${order.productName}`);
-    window.open(waLink(tpl, true), "_blank");
+    window.open(waLink(tpl, true), "_blank", "noopener,noreferrer");
   }
 
   function orderUrl(productId) {
@@ -255,30 +262,68 @@
     return `success.html?order=${encodeURIComponent(orderId)}`;
   }
 
-  async function submitBrief({ name, email, briefText, channel, productId }) {
-    const entry = global.JOM_CRM.saveBrief({ name, email, briefText, channel, productId });
-    await notifyAll("brief", { name, email, brief: briefText, channel, productId });
+  function briefWhatsAppText({ name, email, briefText, productId }) {
+    const lines = [
+      "Hola, JOM STUDIO.",
+      "",
+      "Nuevo brief enviado desde jomstudio.site",
+      `Nombre / empresa: ${name}`,
+      `Correo: ${email}`,
+    ];
+    if (productId) lines.push(`Paquete: ${productId}`);
+    lines.push("", "¿Qué desea construir?", briefText);
+    return lines.join("\n");
+  }
 
-    if (channel === "wa") {
-      const message =
-        `¡Hola JOM STUDIO! 🚀%0A%0A` +
-        `Me gustaría cotizar un proyecto:%0A%0A` +
-        `*Nombre/Empresa:* ${encodeURIComponent(name)}%0A` +
-        `*Email:* ${encodeURIComponent(email)}%0A` +
-        `*Brief:* ${encodeURIComponent(briefText)}%0A` +
-        (productId ? `*Paquete:* ${encodeURIComponent(productId)}%0A` : "") +
-        `*ID lead:* ${entry.id}`;
-      window.open(waLink(message, true), "_blank");
-    } else {
-      window.open(
-        mailLink(
-          `Nuevo Proyecto JOM STUDIO - ${name}`,
-          `Hola JOM STUDIO,\n\nMe gustaría cotizar un proyecto:\n\nNombre: ${name}\nEmail: ${email}\nLead: ${entry.id}\n\nBrief:\n${briefText}`
-        ),
-        "_blank"
-      );
+  async function submitBrief({ name, email, briefText, channel, productId, page }) {
+    const person = String(name || "").trim();
+    const mail = String(email || "").trim();
+    const message = String(briefText || "").trim();
+    const chosen = channel === "mail" ? "mail" : "wa";
+    const fallbackWa = waLink(briefWhatsAppText({
+      name: person,
+      email: mail,
+      briefText: message,
+      productId,
+    }), false);
+
+    if (person.length < 2 || person.length > 100) {
+      return { ok: false, error: "name", fallbackWa };
     }
-    return entry;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail) || mail.length > 254) {
+      return { ok: false, error: "email", fallbackWa };
+    }
+    if (message.length < 10 || message.length > 3000) {
+      return { ok: false, error: "brief", fallbackWa };
+    }
+
+    const entry = global.JOM_CRM.saveBrief({
+      name: person,
+      email: mail,
+      briefText: message,
+      channel: chosen,
+      productId,
+    });
+    const delivery = await notifyAll("brief", {
+      name: person,
+      email: mail,
+      brief: message,
+      channel: chosen,
+      productId,
+      page: page || (typeof location !== "undefined" ? location.href : "https://jomstudio.site/"),
+    });
+    const api = delivery && delivery.api;
+    if (api && api.spam) {
+      return { ok: true, spam: true, entry, channel: chosen, fallbackWa };
+    }
+    if (!api || !api.ok) {
+      return { ok: false, error: (api && api.error) || "delivery", entry, fallbackWa };
+    }
+
+    if (chosen === "wa") {
+      window.open(fallbackWa, "_blank", "noopener,noreferrer");
+    }
+    return { ok: true, entry, channel: chosen, fallbackWa };
   }
 
   global.JOM_COMMERCE = {

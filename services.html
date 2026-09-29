@@ -32,7 +32,8 @@
   <script src="js/policies.js?v=4"></script>
   <script src="js/crm.js?v=4"></script>
   <script src="js/tron.js?v=4"></script>
-  <script src="js/commerce.js?v=4"></script>
+  <script src="js/commerce.js?v=5"></script>
+  <script src="js/events.js?v=1" defer></script>
 </head>
 <body class="min-h-screen">
   <header class="fixed top-0 inset-x-0 z-50 flex flex-wrap justify-between items-center gap-2 px-3 sm:px-6 md:px-10 py-3 bg-black/85 backdrop-blur border-b border-white/10">
@@ -84,7 +85,7 @@
         <li class="border border-white/10 rounded-lg p-3"><span class="text-cyan-300 mono text-xs">04</span><br/><span data-i18n="how_4"></span></li>
       </ol>
       <div class="mt-6 flex flex-wrap gap-3">
-        <a id="wa-direct" href="#" target="_blank" class="btn-g px-4 py-2.5 inline-flex items-center gap-2 rounded">
+        <a id="wa-direct" href="#" target="_blank" rel="noopener noreferrer" class="btn-g px-4 py-2.5 inline-flex items-center gap-2 rounded">
           <span class="material-symbols-outlined text-sm">chat</span> <span data-i18n="wa_commercial">WhatsApp</span>
         </a>
         <a href="order.html?product=spark" class="btn-p px-4 py-2.5 rounded" data-i18n="start_200">Start at $200 USDT</a>

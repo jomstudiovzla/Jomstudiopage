@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <!-- ═══ SECURITY HEADERS — JOM SENTINEL ═══ -->
     <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://ipapi.co https://api.trongrid.io https://formspree.io; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+          content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://ipapi.co https://api.trongrid.io https://formspree.io https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- ═══ FIN SECURITY HEADERS ═══ -->
@@ -17,6 +17,7 @@
     <meta name="theme-color" content="#080808" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JOM STUDIO" />
     <meta property="og:title" content="JOM STUDIO | DIGITAL ALCHEMY" />
@@ -29,6 +30,20 @@
     <meta name="twitter:title" content="JOM STUDIO | DIGITAL ALCHEMY" />
     <meta name="twitter:description" content="JOM STUDIO — Where Technical Architecture Meets Artistic Direction. Gamification, Generative AI, Web Development &amp; Chrome Extensions." />
     <meta name="twitter:image" content="https://jomstudio.site/assets/og-image.png" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Organization", "ProfessionalService"],
+      "name": "JOM STUDIO",
+      "url": "https://jomstudio.site/",
+      "logo": "https://jomstudio.site/assets/logo-white.png",
+      "image": "https://jomstudio.site/assets/og-image.png",
+      "email": "jomstudiovzla@gmail.com",
+      "description": "Donde la arquitectura técnica se encuentra con la dirección artística. Gamificación, desarrollo, dirección visual e interactividad.",
+      "sameAs": ["https://www.instagram.com/jomstudiovzla/"],
+      "areaServed": "VE"
+    }
+    </script>
     <!-- ═══ FIN SEO / SOCIAL ═══ -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
@@ -41,6 +56,43 @@
             color: var(--color-text);
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        :focus-visible {
+            outline: 2px solid #2EC4B6;
+            outline-offset: 3px;
+        }
+        #form-status[data-status="error"] { color: #ffb4b4; }
+        #form-status[data-status="success"] { color: #2EC4B6; }
+        #form-status[data-status="loading"] { color: #C4A35A; }
+        .jom-wa-float { display: none; }
+        @media (max-width: 767px) {
+            .jom-wa-float {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                position: fixed;
+                right: 14px;
+                bottom: 14px;
+                z-index: 40;
+                padding: 12px 14px;
+                border-radius: 999px;
+                background: #10211f;
+                color: #e8fff9;
+                border: 1px solid rgba(46, 196, 182, 0.55);
+                font-family: "JetBrains Mono", ui-monospace, monospace;
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                text-decoration: none;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
         /* Prevent large headings / labels from clipping on narrow viewports */
         h1, h2, h3, .font-display-lg, .font-headline-lg {
@@ -464,14 +516,18 @@
                         </div>
                         <div class="grid grid-cols-2 gap-stack-md border-y border-outline-variant/20 py-stack-md">
                             <div>
-                                <div class="font-headline-lg text-3xl sm:text-headline-lg text-primary-fixed">26</div>
-                                <div class="font-label-mono text-label-mono text-outline" data-t="nodes_label">Deployments</div>
+                                <div class="font-headline-md text-xl sm:text-2xl text-primary-fixed" data-t="case_stack_value">WebGL</div>
+                                <div class="font-label-mono text-label-mono text-outline" data-t="nodes_label">Interaction layer</div>
                             </div>
                             <div>
-                                <div class="font-headline-lg text-3xl sm:text-headline-lg text-secondary">0.03s</div>
-                                <div class="font-label-mono text-label-mono text-outline" data-t="latency_label">Sync Latency</div>
+                                <div class="font-headline-md text-xl sm:text-2xl text-secondary" data-t="case_deliverable_value">Playable</div>
+                                <div class="font-label-mono text-label-mono text-outline" data-t="latency_label">Card prototype</div>
                             </div>
                         </div>
+                        <a class="inline-flex items-center gap-4 text-secondary font-label-mono text-label-mono uppercase tracking-widest hover:gap-6 transition-all" href="#brief" data-similar="gamification">
+                            <span data-t="case_similar">I want something similar</span>
+                            <span class="material-symbols-outlined">arrow_right_alt</span>
+                        </a>
                         <a class="inline-flex items-center gap-4 text-primary-fixed font-label-mono text-label-mono uppercase tracking-widest hover:gap-6 transition-all group" href="repository.html">
                             <span data-t="specs_link">Explore Technical Specs</span>
                             <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_right_alt</span>
@@ -510,6 +566,35 @@
             </div>
         </section>
 
+        <section id="process" class="py-10 sm:py-14 px-4 sm:px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10 w-full">
+            <div class="mb-6">
+                <span class="font-label-mono text-label-mono text-secondary tracking-[0.3em] uppercase block mb-2" data-t="process_label">HOW WE WORK</span>
+                <h2 class="font-headline-lg text-[1.5rem] sm:text-3xl text-on-surface" data-t="process_title">Four steps, one delivery</h2>
+            </div>
+            <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 list-none p-0 m-0">
+                <li class="border border-outline-variant/20 rounded-xl p-4 bg-surface-container-lowest/80">
+                    <span class="font-label-mono text-[10px] text-primary-fixed">01</span>
+                    <h3 class="font-label-mono text-sm text-on-surface mt-2" data-t="process_1">Diagnosis</h3>
+                    <p class="font-body-md text-xs text-on-surface-variant mt-2" data-t="process_1b">We read the brief and confirm scope.</p>
+                </li>
+                <li class="border border-outline-variant/20 rounded-xl p-4 bg-surface-container-lowest/80">
+                    <span class="font-label-mono text-[10px] text-primary-fixed">02</span>
+                    <h3 class="font-label-mono text-sm text-on-surface mt-2" data-t="process_2">Proposal</h3>
+                    <p class="font-body-md text-xs text-on-surface-variant mt-2" data-t="process_2b">Package, deliverables, revisions and payment.</p>
+                </li>
+                <li class="border border-outline-variant/20 rounded-xl p-4 bg-surface-container-lowest/80">
+                    <span class="font-label-mono text-[10px] text-primary-fixed">03</span>
+                    <h3 class="font-label-mono text-sm text-on-surface mt-2" data-t="process_3">Production</h3>
+                    <p class="font-body-md text-xs text-on-surface-variant mt-2" data-t="process_3b">Build, visual direction and review rounds.</p>
+                </li>
+                <li class="border border-outline-variant/20 rounded-xl p-4 bg-surface-container-lowest/80">
+                    <span class="font-label-mono text-[10px] text-primary-fixed">04</span>
+                    <h3 class="font-label-mono text-sm text-on-surface mt-2" data-t="process_4">Delivery</h3>
+                    <p class="font-body-md text-xs text-on-surface-variant mt-2" data-t="process_4b">Handoff and the support defined in the package.</p>
+                </li>
+            </ol>
+        </section>
+
         <!-- Interactive Brief Section -->
         <section id="brief" class="py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto border-t border-outline-variant/10 overflow-x-hidden w-full">
             <div class="glass-panel p-5 sm:p-8 md:p-12 rounded-xl relative overflow-hidden glow-alexandrite">
@@ -520,7 +605,7 @@
                         <h2 class="font-headline-lg text-[1.5rem] leading-tight sm:text-4xl md:text-headline-lg text-white break-words" data-t="brief_title">Tell us what you want to build</h2>
                         <p class="font-body-md text-sm sm:text-base text-on-surface-variant" data-t="brief_subtitle">Fulfill the requirements below. Your message will be formatted and sent directly to us via your preferred channel.</p>
                     </div>
-                    <form id="project-brief-form" class="space-y-6 pt-4">
+                    <form id="project-brief-form" class="space-y-6 pt-4" novalidate>
                         <!-- Honeypot anti-spam: oculto para humanos; los bots tienden a rellenarlo -->
                         <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden">
                             <label for="company_website">Company Website</label>
@@ -529,16 +614,16 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
                             <div class="flex flex-col gap-2">
                                 <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_name" for="client-name">Your Name / Company</label>
-                                <input type="text" id="client-name" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. Wayne Enterprises"/>
+                                <input type="text" id="client-name" name="name" required minlength="2" maxlength="100" autocomplete="name" class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. Wayne Enterprises"/>
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_email" for="client-email">Email Address</label>
-                                <input type="email" id="client-email" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. bruce@wayne.com"/>
+                                <input type="email" id="client-email" name="email" required maxlength="254" autocomplete="email" class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md" placeholder="e.g. bruce@wayne.com"/>
                             </div>
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="font-label-mono text-[10px] text-outline uppercase" data-t="label_brief" for="client-brief">What do you want to build?</label>
-                            <textarea id="client-brief" rows="4" required class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md resize-none" placeholder="Describe your project, features, goals, references..."></textarea>
+                            <textarea id="client-brief" name="message" rows="4" required minlength="10" maxlength="3000" class="bg-surface-container-lowest/90 border border-outline-variant/30 focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed text-on-surface p-3 rounded-lg outline-none transition-all font-body-md resize-none" placeholder="Describe your project, features, goals, references..."></textarea>
                         </div>
                         
                         <div class="flex flex-col gap-3 pt-2">
@@ -570,11 +655,15 @@
                             </div>
                         </div>
                         
-                        <div class="pt-4 flex justify-center">
+                        <div class="pt-4 flex flex-col items-center gap-3">
                             <button type="submit" class="w-full sm:w-auto animate-pulse-glow bg-primary text-on-primary-container font-label-mono text-label-mono px-12 py-5 uppercase tracking-[0.2em] font-bold border border-primary transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-transparent hover:text-primary flex items-center justify-center gap-3" id="submit-brief-btn">
                                 <span data-t="btn_transmit">Transmit Brief</span>
                                 <span class="material-symbols-outlined text-sm">send</span>
                             </button>
+                            <p id="form-status" role="status" aria-live="polite" hidden class="font-body-md text-sm text-center max-w-md"></p>
+                            <p id="form-wa-fallback" hidden>
+                                <a id="form-wa-fallback-link" href="https://wa.me/584165159067" target="_blank" rel="noopener noreferrer" class="font-label-mono text-[11px] uppercase tracking-widest text-secondary underline" data-t="form_wa_fallback">Write on WhatsApp</a>
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -603,12 +692,14 @@
                         Pricing
                     </a>
                 </div>
-                <div class="mt-stack-lg font-label-mono text-label-mono text-outline opacity-40">
-                    CONNECTION SECURE: AES-256 ENCRYPTED
+                <div class="mt-stack-lg font-label-mono text-label-mono text-outline opacity-40" data-t="secure_line">
+                    SECURE CONNECTION · HTTPS ENABLED
                 </div>
             </div>
         </section>
     </main>
+
+    <a class="jom-wa-float" href="https://wa.me/584165159067" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WhatsApp</a>
 
     <!-- Footer -->
     <footer class="w-full py-10 sm:py-stack-lg px-4 sm:px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-gutter bg-surface-container-lowest border-t border-outline-variant/30 overflow-x-hidden">
@@ -627,8 +718,8 @@
             <div class="space-y-4">
                 <h5 class="font-label-mono text-label-mono text-secondary mb-4" data-t="social_label">SOCIAL</h5>
                 <ul class="space-y-2">
-                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
-                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" href="https://wa.me/584165159067">WhatsApp</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/jomstudiovzla/">Instagram</a></li>
+                    <li><a class="font-label-mono text-label-mono text-on-surface-variant/60 hover:text-secondary transition-colors block" target="_blank" rel="noopener noreferrer" href="https://wa.me/584165159067">WhatsApp</a></li>
                 </ul>
             </div>
             <div class="space-y-4">
@@ -659,8 +750,9 @@
     <script src="js/policies.js?v=4"></script>
     <script src="js/crm.js?v=4"></script>
     <script src="js/tron.js?v=4"></script>
-    <script src="js/commerce.js?v=4"></script>
-    <script src="app-state.js"></script>
+    <script src="js/commerce.js?v=5"></script>
+    <script src="js/events.js?v=1"></script>
+    <script src="app-state.js?v=5"></script>
 
     <!-- Admin Login Modal -->
     <div id="admin-login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-md px-4">
