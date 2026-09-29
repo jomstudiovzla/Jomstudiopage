@@ -88,27 +88,26 @@ También: candado del Command Center en home muestra briefs + órdenes.
 
 ---
 
-## Deploy a GitHub Pages
+## Deploy del dominio
+
+`https://jomstudio.site` es el proyecto Cloudflare Pages `jomstudio` (subida directa).
+Un `git push` actualiza GitHub y `jomstudiopage.pages.dev`. No actualiza el dominio.
+`deploy.sh` ya no hace `git add` ni push: llama a `deploy-cloudflare.sh`.
 
 ```bash
 cd site   # este directorio es el clone de Jomstudiopage
-# 1) Edita js/config.js (wallet + password)
-chmod +x deploy.sh
-./deploy.sh
+# 1) Edita js/config.js (wallet + password) y haz el commit aparte
+chmod +x deploy.sh deploy-cloudflare.sh
+./deploy-cloudflare.sh
+# equivalente: npx wrangler pages deploy . --project-name=jomstudio
 ```
 
-O manual:
+Live al terminar el upload:
+- https://jomstudio.site/
+- https://jomstudio.site/services
+- https://jomstudio.site/order?product=launch
 
-```bash
-git add -A
-git commit -m "feat: commerce USDT funnel"
-git push origin main
-```
-
-Live en ~1–3 min:
-- https://jomstudiovzla.github.io/Jomstudiopage/
-- https://jomstudiovzla.github.io/Jomstudiopage/services.html
-- https://jomstudiovzla.github.io/Jomstudiopage/order.html?product=launch
+No muevas el dominio al proyecto git `jomstudiopage`. Los secretos del formulario están en `jomstudio`.
 
 ---
 
@@ -144,10 +143,10 @@ Hola — vi JOM STUDIO. Quiero el Launch Kit (300 USDT TRC20) para mi web. ¿Me 
 
 **Checkout link directo:**
 ```
-https://jomstudiovzla.github.io/Jomstudiopage/order.html?product=launch
+https://jomstudio.site/order?product=launch
 ```
 
 **Spark (entrada $200):**
 ```
-https://jomstudiovzla.github.io/Jomstudiopage/order.html?product=spark
+https://jomstudio.site/order?product=spark
 ```
