@@ -80,6 +80,7 @@
       else if (href.indexOf("mailto:") === 0) track("click_email");
       else if (href.indexOf("product=launch") !== -1) track("click_launch_kit");
       else if (href.indexOf("product=spark") !== -1) track("click_spark");
+      else if (href.indexOf("service=") !== -1 && href.indexOf("brief") !== -1) track("click_similar");
       else if (href.indexOf("repository") !== -1) track("open_repository");
       else if (/\.pdf($|\?)/.test(href) || a.hasAttribute("download")) track("download_resource");
     });

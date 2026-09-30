@@ -82,7 +82,8 @@
         const isBundle = p.type === "bundle";
         const sep = isBundle ? JOM_COMMERCE.separateSum(p) : 0;
         const save = isBundle ? JOM_COMMERCE.savings(p) : 0;
-        const dels = (Array.isArray(p.deliverables) ? p.deliverables : []).slice(0, 5);
+        const dels = Array.isArray(p.deliverables) ? p.deliverables : [];
+        const excluded = (Array.isArray(p.notIncluded) ? p.notIncluded : []).filter(Boolean);
         const combines = (Array.isArray(p.combinesLabel) && p.combinesLabel.length
           ? p.combinesLabel
           : (p.combines || []).map((id) => {
@@ -121,6 +122,14 @@
             <ul class="text-xs text-gray-300 space-y-1 flex-1">
               ${dels.map((d) => `<li class="flex gap-2"><span class="text-cyan-400 shrink-0">✓</span><span>${safe(d, "")}</span></li>`).join("")}
             </ul>
+            ${
+              excluded.length
+                ? `<p class="mono text-[10px] uppercase tracking-wider text-gray-500">${JOM_I18N.t("not_included", lang)}</p>
+                   <ul class="text-xs text-gray-500 space-y-1">
+                     ${excluded.map((d) => `<li class="flex gap-2"><span class="shrink-0">–</span><span>${safe(d, "")}</span></li>`).join("")}
+                   </ul>`
+                : ""
+            }
             <a href="${JOM_COMMERCE.orderUrl(p.id)}"
                class="${isQuote ? "btn-g" : "btn-p"} w-full text-center py-2.5 rounded">
               ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + safe(p.priceUsdt, "0") + " USDT"}
