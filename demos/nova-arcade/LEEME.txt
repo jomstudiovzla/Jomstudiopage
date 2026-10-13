@@ -1,0 +1,23 @@
+JUPITER ARCADE BAR — PÁGINA WEB COMPLETA (todo el código en un solo archivo)
+===========================================================================
+
+Contenido:
+  index.html        ← TODO el código: página + diseño (CSS) + animaciones (JS)
+                      + tipografías incluidas. Un solo archivo.
+  assets/images/    ← las fotos (.webp)
+  assets/video/     ← el video animado de la portada (mp4 + webm) y su vista
+                      previa
+
+Ver la página: haz doble clic en index.html.
+
+Publicarla con un dominio:
+  A) Netlify (gratis): entra en app.netlify.com/drop, arrastra esta carpeta
+     completa y luego agrega tu dominio en "Domain settings".
+  B) Hosting con cPanel o FTP (Hostinger, Namecheap, etc.): sube index.html
+     y la carpeta assets/ a public_html/ (o www/).
+
+Cambiar una foto: reemplaza el archivo en assets/images/ por otro con el
+mismo nombre.
+Cambiar un texto, la carta o el horario: abre index.html con un editor de
+texto. El horario del aviso "Abierto ahora" está en el script:
+OPEN = 13, CLOSE = 24 y DAYS = [0, 3, 4, 5, 6] (0 = domingo).

@@ -1,0 +1,28 @@
+ESGUEIRA 2004 — SITE COMPLETO (todo o código num só ficheiro)
+=============================================================
+
+Conteúdo:
+  index.html        ← TODO o código: página + design (CSS) + animações (JS)
+                      + tipos de letra integrados. Um só ficheiro.
+  assets/images/    ← as fotografias (.webp)
+  assets/video/     ← o vídeo animado da página inicial (mp4 + webm) e a
+                      imagem de pré-visualização
+
+Ver o site: faça duplo clique em index.html.
+
+Publicar num domínio:
+  A) Netlify (grátis): vá a app.netlify.com/drop, arraste esta pasta
+     completa e depois adicione o domínio em "Domain settings".
+  B) Alojamento com cPanel ou FTP (PTisp, Amen, Hostinger, etc.): envie
+     index.html e a pasta assets/ para public_html/ (ou www/).
+
+Mudar uma fotografia: substitua o ficheiro em assets/images/ por outro com
+o mesmo nome.
+Mudar um texto, um produto ou o horário: abra index.html com um editor de
+texto. O horário do aviso "Aberto agora" muda-se no script:
+OPEN = 7 e CLOSE = 20.
+
+------------------------------------------------------------------
+ES: Todo el código está en index.html (HTML + CSS + JS + fuentes). Las fotos
+y el vídeo están en assets/. Sube la carpeta completa al hosting o arrástrala
+a app.netlify.com/drop.

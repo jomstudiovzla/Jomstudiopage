@@ -78,10 +78,7 @@
         const headline = safe(p.headline, "");
         const badge = safe(p.badge, "");
         const eta = safe(p.eta, "—");
-        const isQuote = !p.priceUsdt;
         const isBundle = p.type === "bundle";
-        const sep = isBundle ? JOM_COMMERCE.separateSum(p) : 0;
-        const save = isBundle ? JOM_COMMERCE.savings(p) : 0;
         const dels = Array.isArray(p.deliverables) ? p.deliverables : [];
         const excluded = (Array.isArray(p.notIncluded) ? p.notIncluded : []).filter(Boolean);
         const combines = (Array.isArray(p.combinesLabel) && p.combinesLabel.length
@@ -91,6 +88,18 @@
               return part ? safe(part.name, id) : id;
             })
         ).filter(Boolean);
+
+        const contactMsg = encodeURIComponent(
+          lang === "es"
+            ? `Hola JOM STUDIO — Me interesa cotizar y activar el plan ${name}.`
+            : lang === "fr"
+            ? `Bonjour JOM STUDIO — Je souhaite des informations sur le plan ${name}.`
+            : lang === "pt"
+            ? `Olá JOM STUDIO — Gostaria de informações sobre o plano ${name}.`
+            : `Hi JOM STUDIO — I would like to inquire about the ${name} plan.`
+        );
+        const contactUrl = `https://wa.me/584165159067?text=${contactMsg}`;
+        const contactLabel = lang === "es" ? "Contáctame" : lang === "fr" ? "Contactez-moi" : lang === "pt" ? "Contacte-me" : "Contact Us";
 
         return `
           <article class="glass rounded-xl p-5 flex flex-col gap-3 min-w-0 ${p.featured ? "featured" : ""}" id="pkg-${safe(p.id, "x")}">
@@ -102,18 +111,7 @@
               <h3 class="text-base sm:text-lg font-bold uppercase tracking-tight leading-snug">${name}</h3>
               ${headline ? `<p class="text-sm text-gray-400 mt-1">${headline}</p>` : ""}
             </div>
-            <div class="mono text-2xl sm:text-3xl font-bold text-cyan-300">
-              ${isQuote ? JOM_I18N.t("badge_quote", lang) : safe(p.priceUsdt, "0") + ' <span class="text-sm text-gray-400">USDT</span>'}
-            </div>
-            ${
-              isBundle && sep > 0
-                ? `<div class="text-xs text-gray-500 mono">
-                    <span class="line-through">${sep} USDT</span>
-                    ${save > 0 ? ` · <span class="text-amber-300">${JOM_I18N.t("compare_save", lang)} ${save} USDT</span>` : ""}
-                  </div>`
-                : ""
-            }
-            <p class="mono text-[10px] text-gray-500">${JOM_I18N.t("eta_label", lang)}: ${eta} · ${safe(p.network, "TRC20")}</p>
+            <p class="mono text-[10px] text-gray-500">${JOM_I18N.t("eta_label", lang)}: ${eta} · Custom Architecture</p>
             ${
               isBundle && combines.length
                 ? `<p class="text-[11px] text-gray-400"><span class="text-amber-300 mono">${JOM_I18N.t("from_categories", lang)}:</span> ${combines.join(" + ")}</p>`
@@ -130,9 +128,10 @@
                    </ul>`
                 : ""
             }
-            <a href="${JOM_COMMERCE.orderUrl(p.id)}"
-               class="${isQuote ? "btn-g" : "btn-p"} w-full text-center py-2.5 rounded">
-              ${isQuote ? JOM_I18N.t("quote", lang) : JOM_I18N.t("buy", lang) + " · " + safe(p.priceUsdt, "0") + " USDT"}
+            <a href="${contactUrl}" target="_blank" rel="noopener noreferrer"
+               class="btn-p w-full text-center py-2.5 rounded flex items-center justify-center gap-2 hover:opacity-90 transition-all font-bold">
+              <span class="material-symbols-outlined text-[15px]">chat</span>
+              ${contactLabel}
             </a>
           </article>
         `;
@@ -154,6 +153,8 @@
         const lang = L();
         const bundles = JOM_COMMERCE.bundleProducts();
         if (!bundles.length) return `<p class="text-gray-500">${JOM_I18N.t("empty", lang)}</p>`;
+        const contactLabel = lang === "es" ? "Contáctame" : lang === "fr" ? "Contactez-moi" : lang === "pt" ? "Contacte-me" : "Contact Us";
+
         return `
           <section>
             <h2 class="text-lg sm:text-xl font-bold uppercase tracking-wide mb-4 text-amber-400">${JOM_I18N.t("section_compare", lang)}</h2>
@@ -162,23 +163,26 @@
                 <thead>
                   <tr class="mono text-[10px] text-cyan-300 uppercase tracking-wider border-b border-white/10">
                     <th class="p-3">${JOM_I18N.t("tab_bundles", lang)}</th>
-                    <th class="p-3">${JOM_I18N.t("compare_solo_sum", lang)}</th>
-                    <th class="p-3">${JOM_I18N.t("compare_bundle", lang)}</th>
-                    <th class="p-3">${JOM_I18N.t("compare_save", lang)}</th>
+                    <th class="p-3">${lang === "es" ? "Módulos Integrados" : "Integrated Scope"}</th>
+                    <th class="p-3">${JOM_I18N.t("eta_label", lang)}</th>
                     <th class="p-3"></th>
                   </tr>
                 </thead>
                 <tbody>
                   ${bundles
                     .map((b) => {
-                      const sep = JOM_COMMERCE.separateSum(b);
-                      const save = JOM_COMMERCE.savings(b);
+                      const combines = (b.combinesLabel && b.combinesLabel.length ? b.combinesLabel : (b.combines || [])).join(" + ");
+                      const contactMsg = encodeURIComponent(
+                        lang === "es"
+                          ? `Hola JOM STUDIO — Me interesa el bundle ${b.name}.`
+                          : `Hi JOM STUDIO — I'm interested in the ${b.name} bundle.`
+                      );
+                      const contactUrl = `https://wa.me/584165159067?text=${contactMsg}`;
                       return `<tr class="border-b border-white/5 hover:bg-white/[0.02]">
                         <td class="p-3 font-semibold">${b.name}<div class="text-xs text-gray-500 font-normal">${b.headline}</div></td>
-                        <td class="p-3 mono text-gray-400 line-through">${sep} USDT</td>
-                        <td class="p-3 mono text-cyan-300 font-bold">${b.priceUsdt} USDT</td>
-                        <td class="p-3 mono text-amber-300">${save > 0 ? "−" + save + " USDT" : "—"}</td>
-                        <td class="p-3"><a class="btn-p px-3 py-1.5 rounded inline-block" href="${JOM_COMMERCE.orderUrl(b.id)}">${JOM_I18N.t("buy", lang)}</a></td>
+                        <td class="p-3 text-xs text-gray-300">${combines}</td>
+                        <td class="p-3 mono text-cyan-300">${b.eta || "—"}</td>
+                        <td class="p-3"><a class="btn-p px-3 py-1.5 rounded inline-flex items-center gap-1.5 text-[10px]" href="${contactUrl}" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined text-[13px]">chat</span>${contactLabel}</a></td>
                       </tr>`;
                     })
                     .join("")}

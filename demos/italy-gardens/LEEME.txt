@@ -1,0 +1,25 @@
+ITALIO GARDENS — SITIO WEB COMPLETO (todo en un solo código)
+=============================================================
+
+Estructura:
+  index.html        ← TODO el código: página + diseño (CSS) + animaciones (JS)
+                      + fuentes incrustadas. Es un solo archivo.
+  assets/images/    ← las fotos (.webp)
+  assets/video/     ← el video animado del inicio (mp4 + webm) y su portada
+
+Verlo en tu computadora: doble clic en index.html.
+
+Publicarlo en un dominio:
+  A) Netlify (gratis): entra en app.netlify.com/drop, arrastra esta carpeta
+     completa y conecta el dominio en "Domain settings".
+  B) Hosting con cPanel o FTP: sube index.html y la carpeta assets/ dentro de
+     public_html/.
+
+Para cambiar una foto: reemplaza el archivo en assets/images/ por otro con el
+mismo nombre.
+Para cambiar un texto: abre index.html con cualquier editor de texto.
+
+------------------------------------------------------------------
+EN: Everything lives in index.html (HTML + CSS + JS + embedded fonts).
+Photos and video are in assets/. Upload the whole folder (index.html +
+assets/) to the web host, or drag it onto app.netlify.com/drop.

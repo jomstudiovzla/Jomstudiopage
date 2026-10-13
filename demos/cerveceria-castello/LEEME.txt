@@ -1,0 +1,23 @@
+CERVECERÍA CASTRELO — WEB COMPLETA (todo el código en un solo archivo)
+====================================================================
+
+Contenido:
+  index.html        ← TODO el código: página + diseño (CSS) + animaciones
+                      (JS) + tipografías integradas. Un solo archivo.
+  assets/images/    ← las fotos (.webp)
+  assets/video/     ← el vídeo de la caña de la portada (mp4 + webm) y
+                      su imagen de vista previa
+
+Ver la web: doble clic en index.html.
+
+Publicar en un dominio:
+  A) Netlify (gratis): entra en app.netlify.com/drop, arrastra esta carpeta
+     completa y luego añade el dominio en "Domain settings".
+  B) Hosting con cPanel o FTP (Hostinger, Raiola, Dinahosting, etc.): sube
+     index.html y la carpeta assets/ a public_html/ (o www/).
+
+Cambiar una foto: sustituye el archivo de assets/images/ por otro con el
+mismo nombre.
+Cambiar un texto: abre index.html con un editor de texto.
+La carta de la pizarra está en el script, en "const CARTA".
+El número de WhatsApp de las reservas está en el script: WA='34629052551'.

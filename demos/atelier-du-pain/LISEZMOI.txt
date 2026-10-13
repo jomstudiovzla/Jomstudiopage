@@ -1,0 +1,27 @@
+PATAPAIN CHÂTEAUROUX LEMOINE — SITE INTERNET COMPLET (tout le code dans un seul fichier)
+=======================================================================================
+
+Contenu :
+  index.html        ← TOUT le code : page + design (CSS) + animations (JS)
+                      + polices intégrées. Un seul fichier.
+  assets/images/    ← les photos (.webp)
+  assets/video/     ← la vidéo animée de l'accueil (mp4 + webm) et son aperçu
+
+Voir le site : double-cliquez sur index.html.
+
+Mettre en ligne sur un nom de domaine :
+  A) Netlify (gratuit) : allez sur app.netlify.com/drop, glissez ce dossier
+     complet, puis ajoutez votre domaine dans « Domain settings ».
+  B) Hébergement avec cPanel ou FTP (OVH, o2switch, etc.) : envoyez
+     index.html et le dossier assets/ dans public_html/ (ou www/).
+
+Changer une photo : remplacez le fichier dans assets/images/ par un autre
+portant le même nom.
+Changer un texte, un horaire ou une nouveauté : ouvrez index.html avec un
+éditeur de texte. Les horaires d'ouverture (6h30 – 20h) se règlent aussi
+dans le script : OPEN = 6.5 et CLOSE = 20.
+
+------------------------------------------------------------------
+ES: Todo el código está en index.html (HTML + CSS + JS + fuentes). Las fotos
+y el vídeo están en assets/. Sube la carpeta completa al hosting o arrástrala
+a app.netlify.com/drop.
