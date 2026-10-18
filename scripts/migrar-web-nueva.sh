@@ -50,7 +50,7 @@ CF_PREVIEW_BRANCH="${CF_PREVIEW_BRANCH:-staging}"
 PRIVATE_PATTERN='presupuestos y automatizacion|presupuestos_y_automatizacion|catalogo_presentaciones'
 
 # Se conservan en la web nueva: infraestructura de Cloudflare y el formulario.
-KEEP="scripts functions .well-known _redirects robots.txt favicon.ico .gitignore 404.html deploy.sh deploy-cloudflare.sh"
+KEEP="scripts kit functions .well-known _redirects robots.txt favicon.ico .gitignore 404.html deploy.sh deploy-cloudflare.sh"
 
 say()  { printf '\n==> %s\n' "$*"; }
 die()  { printf '\n✖ %s\n' "$*" >&2; exit 1; }
@@ -135,7 +135,13 @@ sync_site() {
   (cd "$SRC" && tar cf - --exclude '.DS_Store' --exclude '_cuarentena' --exclude '.git' \
     --exclude 'node_modules' --exclude '*.3qd87sruqknyz.glb' \
     --exclude 'presupuestos y automatizacion' --exclude 'presupuestos_y_automatizacion' \
-    --exclude 'catalogo_presentaciones*' .) | (cd "$ROOT" && tar xf -)
+    --exclude 'catalogo_presentaciones*' --exclude '*.bak-kit' .) | (cd "$ROOT" && tar xf -)
+  # Kit de protocolos (arena 01, estación 03): la versión de light-concepts manda.
+  mkdir -p "$ROOT/assets/js"
+  for f in "$ROOT"/kit/*.js; do
+    [ -e "$f" ] || { warn "la rama no trae kit/ (haz git pull); sigo sin el kit"; break; }
+    [ -e "$ROOT/assets/js/$(basename "$f")" ] || cp "$f" "$ROOT/assets/js/"
+  done
   drop_unreferenced_duplicates
   optimize_glb
   cp "$ROOT/concept_master_horizontal.html" "$ROOT/index.html"
@@ -268,7 +274,7 @@ cf_preview() {
   if [ "$NO_PUSH" = 1 ]; then echo "  (NO_PUSH) se omitiría: wrangler pages deploy --branch=$CF_PREVIEW_BRANCH"; return; fi
   local stage; stage="$(mktemp -d -t jomcfXXXXXX)"
   mkdir -p "$stage/dist"
-  (cd "$ROOT" && git ls-files | grep -vE '^(scripts/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
+  (cd "$ROOT" && git ls-files | grep -vE '^(scripts/|kit/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
      | tar cf - -T -) | (cd "$stage/dist" && tar xf -)
   cp -R "$ROOT/functions" "$stage/functions"
   say "Vista previa en Cloudflare ($CF_PROJECT, rama $CF_PREVIEW_BRANCH)"
