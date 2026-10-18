@@ -4,15 +4,20 @@
 #   1. Archiva la web vieja (rama main) en un repo PRIVADO: jomstudio-legacy.
 #   2. Crea/actualiza la rama de staging solo con la web nueva.
 #   3. Regenera _headers (CSP con hashes), _redirects y sitemap.xml.
-#   4. Hace push: Cloudflare Pages (proyecto git "jomstudiopage") publica la
-#      vista previa de la rama. jomstudio.site NO cambia.
+#   4. Comprime en la COPIA los GLB de más de GLB_MAX_MB (meshopt + WebP).
+#      Los originales de tu Mac no se tocan nunca.
+#   5. Hace push de la rama y, con --cf-preview, sube una vista previa
+#      explícita a Cloudflare (proyecto jomstudio, rama "staging").
+#      jomstudio.site (producción, rama main) NO cambia.
 #
 # Uso (en tu Mac, dentro del clon de Jomstudiopage):
-#   scripts/migrar-web-nueva.sh            # migración completa
-#   scripts/migrar-web-nueva.sh --watch    # además, re-publica cada cambio
-#   NO_PUSH=1 scripts/migrar-web-nueva.sh  # ensayo: no toca GitHub
+#   scripts/migrar-web-nueva.sh                 # migración completa
+#   scripts/migrar-web-nueva.sh --cf-preview    # + vista previa en Cloudflare
+#   scripts/migrar-web-nueva.sh --watch         # + re-publica cada cambio
+#   NO_PUSH=1 scripts/migrar-web-nueva.sh       # ensayo: no toca GitHub ni Cloudflare
 #
-# Variables: SRC (carpeta light-concepts), BRANCH, LEGACY_REPO.
+# Variables: SRC (carpeta light-concepts), BRANCH, LEGACY_REPO, GLB_MAX_MB,
+#            CF_PROJECT, CF_PREVIEW_BRANCH.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -21,9 +26,22 @@ SRC="${SRC:-$HOME/Documents/Antigravity/JOM Studio/Portafolio/demos/light-concep
 BRANCH="${BRANCH:-claude/sleepy-bell-kh6jlu}"
 LEGACY_REPO="${LEGACY_REPO:-jomstudiovzla/jomstudio-legacy}"
 NO_PUSH="${NO_PUSH:-0}"
-WATCH=0
-[ "${1:-}" = "--watch" ] && WATCH=1
+WATCH=0; CF_PREVIEW=0
+for arg in "$@"; do
+  case "$arg" in
+    --watch) WATCH=1 ;;
+    --cf-preview) CF_PREVIEW=1 ;;
+    *) printf 'Opción desconocida: %s\n' "$arg" >&2; exit 2 ;;
+  esac
+done
 CF_MAX_BYTES=$((25 * 1024 * 1024))   # límite por archivo de Cloudflare Pages
+GLB_MAX_MB="${GLB_MAX_MB:-10}"        # por encima se comprime la copia
+GLTF_TRANSFORM="@gltf-transform/cli@4.5.1"
+WRANGLER="wrangler@4.145.0"
+CF_PROJECT="${CF_PROJECT:-jomstudio}"           # el que tiene los secretos del formulario
+CF_PREVIEW_BRANCH="${CF_PREVIEW_BRANCH:-staging}"
+# Datos privados (prospectos, presupuestos): nunca se publican ni se borran.
+PRIVATE_PATTERN='presupuestos y automatizacion|presupuestos_y_automatizacion|catalogo_presentaciones'
 
 # Se conservan en la web nueva: infraestructura de Cloudflare y el formulario.
 KEEP="scripts functions .well-known _redirects robots.txt favicon.ico .gitignore 404.html deploy.sh deploy-cloudflare.sh"
@@ -55,13 +73,14 @@ preflight() {
     grep -RIoh --include='*.html' -E '(src|href)="\.\./[^"]+' "$SRC" | sort -u | head -20 | sed 's/^/      /'
   fi
 
-  # Archivos que Cloudflare Pages rechaza (>25 MiB).
-  local big
-  big="$(find "$SRC" -type f -size +"$((CF_MAX_BYTES / 1024))"k -not -path '*/_cuarentena/*' 2>/dev/null || true)"
-  if [ -n "$big" ]; then
-    warn "archivos >25 MiB (Cloudflare Pages no los acepta; comprímelos o súbelos a R2):"
-    echo "$big" | while read -r f; do printf '      %s (%s)\n' "$f" "$(du -h "$f" | cut -f1)"; done
-    die "Corrige los archivos grandes y vuelve a correr."
+  # Pesos de los GLB (la copia se comprime más adelante si pasan de GLB_MAX_MB).
+  find "$SRC" -name '*.glb' -not -path '*/_cuarentena/*' -exec ls -lh {} + 2>/dev/null \
+    | awk '{printf "  · %-6s %s\n", $5, $NF}'
+
+  # El centro de prospección enlazado desde la web quedaría público: se avisa.
+  if grep -RIlE --include='*.html' --include='*.js' "$PRIVATE_PATTERN" "$SRC" >/dev/null 2>&1; then
+    warn "estas páginas enlazan al centro de presupuestos/prospectos (no se publica; el enlace dará 404):"
+    grep -RIlE --include='*.html' --include='*.js' "$PRIVATE_PATTERN" "$SRC" | sed 's/^/      /'
   fi
 }
 
@@ -97,7 +116,11 @@ sync_site() {
     [ $keep = 0 ] && git rm -rq --cached "$f" && rm -rf "$f"
   done
   (cd "$SRC" && tar cf - --exclude '.DS_Store' --exclude '_cuarentena' --exclude '.git' \
-    --exclude 'node_modules' --exclude '*.3qd87sruqknyz.glb' .) | (cd "$ROOT" && tar xf -)
+    --exclude 'node_modules' --exclude '*.3qd87sruqknyz.glb' \
+    --exclude 'presupuestos y automatizacion' --exclude 'presupuestos_y_automatizacion' \
+    --exclude 'catalogo_presentaciones*' .) | (cd "$ROOT" && tar xf -)
+  drop_unreferenced_duplicates
+  optimize_glb
   cp "$ROOT/concept_master_horizontal.html" "$ROOT/index.html"
   # El 404 viene de la web vieja: que no apunte a sus assets ni a /repository.
   python3 - "$ROOT/404.html" <<'PY'
@@ -111,6 +134,42 @@ p.write_text(t, encoding="utf-8")
 PY
   find "$ROOT" -name '.DS_Store' -delete
   echo "  ✔ $(find "$ROOT" -type f -not -path '*/.git/*' | wc -l | tr -d ' ') archivos, $(du -sh --exclude=.git "$ROOT" 2>/dev/null | cut -f1 || du -sh "$ROOT" | cut -f1)"
+}
+
+# Copias con timestamp (foto.jpg_20261016125342.jpg) que ninguna página usa.
+drop_unreferenced_duplicates() {
+  local f name n=0
+  while IFS= read -r f; do
+    name="$(basename "$f")"
+    if ! grep -RqsF --include='*.html' --include='*.js' --include='*.css' "$name" "$ROOT"; then
+      rm -f "$ROOT/$f"; n=$((n + 1))
+    fi
+  done < <(cd "$ROOT" && find . -type f -not -path './.git/*' | grep -E '\.(jpe?g|png|webp)_[0-9]{14}\.(jpe?g|png|webp)$' || true)
+  [ $n -gt 0 ] && echo "  ✔ $n copias con timestamp sin uso, fuera de la publicación"
+  return 0
+}
+
+# Comprime la COPIA de cada GLB grande. Mantiene meshopt (las páginas ya usan
+# MeshoptDecoder) y pasa texturas a WebP; sin simplificar la malla.
+optimize_glb() {
+  local f bytes tmp before after
+  while IFS= read -r f; do
+    bytes="$(wc -c < "$ROOT/$f" | tr -d ' ')"
+    [ "$bytes" -le $((GLB_MAX_MB * 1024 * 1024)) ] && continue
+    tmp="$(mktemp -t glbXXXXXX).glb"
+    before="$(du -h "$ROOT/$f" | cut -f1)"
+    if npx --yes "$GLTF_TRANSFORM" optimize "$ROOT/$f" "$tmp" \
+         --compress meshopt --texture-compress webp --texture-size 2048 --simplify false >/dev/null 2>&1 \
+       && [ "$(wc -c < "$tmp" | tr -d ' ')" -lt "$bytes" ]; then
+      mv "$tmp" "$ROOT/$f"; after="$(du -h "$ROOT/$f" | cut -f1)"
+      echo "  ✔ GLB $f: $before → $after"
+    else
+      rm -f "$tmp"; warn "no pude comprimir $f ($before); se publica tal cual"
+    fi
+  done < <(cd "$ROOT" && find . -name '*.glb' -not -path './.git/*')
+  local big
+  big="$(cd "$ROOT" && find . -type f -not -path './.git/*' -size +"$((CF_MAX_BYTES / 1024))"k)"
+  [ -z "$big" ] || die "Siguen pasando de 25 MiB (Cloudflare los rechaza): $big"
 }
 
 write_meta() {
@@ -161,7 +220,14 @@ smoke_test() {
   [ $ok = 1 ] && echo "  ✔ todo responde 200" || warn "revisa lo anterior antes de dar por buena la vista previa"
 }
 
+guard_private() {
+  local leak
+  leak="$(cd "$ROOT" && git ls-files --others --cached --exclude-standard | grep -iE "$PRIVATE_PATTERN" || true)"
+  [ -z "$leak" ] || die "Datos privados dentro de la publicación, abortado: $leak"
+}
+
 publish() {
+  guard_private
   git add -A
   if git diff --cached --quiet; then echo "  (sin cambios que publicar)"; return; fi
   git commit -qm "${1:-feat(web): publica la web nueva en staging}"
@@ -169,8 +235,28 @@ publish() {
   local i
   for i in 2 4 8 16; do git push -q -u origin "$BRANCH" && break; sleep $i; done
   local slug; slug="$(echo "$BRANCH" | tr '/_.' '---' | tr '[:upper:]' '[:lower:]' | cut -c1-28 | sed 's/-*$//')"
-  say "Publicado. Vista previa (1–2 min): https://$slug.jomstudiopage.pages.dev"
+  say "Rama publicada en GitHub"
+  echo "    Si Cloudflare tiene activos los despliegues de ramas del proyecto jomstudiopage:"
+  echo "    https://$slug.jomstudiopage.pages.dev  (si no aparece, usa --cf-preview)"
+  [ $CF_PREVIEW = 1 ] && cf_preview
   echo "    jomstudio.site sigue igual hasta que corras ./deploy-cloudflare.sh desde esta rama."
+}
+
+# Sube solo la web (sin scripts/, .git ni docs) como vista previa del proyecto
+# de producción. --branch distinto de main = deployment de preview, no producción.
+cf_preview() {
+  [ "$CF_PREVIEW_BRANCH" != main ] || die "CF_PREVIEW_BRANCH no puede ser main (eso es producción)"
+  if [ "$NO_PUSH" = 1 ]; then echo "  (NO_PUSH) se omitiría: wrangler pages deploy --branch=$CF_PREVIEW_BRANCH"; return; fi
+  local stage; stage="$(mktemp -d -t jomcfXXXXXX)"
+  mkdir -p "$stage/dist"
+  (cd "$ROOT" && git ls-files | grep -vE '^(scripts/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
+     | tar cf - -T -) | (cd "$stage/dist" && tar xf -)
+  cp -R "$ROOT/functions" "$stage/functions"
+  say "Vista previa en Cloudflare ($CF_PROJECT, rama $CF_PREVIEW_BRANCH)"
+  (cd "$stage" && npx --yes "$WRANGLER" pages deploy dist --project-name="$CF_PROJECT" \
+     --branch="$CF_PREVIEW_BRANCH" --commit-dirty=true)
+  echo "    URL: https://$CF_PREVIEW_BRANCH.$CF_PROJECT.pages.dev"
+  rm -rf "$stage"
 }
 
 watch_loop() {
@@ -182,7 +268,8 @@ watch_loop() {
     [ "$now" = "$last" ] && continue
     sleep 5  # deja terminar de guardar
     last="$(find "$SRC" -type f -not -name '.DS_Store' -exec stat -f '%m %N' {} + 2>/dev/null | sort | shasum)"
-    sync_site && write_meta && publish "fix(web): sincroniza cambios $(date '+%H:%M')"
+    sync_site && write_meta && publish "fix(web): sincroniza cambios $(date '+%H:%M')" \
+      || warn "esta ronda falló; sigo vigilando"
   done
 }
 

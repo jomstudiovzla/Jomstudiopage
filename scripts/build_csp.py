@@ -23,6 +23,12 @@ SCRIPT_RE = re.compile(r"<script\b([^>]*)>(.*?)</script\s*>", re.S | re.I)
 SRC_RE = re.compile(r"""\bsrc\s*=\s*["']([^"']+)["']""", re.I)
 TYPE_RE = re.compile(r"""\btype\s*=\s*["']([^"']+)["']""", re.I)
 URL_RE = re.compile(r"""https://([a-z0-9.-]+\.[a-z]{2,})(?=[/"'`?])""", re.I)
+# Solo URLs que el navegador ejecuta o descarga; las de comentarios (Three.js trae
+# cientos) no cuentan.
+QUOTED = r"""\s*["'`]https://([a-z0-9.-]+\.[a-z]{2,})"""
+SCRIPT_USE_RE = re.compile(r"""(?:\bfrom|\bimport\s*\(|\bimport|\.src\s*=|importScripts\s*\()""" + QUOTED, re.I)
+FETCH_USE_RE = re.compile(r"""(?:\bfetch\s*\(|\.load(?:Async)?\s*\(|new\s+URL\s*\(|\.setDecoderPath\s*\(|\.setTranscoderPath\s*\(|\.open\s*\(\s*["'][A-Z]+["']\s*,)""" + QUOTED, re.I)
+COMMENT_RE = re.compile(r"""/\*.*?\*/|(?<![:"'`\\])//[^\n]*""", re.S)
 HANDLER_RE = re.compile(r"""\son[a-z]+\s*=\s*["']""", re.I)
 DATA_TYPES = {"application/ld+json", "application/json", "text/template", "text/x-template"}
 
@@ -36,6 +42,12 @@ def html_files():
     for p in sorted(ROOT.rglob("*.html")):
         if not SKIP_DIRS.intersection(p.relative_to(ROOT).parts):
             yield p
+
+
+def scan_js(code, script_hosts, connect_hosts):
+    code = COMMENT_RE.sub("", code)
+    script_hosts.update("https://" + h.lower() for h in SCRIPT_USE_RE.findall(code))
+    connect_hosts.update("https://" + h.lower() for h in FETCH_USE_RE.findall(code))
 
 
 def main():
@@ -56,22 +68,18 @@ def main():
                 continue
             digest = hashlib.sha256(body.encode("utf-8")).digest()
             hashes.add("'sha256-" + base64.b64encode(digest).decode() + "'")
-            # import 'https://...' / importmap / fetch('https://...')
-            for host in URL_RE.findall(body):
-                script_hosts.add("https://" + host.lower())
-                connect_hosts.add("https://" + host.lower())
+            if typ == "importmap":
+                script_hosts.update("https://" + h.lower() for h in URL_RE.findall(body))
+            else:
+                scan_js(body, script_hosts, connect_hosts)
         n = len(HANDLER_RE.findall(re.sub(SCRIPT_RE, "", text)))
         if n:
             handlers[str(f.relative_to(ROOT))] = n
     for js in ROOT.rglob("*.js"):
         if SKIP_DIRS.intersection(js.relative_to(ROOT).parts) or "functions" in js.parts:
             continue
-        for host in URL_RE.findall(js.read_text(encoding="utf-8", errors="replace")):
-            script_hosts.add("https://" + host.lower())
-            connect_hosts.add("https://" + host.lower())
+        scan_js(js.read_text(encoding="utf-8", errors="replace"), script_hosts, connect_hosts)
 
-    # Los hosts de fuentes/imagenes no son origen de scripts.
-    script_hosts -= {"https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://www.w3.org"}
 
     def csp(script_extra):
         return "; ".join([
@@ -83,7 +91,7 @@ def main():
             "media-src 'self' blob: data:",
             "worker-src 'self' blob:",
             "connect-src 'self' blob: data: " + " ".join(sorted(connect_hosts)),
-            "frame-ancestors 'none'", "base-uri 'self'", "form-action 'self'",
+            "object-src 'none'", "frame-ancestors 'none'", "base-uri 'self'", "form-action 'self'",
             "upgrade-insecure-requests",
         ])
 
