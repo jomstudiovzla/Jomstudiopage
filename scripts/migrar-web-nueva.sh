@@ -2,7 +2,8 @@
 # Migra jomstudio.site a la web nueva (home horizontal + 7 disciplinas).
 #
 #   1. Archiva la web vieja (rama main) en un repo PRIVADO: jomstudio-legacy.
-#   2. Crea/actualiza la rama de staging solo con la web nueva.
+#   2. Arma la rama en un git worktree APARTE (WORK). Tu carpeta del repo —donde
+#      vive demos/light-concepts sin commit— no se modifica ni se borra nunca.
 #   3. Regenera _headers (CSP con hashes), _redirects y sitemap.xml.
 #   4. Comprime en la COPIA los GLB de más de GLB_MAX_MB (meshopt + WebP).
 #      Los originales de tu Mac no se tocan nunca.
@@ -20,9 +21,14 @@
 #            CF_PROJECT, CF_PREVIEW_BRANCH.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$ROOT"
-SRC="${SRC:-$HOME/Documents/Antigravity/JOM Studio/Portafolio/demos/light-concepts}"
+REPO="$(cd "$(dirname "$0")/.." && pwd -P)"     # tu checkout: solo se lee
+WORK="${WORK:-${TMPDIR:-/tmp}/jom-staging-worktree}"
+ROOT="$REPO"                                      # pasa a ser WORK en prepare_worktree
+cd "$REPO"
+if [ -z "${SRC:-}" ]; then
+  if [ -d "$REPO/demos/light-concepts" ]; then SRC="$REPO/demos/light-concepts"
+  else SRC="$HOME/Documents/Antigravity/JOM Studio/Portafolio/demos/light-concepts"; fi
+fi
 BRANCH="${BRANCH:-claude/sleepy-bell-kh6jlu}"
 LEGACY_REPO="${LEGACY_REPO:-jomstudiovzla/jomstudio-legacy}"
 NO_PUSH="${NO_PUSH:-0}"
@@ -53,7 +59,9 @@ warn() { printf '  ⚠ %s\n' "$*"; }
 preflight() {
   say "Comprobaciones"
   [ -f "$SRC/concept_master_horizontal.html" ] || die "No encuentro $SRC/concept_master_horizontal.html (ajusta SRC=…)"
-  [ -z "$(git status --porcelain)" ] || die "Hay cambios sin guardar en $ROOT. Haz commit o stash primero."
+  SRC="$(cd "$SRC" && pwd -P)"
+  echo "  · origen: $SRC"
+  echo "  · armado: $WORK (worktree aparte; tu carpeta no se toca)"
   command -v python3 >/dev/null || die "Falta python3 (xcode-select --install)"
   if [ "$NO_PUSH" != 1 ]; then command -v gh >/dev/null || die "Falta gh (brew install gh && gh auth login)"; fi
 
@@ -96,24 +104,33 @@ archive_legacy() {
   echo "  ✔ https://github.com/$LEGACY_REPO (main + tag web-anterior-$(date +%Y%m%d))"
 }
 
-prepare_branch() {
-  say "Rama $BRANCH"
-  # Desde HEAD (no desde origin/main) para no perder scripts/ a mitad de ejecución.
-  if [ "$(git branch --show-current)" = "$BRANCH" ]; then :
-  elif git show-ref -q "refs/heads/$BRANCH"; then git checkout -q "$BRANCH"
-  elif git ls-remote -q --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
-    git fetch -q origin "$BRANCH" && git checkout -q -b "$BRANCH" FETCH_HEAD
-  else git checkout -q -b "$BRANCH"; fi
+# Worktree desacoplado sobre la rama remota: funciona aunque tengas la rama
+# abierta en tu carpeta, y nada de lo que se borra aquí existe fuera de WORK.
+prepare_worktree() {
+  say "Worktree de armado en $WORK"
+  case "$WORK" in *jom-staging*) ;; *) die "WORK debe contener 'jom-staging' en la ruta (protección)";; esac
+  if [ -e "$WORK" ]; then
+    git -C "$REPO" worktree list --porcelain | grep -qxF "worktree $(cd "$WORK" && pwd -P)" \
+      || die "$WORK existe y no es un worktree de este repo; no lo toco"
+    git -C "$REPO" worktree remove --force "$WORK"
+  fi
+  local base
+  if git -C "$REPO" fetch -q origin "$BRANCH" 2>/dev/null; then base=FETCH_HEAD; else base=HEAD; fi
+  git -C "$REPO" worktree add -q --detach "$WORK" "$base"
+  ROOT="$(cd "$WORK" && pwd -P)"
+  cd "$ROOT"
+  case "$SRC/" in "$ROOT"/*) die "SRC está dentro del worktree de armado";; esac
   [ -f scripts/build_csp.py ] || die "La rama $BRANCH no tiene scripts/; haz git pull de $BRANCH primero."
 }
 
 sync_site() {
   say "Copiar la web nueva desde $SRC"
+  [ "$ROOT" != "$REPO" ] || die "Protección: nunca se limpia tu carpeta del repo, solo el worktree"
   # Quita la web vieja salvo la lista KEEP (sigue intacta en main y en el repo legacy).
   local f keep k
   for f in $(git ls-files | cut -d/ -f1 | sort -u); do
     keep=0; for k in $KEEP; do [ "$f" = "$k" ] && keep=1; done
-    [ $keep = 0 ] && git rm -rq --cached "$f" && rm -rf "$f"
+    [ $keep = 0 ] && git rm -rq --cached "$f" && rm -rf "${ROOT:?}/$f"
   done
   (cd "$SRC" && tar cf - --exclude '.DS_Store' --exclude '_cuarentena' --exclude '.git' \
     --exclude 'node_modules' --exclude '*.3qd87sruqknyz.glb' \
@@ -233,7 +250,9 @@ publish() {
   git commit -qm "${1:-feat(web): publica la web nueva en staging}"
   if [ "$NO_PUSH" = 1 ]; then echo "  (NO_PUSH) commit local hecho, sin push"; return; fi
   local i
-  for i in 2 4 8 16; do git push -q -u origin "$BRANCH" && break; sleep $i; done
+  local pushed=0
+  for i in 2 4 8 16; do git push -q origin "HEAD:refs/heads/$BRANCH" && { pushed=1; break; }; sleep $i; done
+  [ $pushed = 1 ] || die "No pude hacer push a $BRANCH (¿alguien empujó antes? haz git pull y repite)"
   local slug; slug="$(echo "$BRANCH" | tr '/_.' '---' | tr '[:upper:]' '[:lower:]' | cut -c1-28 | sed 's/-*$//')"
   say "Rama publicada en GitHub"
   echo "    Si Cloudflare tiene activos los despliegues de ramas del proyecto jomstudiopage:"
@@ -275,10 +294,11 @@ watch_loop() {
 
 preflight
 archive_legacy
-prepare_branch
+prepare_worktree
 sync_site
 write_meta
 smoke_test
 publish
+echo "    Tu carpeta $REPO quedó igual. Para actualizarla: git pull origin $BRANCH"
 [ $WATCH = 1 ] && watch_loop
 exit 0
