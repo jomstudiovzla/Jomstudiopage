@@ -425,7 +425,14 @@ function probeDuration(file) {
 async function record(browser, pg, orient, dir) {
   const size = SIZES[orient];
   const tmp = fs.mkdtempSync(path.join(dir, '.grabando-'));
-  const ctx = await browser.newContext({ viewport: size, deviceScaleFactor: 1, recordVideo: { dir: tmp, size } });
+  // Vertical = teléfono real: se graba a 540×960 CSS (diseño móvil: menú ☰, D-Pad, letra
+  // legible) y luego se escala ×2 a 1080×1920. Playwright graba al tamaño CSS del visor:
+  // grabar a 1080 de ancho mostraría el diseño de escritorio con letra diminuta.
+  const movil = size.height > size.width;
+  const MOV = { width: 540, height: 960 };
+  const ctx = await browser.newContext(movil
+    ? { viewport: MOV, deviceScaleFactor: 1, isMobile: true, hasTouch: true, recordVideo: { dir: tmp, size: MOV } }
+    : { viewport: size, deviceScaleFactor: 1, recordVideo: { dir: tmp, size } });
   await ctx.route('**/*', async (route) => {
     const u = route.request().url();
     if (!u.startsWith(BASE + '/')) return route.continue();
@@ -488,8 +495,15 @@ async function record(browser, pg, orient, dir) {
   const video = page.video();
   await ctx.close();
   const dest = path.join(dir, `${pg.slug}.webm`);
-  await video.saveAs(dest);
+  await video.saveAs(movil ? dest + '.raw.webm' : dest);
   await video.delete().catch(() => {});
+  if (movil) {
+    const r = spawnSync(process.env.JOM_FFMPEG || 'ffmpeg', ['-nostdin', '-v', 'error', '-y', '-i', dest + '.raw.webm',
+      '-vf', `scale=${size.width}:${size.height}:flags=lanczos`, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '24',
+      '-row-mt', '1', '-deadline', 'good', '-cpu-used', '4', '-an', dest], { encoding: 'utf8' });
+    if (r.status === 0) fs.rmSync(dest + '.raw.webm', { force: true });
+    else fs.renameSync(dest + '.raw.webm', dest);  // sin ffmpeg: se queda a 540×960
+  }
   fs.rmSync(tmp, { recursive: true, force: true });
   const dur = probeDuration(dest);
   return {
