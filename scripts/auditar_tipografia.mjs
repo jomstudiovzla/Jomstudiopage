@@ -77,12 +77,15 @@ function listPages() {
   const prot = files.filter((f) => /^page_0[1-7][^/]*\.html$/i.test(f)).sort();
   const all = [...['index.html', 'concept_master_horizontal.html'].filter((f) => files.includes(f)), ...prot];
   if (!SOLO) return all;
-  const out = [];
+  // Lo que falte se avisa y se salta (la web nueva puede no tener index.html); sin ninguna, código 2.
+  const out = [], miss = [];
   for (const s of SOLO) {
     const f = files.includes(s) ? s : files.includes(`${s}.html`) ? `${s}.html` : null;
-    if (!f || !/\.html?$/i.test(f)) die(`--solo: no encuentro ${s} en ${SRC}`);
+    if (!f || !/\.html?$/i.test(f)) { miss.push(s); continue; }
     if (!out.includes(f)) out.push(f);
   }
+  if (!out.length) die(`--solo: no encuentro ${miss.join(', ')} en ${SRC}`);
+  if (miss.length) console.log(`  ⚠ --solo: no existe ${miss.join(', ')} en ${SRC}; sigo con ${out.join(', ')}`);
   return out;
 }
 const PAGES = listPages();
@@ -962,9 +965,18 @@ fs.mkdirSync(path.join(OUT, 'capturas'), { recursive: true });
 say(`Auditoría tipográfica de ${PAGES.length} página(s)`);
 console.log(`  · origen: ${SRC}`);
 console.log(`  · servidor: ${BASE}`);
-let browser;
+let browser, stopping = false;
+// Ctrl-C/kill: sin informe (si no, cada página saldría FAIL por «browser has been closed»).
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+  process.on(sig, () => {
+    stopping = true;
+    console.error(`\n✖ Interrumpido (${sig}): no escribo informe`);
+    setTimeout(() => process.exit(130), 3000).unref();
+    Promise.resolve(browser?.close()).catch(() => {}).finally(() => process.exit(130));
+  });
+}
 try {
-  browser = await PW.pw.chromium.launch({ args: WEBGL_ARGS });
+  browser = await PW.pw.chromium.launch({ args: WEBGL_ARGS, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false });
 } catch (e) {
   die(`Chromium no arranca: ${first(e)}\n  Instálalo con: node "${path.join(PW.dir, 'cli.js')}" install chromium`);
 }
@@ -981,6 +993,8 @@ async function runPage(file) {
       if (res.data) vps.push({ id: vp.id, res });
       else vps.push({ id: vp.id, error: `HTTP ${res.net.status}` });
     } catch (e) { vps.push({ id: vp.id, error: cut(first(e), 160) }); }
+    // Chromium caído no es un defecto de la página: sin informe y código 2.
+    if (!browser.isConnected()) stopping ? process.exit(130) : die(`Chromium se cerró auditando ${file}: no hay informe fiable (vuelve a lanzarlo)`);
   }
   return vps;
 }
@@ -1062,7 +1076,9 @@ fs.writeFileSync(jsonPath, JSON.stringify({
   umbrales: LIMITS, marca: { familias: brand || [], origen: brandOrigin, descartadas: brandDropped, homeSinRed: brandDown },
   resumen: summary, paginas: results,
 }, null, 2));
-console.log(`\n  ${summary.PASS} PASS · ${summary.WARN} WARN · ${summary.FAIL} FAIL`);
+// «Resumen:» delante: jom_auditoria.py busca «N PASS · …» y, sin prefijo, un número al final
+// de la línea anterior se le cuela como recuento de PASS.
+console.log(`\n  Resumen: ${summary.PASS} PASS · ${summary.WARN} WARN · ${summary.FAIL} FAIL`);
 console.log(`  JSON: ${jsonPath}`);
 console.log(`  Capturas: ${path.join(OUT, 'capturas')}`);
 process.exit(summary.FAIL ? 1 : 0);

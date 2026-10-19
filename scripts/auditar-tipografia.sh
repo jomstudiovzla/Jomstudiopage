@@ -145,7 +145,8 @@ serve() {
   python3 -I -m http.server "$PORT" --bind 127.0.0.1 --directory "$SRC" >"$OUT/servidor.log" 2>&1 &
   SERVER_PID=$!
   i=0
-  until curl -s -o /dev/null "http://127.0.0.1:$PORT/"; do
+  # --noproxy: con http_proxy definido (redes de empresa) curl no debe ir al proxy para 127.0.0.1.
+  until curl -s --noproxy '*' -o /dev/null "http://127.0.0.1:$PORT/"; do
     kill -0 "$SERVER_PID" 2>/dev/null || die "El servidor se cerró (mira $OUT/servidor.log)"
     i=$((i + 1)); [ $i -lt 50 ] || die "El servidor no responde (mira $OUT/servidor.log)"
     sleep 0.2
