@@ -29,3 +29,14 @@
   # Aislamiento de origen cruzado (COOP/COEP)
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
+
+# Demos de portafolio: conceptos con datos de negocios reales → fuera de buscadores.
+# Sus scripts van en demo.js (sin inline); las fuentes vienen embebidas (data:).
+# "! Cabecera" quita la de /* antes de poner la propia (si no, Pages las une con coma y valen las dos).
+/demos/*
+  X-Robots-Tag: noindex, nofollow
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://maps.google.com https://www.google.com https://www.youtube-nocookie.com; img-src 'self' data: blob: https:; connect-src 'self' https://ipapi.co https://api.trongrid.io https://formspree.io https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+
+/admin-ops*
+  X-Robots-Tag: noindex, nofollow

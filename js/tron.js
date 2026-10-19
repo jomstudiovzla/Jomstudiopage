@@ -172,11 +172,12 @@
         return result;
       }
 
-      // If amount matches but account scan failed (CORS/rate), accept amount + successful receipt
+      // Monto y recibo coinciden, pero sin comprobar destinatario ni contrato USDT: NO es «verificado».
+      // Queda como pago sin verificar hasta que el CEO lo confirme en su wallet.
       if (info && (info.receipt || info.id || info.blockNumber)) {
-        result.ok = true;
-        result.status = "verified_amount_only";
-        result.message = `Hash válido y monto ~${amount} USDT. Confirma en Binance que llegó a tu wallet.`;
+        result.ok = false;
+        result.status = "amount_match_unverified";
+        result.message = `Recibimos tu hash (monto ~${amount} USDT). Confirmamos la llegada a nuestra wallet y te escribimos en breve.`;
         return result;
       }
 

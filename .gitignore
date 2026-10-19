@@ -36,3 +36,7 @@ _output/
 youtube-out/
 alfa-out/
 video-pulido/
+
+# Propuestas y documentos de clientes: nunca en el repo público
+*.docx
+assets/Propuesta*

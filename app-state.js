@@ -1099,7 +1099,8 @@ if (window.top !== window.self) {
                 }
             }
 
-            // Render Briefs
+            // Render Briefs (escapado: los datos vienen de formularios)
+            const h = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
             const briefsList = document.getElementById('analytics-briefs-list');
             if (briefsList) {
                 if (briefs.length > 0) {
@@ -1107,11 +1108,11 @@ if (window.top !== window.self) {
                         <div class="border border-outline-variant/20 p-4 rounded-xl bg-surface-container relative group transition-all hover:border-primary-fixed/50">
                             <button type="button" data-action="delete-brief" data-index="${idx}" class="absolute top-4 right-4 text-red-500 hover:text-red-400 font-label-mono text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
                             <div class="flex justify-between items-center mb-2">
-                                <span class="font-headline-md text-sm text-white font-bold">${brief.name}</span>
-                                <span class="font-label-mono text-[9px] text-outline uppercase">${brief.timestamp}</span>
+                                <span class="font-headline-md text-sm text-white font-bold">${h(brief.name)}</span>
+                                <span class="font-label-mono text-[9px] text-outline uppercase">${h(brief.timestamp)}</span>
                             </div>
-                            <div class="text-xs text-on-surface-variant font-label-mono mb-2">Email: <a href="mailto:${brief.email}" class="text-primary-fixed hover:underline">${brief.email}</a> | Protocol: <span class="text-primary-fixed">${brief.channel.toUpperCase()}</span></div>
-                            <p class="text-sm text-on-surface-variant font-body-md whitespace-pre-wrap leading-relaxed">${brief.briefText}</p>
+                            <div class="text-xs text-on-surface-variant font-label-mono mb-2">Email: <a href="mailto:${h(brief.email)}" class="text-primary-fixed hover:underline">${h(brief.email)}</a> | Protocol: <span class="text-primary-fixed">${h(String(brief.channel || '').toUpperCase())}</span></div>
+                            <p class="text-sm text-on-surface-variant font-body-md whitespace-pre-wrap leading-relaxed">${h(brief.briefText)}</p>
                         </div>
                     `).reverse().join('');
                 } else {
@@ -1127,12 +1128,12 @@ if (window.top !== window.self) {
                     ordersList.innerHTML = orders.slice(0, 12).map((o) => `
                         <div class="border border-outline-variant/20 p-3 rounded-lg bg-surface-container">
                             <div class="flex justify-between gap-2 font-label-mono text-[10px]">
-                                <span class="text-primary-fixed">${o.id}</span>
-                                <span class="text-secondary uppercase">${o.status}</span>
+                                <span class="text-primary-fixed">${h(o.id)}</span>
+                                <span class="text-secondary uppercase">${h(o.status)}</span>
                             </div>
-                            <div class="text-sm text-white mt-1">${o.productName} · <span class="text-primary-fixed">${o.amount} USDT</span></div>
-                            <div class="text-xs text-on-surface-variant">${o.name} · ${o.email}</div>
-                            ${o.txHash ? `<div class="text-[10px] font-label-mono text-outline truncate mt-1">tx: ${o.txHash}</div>` : ''}
+                            <div class="text-sm text-white mt-1">${h(o.productName)} · <span class="text-primary-fixed">${h(o.amount)} USDT</span></div>
+                            <div class="text-xs text-on-surface-variant">${h(o.name)} · ${h(o.email)}</div>
+                            ${o.txHash ? `<div class="text-[10px] font-label-mono text-outline truncate mt-1">tx: ${h(o.txHash)}</div>` : ''}
                         </div>
                     `).join('');
                 } else {

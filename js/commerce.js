@@ -201,7 +201,7 @@
       amount: order.amount,
       email: order.email,
       name: order.name,
-      brief: order.brief,
+      brief: order.brief || `Pedido ${order.id} · ${order.productName} · ${order.amount} USDT (sin brief)`,
       txHash: order.txHash,
     });
 
@@ -228,12 +228,16 @@
       verifyResult: verify,
     });
 
+    // /api/submit exige name y brief: sin ellos el aviso de pago se rechazaba (400) y no llegaba.
     await notifyAll("payment_submitted", {
       orderId,
       txHash: hash,
       verifyStatus: verify.status,
       amount: order.amount,
+      name: order.name || "Cliente",
       email: order.email,
+      productId: order.productId,
+      brief: `Pago enviado · pedido ${orderId} · ${order.productName || ""} · ${order.amount} USDT · tx ${hash} · verificación: ${verify.status}`,
     });
 
     return { order: updated, verify };

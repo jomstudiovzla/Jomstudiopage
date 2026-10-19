@@ -178,7 +178,7 @@ export async function onRequestPost(context) {
   );
   if (!turnstileOk) return json({ ok: false, error: "turnstile" }, 400);
 
-  const name = clean(data.name, 100);
+  const name = clean(data.name, 100).replace(/[\r\n]+/g, " ");
   const email = clean(data.email, 254);
   const brief = clean(data.brief != null ? data.brief : data.briefText || data.message, 3000);
   const channel = clean(data.channel, 40) || "web";
@@ -303,7 +303,12 @@ export async function onRequestPost(context) {
   }
 
   const anyConfigured = !emailSkipped || !webhookSkipped;
-  const ok = anyConfigured ? !!(emailOk || webhookOk) : true;
+  if (!anyConfigured) {
+    // Sin RESEND_API_KEY ni N8N_WEBHOOK_URL el mensaje no llega a nadie: decirlo, no fingir éxito.
+    console.error("no_delivery_configured");
+    return json({ ok: false, error: "not_configured" }, 503);
+  }
+  const ok = !!(emailOk || webhookOk);
   return json({ ok, message: ok ? "received" : "delivery_failed" }, 200);
 }
 
