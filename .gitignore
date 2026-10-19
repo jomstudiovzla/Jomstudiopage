@@ -30,3 +30,9 @@ __pycache__/
 # Videos de YouTube (scripts/grabar-protocolos.sh y montar-youtube.sh): la web nueva no se publica por aquí
 youtube-out/
 video-pulido/
+
+# Salidas de la fábrica de video (local)
+_output/
+youtube-out/
+alfa-out/
+video-pulido/

@@ -1,0 +1,51 @@
+# Guion · video general de JOM Studio (home + 7 protocolos, ≈ 1:40)
+# Copia este archivo, edítalo y móntalo con:
+#   scripts/montar-youtube.sh --clips "<salida>/clips" --guion guion-estudio.txt --musica "tema.mp3"
+# Formato completo: .claude/skills/jom-youtube/references/guion-departamentos.md
+titulo: JOM Studio · 7 protocolos en acción
+subtitulo: Del juego 3D a la auditoría de seguridad
+descripcion: Recorrido en vivo por los siete departamentos de JOM Studio.
+  Cada protocolo grabado directamente en la web, tal y como lo ve un cliente.
+etiquetas: JOM Studio, portafolio, three.js, Venezuela
+miniatura: 7 protocolos | 1 estudio
+miniatura_de: 03
+short_titulo: 7 protocolos en 1 minuto
+cierre: Suscríbete para ver el próximo protocolo
+web: jomstudio.site
+hashtags: #JOMStudio #DesarrolloWeb #Web3D
+
+[home]
+titulo: JOM Studio
+subtitulo: El companion que vive en la web
+duracion: 12
+texto: Bienvenido a JOM Studio. Este es nuestro companion: pasea por la web y se detiene cuando lo saludas.
+
+[01]
+duracion: 12
+texto: La arena de gamificación: el personaje camina y salta en tiempo real con las flechas.
+
+[02]
+duracion: 12
+texto: Full-Stack y 3D: compilamos el shader en vivo, con una web segura por diseño.
+
+[03]
+duracion: 13
+texto: Arte IA: generamos un concepto en vivo, con alfa real y sin pantalla verde.
+
+[04]
+duracion: 12
+texto: Automatización: un pipeline que trabaja solo, como JOM Correo, cien por cien local.
+
+[05]
+duracion: 12
+texto: Audio UGC: sonido interactivo que se toca desde el navegador.
+
+[06]
+duracion: 12
+texto: Branding: identidad, moneda y tipografía de marca.
+
+[07]
+titulo: 07 · Sentinel QA
+subtitulo: Escaneo de seguridad y accesibilidad
+duracion: 12
+texto: Sentinel QA: auditamos seguridad y accesibilidad antes de publicar.

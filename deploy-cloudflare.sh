@@ -15,7 +15,7 @@ echo "==> (2) Desplegar el sitio (solo archivos versionados, sin scripts/ ni doc
 STAGE="$(mktemp -d -t jomcfXXXXXX)"
 trap 'rm -rf "$STAGE"' EXIT
 mkdir -p "$STAGE/dist"
-git ls-files | grep -vE '^(scripts/|kit/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
+git ls-files | grep -vE '^(scripts/|kit/|lanzadores/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
   | tar cf - -T - | (cd "$STAGE/dist" && tar xf -)
 cp -R functions "$STAGE/functions"
 (cd "$STAGE" && npx --yes "$WRANGLER" pages deploy dist --project-name="$PROJECT" --branch=main --commit-dirty=true)

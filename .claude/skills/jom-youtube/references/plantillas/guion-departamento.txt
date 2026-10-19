@@ -1,0 +1,39 @@
+# Guion · video de UN departamento (ejemplo: 03 Arte IA, ≈ 0:45)
+# 1) Graba un clip largo con la coreografía repetida:
+#      scripts/grabar-protocolos.sh --solo 03 --repetir 3 --duracion 36 --vertical --salida "$HOME/Movies/JOM YouTube/03"
+# 2) Mira en clips/manifiesto.json el segundo «t» de cada acción «ciclo N/3» y ajusta los desde: de abajo.
+# 3) scripts/montar-youtube.sh --clips "$HOME/Movies/JOM YouTube/03/clips" --guion guion-departamento.txt --plan
+# 4) Sin --plan para renderizar. Para otro departamento cambia [03] por [01]…[07] y los textos.
+titulo: Arte IA en vivo: un concepto en segundos · JOM Studio
+subtitulo: 03 · Arte IA · alfa real sin pantalla verde
+descripcion: Así trabaja el departamento de Arte IA de JOM Studio: del brief al concepto final en directo.
+etiquetas: arte IA, concept art, JOM Studio
+miniatura: Arte IA | en vivo
+miniatura_de: 03_3 @ 4
+short_titulo: Arte IA en vivo en 30 segundos
+cierre: ¿Tu marca necesita su propio concepto? Escríbenos
+web: jomstudio.site
+
+[03]
+titulo: El brief
+subtitulo: Lo que pide el cliente
+capitulo: El brief
+desde: 1
+duracion: 12
+texto: Todo empieza con un brief: el cliente nos cuenta su marca y su personaje.
+
+[03]
+titulo: Generación en vivo
+subtitulo: GENERAR → concepto listo
+capitulo: Generación en vivo
+desde: 12
+duracion: 13
+texto: Pulsamos generar y el concepto se construye en tiempo real, capa a capa.
+
+[03]
+titulo: El resultado
+subtitulo: Alfa real, sin pantalla verde
+capitulo: El resultado
+desde: 25
+duracion: 12
+texto: El resultado sale con transparencia real, listo para la web y para redes.

@@ -50,7 +50,7 @@ CF_PREVIEW_BRANCH="${CF_PREVIEW_BRANCH:-staging}"
 PRIVATE_PATTERN='presupuestos y automatizacion|presupuestos_y_automatizacion|catalogo_presentaciones'
 
 # Se conservan en la web nueva: infraestructura de Cloudflare y el formulario.
-KEEP="scripts kit functions .well-known _redirects robots.txt favicon.ico .gitignore 404.html deploy.sh deploy-cloudflare.sh"
+KEEP="scripts kit lanzadores functions .well-known _redirects robots.txt favicon.ico .gitignore 404.html deploy.sh deploy-cloudflare.sh"
 
 say()  { printf '\n==> %s\n' "$*"; }
 die()  { printf '\n✖ %s\n' "$*" >&2; exit 1; }
@@ -190,9 +190,18 @@ optimize_glb() {
       rm -f "$tmp"; warn "no pude comprimir $f ($before); se publica tal cual"
     fi
   done < <(cd "$ROOT" && find . -name '*.glb' -not -path './.git/*')
-  local big
-  big="$(cd "$ROOT" && find . -type f -not -path './.git/*' -size +"$((CF_MAX_BYTES / 1024))"k)"
-  [ -z "$big" ] || die "Siguen pasando de 25 MiB (Cloudflare los rechaza): $big"
+  # >25 MiB: si ninguna página lo usa (p. ej. *_embedded.js de trabajo), fuera de la
+  # publicación; si alguna lo usa, se para: publicarlo rompería el deploy.
+  local f name usados=""
+  while IFS= read -r f; do
+    name="$(basename "$f")"
+    if grep -RqsF --include='*.html' --include='*.js' --include='*.css' --exclude="$name" "$name" "$ROOT"; then
+      usados="$usados $f"
+    else
+      rm -f "$ROOT/$f"; warn "fuera de la publicación (>25 MiB y sin uso): $f"
+    fi
+  done < <(cd "$ROOT" && find . -type f -not -path './.git/*' -size +"$((CF_MAX_BYTES / 1024))"k)
+  [ -z "$usados" ] || die "Estas páginas usan archivos de más de 25 MiB (Cloudflare los rechaza); comprímelos o súbelos a R2:$usados"
 }
 
 write_meta() {
@@ -274,7 +283,7 @@ cf_preview() {
   if [ "$NO_PUSH" = 1 ]; then echo "  (NO_PUSH) se omitiría: wrangler pages deploy --branch=$CF_PREVIEW_BRANCH"; return; fi
   local stage; stage="$(mktemp -d -t jomcfXXXXXX)"
   mkdir -p "$stage/dist"
-  (cd "$ROOT" && git ls-files | grep -vE '^(scripts/|kit/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
+  (cd "$ROOT" && git ls-files | grep -vE '^(scripts/|kit/|lanzadores/|functions/|deploy[^/]*\.sh$|README\.md$|OPERATING\.md$|\.gitignore$)' \
      | tar cf - -T -) | (cd "$stage/dist" && tar xf -)
   cp -R "$ROOT/functions" "$stage/functions"
   say "Vista previa en Cloudflare ($CF_PROJECT, rama $CF_PREVIEW_BRANCH)"
