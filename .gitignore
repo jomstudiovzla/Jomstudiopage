@@ -52,3 +52,9 @@ MEGA_INSTRUCCION*.md
 
 # Presentaciones de clientes: se publican con deploy-cloudflare.sh, nunca en git
 /presentaciones/
+
+# Privados del Mac: catálogo, registro de envíos y masters (nunca al repo público)
+catalogo_presentaciones*
+scripts/enviados.json
+scripts/deny-patterns.local.txt
+_masters_fuera_de_deploy/
