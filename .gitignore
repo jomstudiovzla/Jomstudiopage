@@ -47,3 +47,5 @@ CURRENT_STATE.md
 .context_sync.json
 MEGA_INSTRUCCION*.md
 .omniroute*
+*INSTRUCCION*
+*.omniroute*
