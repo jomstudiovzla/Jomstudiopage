@@ -201,7 +201,7 @@
           currentOrder = order;
           if (verify.ok) {
             msg.className = "text-sm mono p-3 rounded border border-green-500/40 text-green-300";
-            msg.innerHTML = `✓ ${verify.message}`;
+            msg.textContent = `✓ ${verify.message}`;
             setTimeout(() => (location.href = JOM_COMMERCE.successUrl(order.id)), 1000);
           } else {
             msg.className = "text-sm mono p-3 rounded border border-amber-500/40 text-amber-200";

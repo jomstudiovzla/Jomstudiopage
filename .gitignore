@@ -22,3 +22,39 @@ wrangler.toml.bak
 
 # Wrangler local secrets
 .dev.vars
+
+# Python
+__pycache__/
+*.pyc
+
+# Videos de YouTube (scripts/grabar-protocolos.sh y montar-youtube.sh): la web nueva no se publica por aquí
+youtube-out/
+video-pulido/
+
+# Salidas de la fábrica de video (local)
+_output/
+youtube-out/
+alfa-out/
+video-pulido/
+
+# Propuestas y documentos de clientes: nunca en el repo público
+*.docx
+assets/Propuesta*
+
+# Memoria y estado de agentes (Antigravity/Grok/Claude): privados, nunca en el repo público
+MEMORY.md
+CURRENT_STATE.md
+.context_sync.json
+MEGA_INSTRUCCION*.md
+.omniroute*
+*INSTRUCCION*
+*.omniroute*
+
+# Presentaciones de clientes: se publican con deploy-cloudflare.sh, nunca en git
+/presentaciones/
+
+# Privados del Mac: catálogo, registro de envíos y masters (nunca al repo público)
+catalogo_presentaciones*
+scripts/enviados.json
+scripts/deny-patterns.local.txt
+_masters_fuera_de_deploy/

@@ -2,6 +2,8 @@
       const gate = document.getElementById("gate");
       const app = document.getElementById("app");
       const pwKey = "jom_ops_auth";
+      // Todo lo que viene de pedidos y briefs se escapa antes de ir a innerHTML.
+      const h = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
       function unlock() {
         gate.classList.add("hidden");
@@ -50,22 +52,22 @@
         tbody.innerHTML = orders.length
           ? orders
               .map((o) => {
-                const tron = o.txHash ? `<a class="text-cyan-400 underline" target="_blank" rel="noopener noreferrer" href="${JOM_TRON.tronscanTxUrl(o.txHash)}">${(o.txHash || "").slice(0, 10)}…</a>` : "—";
+                const tron = o.txHash ? `<a class="text-cyan-400 underline" target="_blank" rel="noopener noreferrer" href="${JOM_TRON.tronscanTxUrl(o.txHash)}">${h((o.txHash || "").slice(0, 10))}…</a>` : "—";
                 return `<tr>
-                  <td class="mono text-[10px]">${o.id}</td>
-                  <td>${o.productName}<div class="text-gray-500 text-[10px]">${o.createdAt}</div></td>
-                  <td>${o.name}<div class="text-gray-500">${o.email}</div></td>
-                  <td class="mono text-cyan-300">${o.amount}</td>
-                  <td><span class="pill ${statusClass(o.status)}">${o.status}</span></td>
+                  <td class="mono text-[10px]">${h(o.id)}</td>
+                  <td>${h(o.productName)}<div class="text-gray-500 text-[10px]">${h(o.createdAt)}</div></td>
+                  <td>${h(o.name)}<div class="text-gray-500">${h(o.email)}</div></td>
+                  <td class="mono text-cyan-300">${h(o.amount)}</td>
+                  <td><span class="pill ${statusClass(o.status)}">${h(o.status)}</span></td>
                   <td class="mono text-[10px]">${tron}</td>
                   <td class="space-y-1">
-                    <select data-id="${o.id}" class="status-sel bg-black border border-white/20 rounded px-1 py-0.5">
+                    <select data-id="${h(o.id)}" class="status-sel bg-black border border-white/20 rounded px-1 py-0.5">
                       ${["awaiting_payment","paid_unverified","verified","in_progress","delivered","cancelled"]
                         .map((s) => `<option value="${s}" ${s === o.status ? "selected" : ""}>${s}</option>`)
                         .join("")}
                     </select>
-                    <button data-reverify="${o.id}" class="block border border-white/20 px-2 py-0.5 rounded reverify">Re-verify</button>
-                    <button data-wa="${o.id}" class="block border border-green-500/40 text-green-400 px-2 py-0.5 rounded wa-btn">WA</button>
+                    <button data-reverify="${h(o.id)}" class="block border border-white/20 px-2 py-0.5 rounded reverify">Re-verify</button>
+                    <button data-wa="${h(o.id)}" class="block border border-green-500/40 text-green-400 px-2 py-0.5 rounded wa-btn">WA</button>
                   </td>
                 </tr>`;
               })
@@ -76,11 +78,11 @@
           ? briefs
               .map(
                 (b) => `<tr>
-                <td class="mono text-[10px]">${b.timestamp || b.iso || ""}</td>
-                <td>${b.name || ""}</td>
-                <td class="text-cyan-200">${b.email || ""}</td>
-                <td>${b.channel || ""}</td>
-                <td class="max-w-xs truncate" title="${(b.briefText || "").replace(/"/g, "&quot;")}">${b.briefText || ""}</td>
+                <td class="mono text-[10px]">${h(b.timestamp || b.iso)}</td>
+                <td>${h(b.name)}</td>
+                <td class="text-cyan-200">${h(b.email)}</td>
+                <td>${h(b.channel)}</td>
+                <td class="max-w-xs truncate" title="${h(b.briefText)}">${h(b.briefText)}</td>
               </tr>`
               )
               .join("")
