@@ -38,5 +38,12 @@
   ! Content-Security-Policy
   Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://maps.google.com https://www.google.com https://www.youtube-nocookie.com; img-src 'self' data: blob: https:; connect-src 'self' https://ipapi.co https://api.trongrid.io https://formspree.io https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
 
+/presentaciones/*
+  X-Robots-Tag: noindex, nofollow
+  ! X-Frame-Options
+  X-Frame-Options: SAMEORIGIN
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-src 'self'; frame-ancestors 'self'; base-uri 'none'; form-action 'none'
+
 /admin-ops*
   X-Robots-Tag: noindex, nofollow

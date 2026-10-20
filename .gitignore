@@ -49,3 +49,6 @@ MEGA_INSTRUCCION*.md
 .omniroute*
 *INSTRUCCION*
 *.omniroute*
+
+# Presentaciones de clientes: se publican con deploy-cloudflare.sh, nunca en git
+/presentaciones/
