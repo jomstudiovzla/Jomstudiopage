@@ -40,3 +40,10 @@ video-pulido/
 # Propuestas y documentos de clientes: nunca en el repo público
 *.docx
 assets/Propuesta*
+
+# Memoria y estado de agentes (Antigravity/Grok/Claude): privados, nunca en el repo público
+MEMORY.md
+CURRENT_STATE.md
+.context_sync.json
+MEGA_INSTRUCCION*.md
+.omniroute*
